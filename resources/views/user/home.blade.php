@@ -83,8 +83,7 @@
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
             </div>
             <div class="h-100 d-lg-inline-flex align-items-center d-none">
-                <button class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#loginAccountModal">Login</button>
+                <button class="btn btn-primary">Login</button>
                 <a style="cursor: pointer" class="nav-item nav-link" data-bs-toggle="modal"
                     data-bs-target="#createAccountModal">Create
                     Account</a>
@@ -783,7 +782,7 @@
     </div>
     <script>
         function togglePasswordVisibility2() {
-            var passwordField = document.getElementById("password2");
+            var passwordField = document.getElementById("password");
             if (passwordField.type === "password") {
                 passwordField.type = "text";
             } else {
@@ -803,19 +802,19 @@
             }
         }
     </script>
-    @if (session()->pull('successCreateAccount'))
+    @if (session()->pull('successLogin'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Successfully Created Account',
+                    title: 'Login Successfully',
                     showConfirmButton: false,
-                    timer: 800
+                    timer: 800,
                 });
             }, 500);
         </script>
-        {{ session()->forget('successCreateAccount') }}
+        {{ session()->forget('successLogin') }}
     @endif
     @if (session()->pull('errorCreateAccount'))
         <script>
@@ -842,19 +841,6 @@
             }, 500);
         </script>
         {{ session()->forget('errorPasswordNotMatch') }}
-    @endif
-    @if (session()->pull('wrongUsernameOrPass'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Wrong Username or Password',
-                    showConfirmButton: true,
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('wrongUsernameOrPass') }}
     @endif
 </body>
 
