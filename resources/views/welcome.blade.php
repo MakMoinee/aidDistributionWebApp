@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="/assets/img/favicon.ico" rel="icon">
+    <link href="/donation.png" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,7 +84,7 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 px-4 px-lg-5">
         <a href="index.html" class="navbar-brand d-flex align-items-center">
-            <h2 class="m-0 text-primary"><img class="img-fluid me-2" src="/assets/img/icon-1.png" alt=""
+            <h2 class="m-0 text-primary"><img class="img-fluid me-2" src="/donation.png" alt=""
                     style="width: 45px;">AidLink</h2>
         </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -94,8 +94,7 @@
             <div class="navbar-nav ms-auto py-4 py-lg-0">
                 <a href="/" class="nav-item nav-link active">Home</a>
                 <a href="#about" class="nav-item nav-link">About</a>
-                <a href="service.html" class="nav-item nav-link">Services</a>
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a href="#services" class="nav-item nav-link">Services</a>
                 <a href="#" class="nav-item nav-link" data-bs-toggle="modal"
                     data-bs-target="#loginAccountModal">Login</a>
                 <a href="#" class="nav-item nav-link" data-bs-toggle="modal"
@@ -112,11 +111,13 @@
         <div class="container py-5">
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6">
-                    <h1 class="display-4 mb-3 animated slideInDown">Make Better Life With Trusted CryptoCoin</h1>
-                    <p class="animated slideInDown">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu
-                        diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo
-                        magna dolore erat amet</p>
-                    <a href="" class="btn btn-primary py-3 px-4 animated slideInDown">Explore More</a>
+                    <h1 class="display-4 mb-3 animated slideInDown">Empowering Communities with Trustworthy Blockchain
+                        Solutions</h1>
+                    <p class="animated slideInDown">Discover how our innovative blockchain solutions are revolutionizing
+                        community aid distribution. By fostering transparency and trust, we empower individuals and
+                        organizations to make a meaningful impact, ensuring that every contribution reaches those in
+                        need</p>
+                    <a data-bs-toggle="modal" data-bs-target="#loginAccountModal" class="btn btn-primary py-3 px-4 animated slideInDown">Explore More</a>
                 </div>
                 <div class="col-lg-6 animated fadeIn">
                     <img class="img-fluid animated pulse infinite" style="animation-duration: 3s;"
@@ -138,25 +139,27 @@
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
                     <div class="h-100">
                         <h1 class="display-6">About Us</h1>
-                        <p class="text-primary fs-5 mb-4">The Most Trusted Cryptocurrency Platform</p>
-                        <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos.
-                            Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet
+                        <p class="text-primary fs-5 mb-4">The Most Trusted Aid Management Platform</p>
+                        <p style="text-align: justify; text-indent: 5%">At AidLink, we are dedicated to revolutionizing
+                            the way community aid is
+                            distributed. Our mission is to create a Blockchain-Based System integrated with AI-Driven
+                            Natural Language Processing that fosters transparency, efficiency, and trust in the aid
+                            distribution process.
+
+                            In an ever-evolving world, we recognize the pressing need for a more effective approach to
+                            supporting those in need. Our platform connects donors, organizations, and recipients,
+                            ensuring that every contribution reaches its intended destination. By leveraging blockchain
+                            technology, we provide a secure and transparent framework for transactions, while our
+                            AI-driven insights help us better understand community needs and enhance service delivery.
+
+                            We believe that every voice matters. Our Natural Language Processing capabilities allow us
+                            to analyze feedback and adapt our services accordingly, making us more responsive to the
+                            community's evolving requirements.
+
+                            Join us in our journey to create a fairer and more efficient aid distribution system—one
+                            that empowers individuals, strengthens communities, and builds a brighter future for all.
                         </p>
-                        <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet
-                            diam et eos. Clita erat ipsum et lorem et sit.</p>
-                        <div class="d-flex align-items-center mb-2">
-                            <i class="fa fa-check bg-light text-primary btn-sm-square rounded-circle me-3 fw-bold"></i>
-                            <span>Tempor erat elitr rebum at clita</span>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <i class="fa fa-check bg-light text-primary btn-sm-square rounded-circle me-3 fw-bold"></i>
-                            <span>Tempor erat elitr rebum at clita</span>
-                        </div>
-                        <div class="d-flex align-items-center mb-4">
-                            <i class="fa fa-check bg-light text-primary btn-sm-square rounded-circle me-3 fw-bold"></i>
-                            <span>Tempor erat elitr rebum at clita</span>
-                        </div>
-                        <a class="btn btn-primary py-3 px-4" href="">Read More</a>
+
                     </div>
                 </div>
             </div>
@@ -171,18 +174,18 @@
             <div class="row g-5">
                 <div class="col-lg-4 col-md-6 text-center wow fadeIn" data-wow-delay="0.1s">
                     <img class="img-fluid mb-4" src="/assets/img/icon-9.png" alt="">
-                    <h1 class="display-4" data-toggle="counter-up">123456</h1>
-                    <p class="fs-5 text-primary mb-0">Today Transactions</p>
+                    <h1 class="display-4" data-toggle="counter-up">0</h1>
+                    <p class="fs-5 text-primary mb-0">Today Aid Transactions</p>
                 </div>
                 <div class="col-lg-4 col-md-6 text-center wow fadeIn" data-wow-delay="0.3s">
                     <img class="img-fluid mb-4" src="/assets/img/icon-10.png" alt="">
-                    <h1 class="display-4" data-toggle="counter-up">123456</h1>
-                    <p class="fs-5 text-primary mb-0">Monthly Transactions</p>
+                    <h1 class="display-4" data-toggle="counter-up">0</h1>
+                    <p class="fs-5 text-primary mb-0">Monthly Aid Transactions</p>
                 </div>
                 <div class="col-lg-4 col-md-6 text-center wow fadeIn" data-wow-delay="0.5s">
                     <img class="img-fluid mb-4" src="/assets/img/icon-2.png" alt="">
-                    <h1 class="display-4" data-toggle="counter-up">123456</h1>
-                    <p class="fs-5 text-primary mb-0">Total Transactions</p>
+                    <h1 class="display-4" data-toggle="counter-up">0</h1>
+                    <p class="fs-5 text-primary mb-0">Total Aid Transactions</p>
                 </div>
             </div>
         </div>
@@ -190,140 +193,58 @@
     <!-- Facts End -->
 
 
-    <!-- Features Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-                <h1 class="display-6">Why Us!</h1>
-                <p class="text-primary fs-5 mb-5">The Best In The crypto Industry</p>
-            </div>
-            <div class="row g-5">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="d-flex align-items-start">
-                        <img class="img-fluid flex-shrink-0" src="/assets/img/icon-7.png" alt="">
-                        <div class="ps-4">
-                            <h5 class="mb-3">Easy To Start</h5>
-                            <span>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit
-                                clita duo justo</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="d-flex align-items-start">
-                        <img class="img-fluid flex-shrink-0" src="/assets/img/icon-6.png" alt="">
-                        <div class="ps-4">
-                            <h5 class="mb-3">Safe & Secure</h5>
-                            <span>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit
-                                clita duo justo</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="d-flex align-items-start">
-                        <img class="img-fluid flex-shrink-0" src="/assets/img/icon-5.png" alt="">
-                        <div class="ps-4">
-                            <h5 class="mb-3">Affordable Plans</h5>
-                            <span>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit
-                                clita duo justo</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="d-flex align-items-start">
-                        <img class="img-fluid flex-shrink-0" src="/assets/img/icon-4.png" alt="">
-                        <div class="ps-4">
-                            <h5 class="mb-3">Secure Storage</h5>
-                            <span>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit
-                                clita duo justo</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="d-flex align-items-start">
-                        <img class="img-fluid flex-shrink-0" src="/assets/img/icon-3.png" alt="">
-                        <div class="ps-4">
-                            <h5 class="mb-3">Protected By Insurance</h5>
-                            <span>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit
-                                clita duo justo</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="d-flex align-items-start">
-                        <img class="img-fluid flex-shrink-0" src="/assets/img/icon-8.png" alt="">
-                        <div class="ps-4">
-                            <h5 class="mb-3">24/7 Support</h5>
-                            <span>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit
-                                clita duo justo</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Features End -->
-
 
     <!-- Service Start -->
-    <div class="container-xxl bg-light py-5 my-5">
+    <div class="container-xxl bg-light py-5 my-5" id="services">
         <div class="container py-5">
             <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
                 <h1 class="display-6">Services</h1>
-                <p class="text-primary fs-5 mb-5">Buy, Sell And Exchange Cryptocurrency</p>
             </div>
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="service-item bg-white p-5">
-                        <img class="img-fluid mb-4" src="/assets/img/icon-7.png" alt="">
-                        <h5 class="mb-3">Currency Wallet</h5>
-                        <p>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo
-                            justo</p>
-                        <a href="">Read More <i class="fa fa-arrow-right ms-2"></i></a>
+                        <img class="img-fluid mb-4" width="66px" height="66px" src="/donate.png" alt="">
+                        <h5 class="mb-3">Donation Management</h5>
+                        <p>Our Donation Management feature enables generous donors to effortlessly list and schedule
+                            their contributions. By streamlining the donation process, we make it easier for those
+                            willing to help, ensuring that every act of kindness reaches those in need promptly.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="service-item bg-white p-5">
-                        <img class="img-fluid mb-4" src="/assets/img/icon-3.png" alt="">
-                        <h5 class="mb-3">Currency Transaction</h5>
-                        <p>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo
-                            justo</p>
-                        <a href="">Read More <i class="fa fa-arrow-right ms-2"></i></a>
+                        <img class="img-fluid mb-4" width="66px" height="66px" src="/request.png"
+                            alt="">
+                        <h5 class="mb-3">Aid Request Management</h5>
+                        <p>Our Aid Request Management system allows individuals to easily submit and track their
+                            requests for assistance. With a user-friendly interface, recipients can receive timely
+                            updates on their applications, ensuring they get the support they need when they need it
+                            most</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                     <div class="service-item bg-white p-5">
                         <img class="img-fluid mb-4" src="/assets/img/icon-9.png" alt="">
-                        <h5 class="mb-3">Bitcoin Investment</h5>
-                        <p>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo
-                            justo</p>
-                        <a href="">Read More <i class="fa fa-arrow-right ms-2"></i></a>
+                        <h5 class="mb-3">Smart Contracts</h5>
+                        <p>Harnessing the power of blockchain, our Smart Contracts automate and secure aid distribution,
+                            ensuring every transaction is transparent and trustworthy. Say goodbye to uncertainty and
+                            hello to a reliable system that builds community trust and accountability.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="service-item bg-white p-5">
-                        <img class="img-fluid mb-4" src="/assets/img/icon-5.png" alt="">
-                        <h5 class="mb-3">Currency Exchange</h5>
-                        <p>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo
-                            justo</p>
-                        <a href="">Read More <i class="fa fa-arrow-right ms-2"></i></a>
+                        <img class="img-fluid mb-4" width="66px" height="66px" src="/ai.png" alt="">
+                        <h5 class="mb-3">AI Powered</h5>
+                        <p>Our AI-Powered features leverage Natural Language Processing to analyze user feedback,
+                            helping to identify community needs and improve service delivery. This ensures that every
+                            voice is heard, making aid distribution more effective and responsive.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="service-item bg-white p-5">
                         <img class="img-fluid mb-4" src="/assets/img/icon-2.png" alt="">
-                        <h5 class="mb-3">Bitcoin Escrow</h5>
-                        <p>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo
-                            justo</p>
-                        <a href="">Read More <i class="fa fa-arrow-right ms-2"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="service-item bg-white p-5">
-                        <img class="img-fluid mb-4" src="/assets/img/icon-8.png" alt="">
-                        <h5 class="mb-3">Token Sale</h5>
-                        <p>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo
-                            justo</p>
-                        <a href="">Read More <i class="fa fa-arrow-right ms-2"></i></a>
+                        <h5 class="mb-3">Reporting and Analytics</h5>
+                        <p>Our Reporting and Analytics tools provide valuable insights into aid distribution trends and
+                            community needs. </p>
                     </div>
                 </div>
             </div>
@@ -332,48 +253,6 @@
     <!-- Service End -->
 
 
-    <!-- Roadmap Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-                <h1 class="display-6">Roadmap</h1>
-                <p class="text-primary fs-5 mb-5">We Translate Your Dream Into Reality</p>
-            </div>
-            <div class="owl-carousel roadmap-carousel wow fadeInUp" data-wow-delay="0.1s">
-                <div class="roadmap-item">
-                    <div class="roadmap-point"><span></span></div>
-                    <h5>January 2045</h5>
-                    <span>Diam dolor ipsum sit amet erat ipsum lorem sit</span>
-                </div>
-                <div class="roadmap-item">
-                    <div class="roadmap-point"><span></span></div>
-                    <h5>March 2045</h5>
-                    <span>Diam dolor ipsum sit amet erat ipsum lorem sit</span>
-                </div>
-                <div class="roadmap-item">
-                    <div class="roadmap-point"><span></span></div>
-                    <h5>May 2045</h5>
-                    <span>Diam dolor ipsum sit amet erat ipsum lorem sit</span>
-                </div>
-                <div class="roadmap-item">
-                    <div class="roadmap-point"><span></span></div>
-                    <h5>July 2045</h5>
-                    <span>Diam dolor ipsum sit amet erat ipsum lorem sit</span>
-                </div>
-                <div class="roadmap-item">
-                    <div class="roadmap-point"><span></span></div>
-                    <h5>September 2045</h5>
-                    <span>Diam dolor ipsum sit amet erat ipsum lorem sit</span>
-                </div>
-                <div class="roadmap-item">
-                    <div class="roadmap-point"><span></span></div>
-                    <h5>November 2045</h5>
-                    <span>Diam dolor ipsum sit amet erat ipsum lorem sit</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Roadmap End -->
 
 
 
@@ -409,16 +288,16 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h5 class="mb-4">Our Services</h5>
-                    <a class="btn btn-link" href="">Currency Wallet</a>
-                    <a class="btn btn-link" href="">Currency Transaction</a>
-                    <a class="btn btn-link" href="">Bitcoin Investment</a>
-                    <a class="btn btn-link" href="">Token Sale</a>
+                    <a class="btn btn-link" href="">Donation Management</a>
+                    <a class="btn btn-link" href="">Aid Request Management</a>
+                    <a class="btn btn-link" href="">Smart Contracts</a>
+                    <a class="btn btn-link" href="">AI Powered</a>
+                    <a class="btn btn-link" href="">Reports and Analytics</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h5 class="mb-4">Quick Links</h5>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Our Services</a>
+                    <a class="btn btn-link" href="#about">About Us</a>
+                    <a class="btn btn-link" href="#services">Our Services</a>
                     <a class="btn btn-link" href="">Terms & Condition</a>
                 </div>
                 <div class="col-lg-3 col-md-6">

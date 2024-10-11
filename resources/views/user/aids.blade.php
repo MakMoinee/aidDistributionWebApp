@@ -92,9 +92,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-4 py-lg-0">
-                <a href="/user_home" class="nav-item nav-link active">Home</a>
+                <a href="/user_home" class="nav-item nav-link ">Home</a>
                 <a href="#about" class="nav-item nav-link">About</a>
-                <a href="/user_aids" class="nav-item nav-link">Aids</a>
+                <a href="/user_aids" class="nav-item nav-link active">Aids</a>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
                 <a href="#" class="nav-item nav-link" data-bs-toggle="modal"
                     data-bs-target="#logoutAccountModal"><b class="text-danger">Logout</b></a>
@@ -104,34 +104,83 @@
     <!-- Navbar End -->
 
 
-    <!-- Header Start -->
-    <div class="container-fluid hero-header bg-light py-5 mb-5">
-        <div class="container py-5">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="display-4 mb-3 animated slideInDown">Empowering Communities with Trustworthy Blockchain
-                        Solutions</h1>
-                    <p class="animated slideInDown">Discover how our innovative blockchain solutions are revolutionizing
-                        community aid distribution. By fostering transparency and trust, we empower individuals and
-                        organizations to make a meaningful impact, ensuring that every contribution reaches those in
-                        need</p>
-                </div>
-                <div class="col-lg-6 animated fadeIn">
-                    <img class="img-fluid animated pulse infinite" style="animation-duration: 3s;"
-                        src="/assets/img/hero-1.png" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Header End -->
-
-
 
     <!-- Roadmap Start -->
     <div class="container-xxl py-5">
         <div class="container">
-            
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title mb-4">
+                        <h5 class="position-relative d-inline-block text-primary text-uppercase">FUND YOUR NEEDS</h5>
+                        <h1 class="display-5 mb-0">Aid Request/s</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 col-lg-6">
+                    <button class="btn btn-primary">Add Request</button>
+                    <button class="btn btn-success">Give Donations</button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="table-responsive mb-5">
+                    <table class="table border mb-0" id="sortTable">
+                        <thead class="table-light fw-semibold">
+                            <tr class="align-middle">
+                                <th class="text-center">
+                                    <svg class="icon" width="16" height="16" viewBox="0 0 50 50"
+                                        data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg">
+                                        <defs>
+                                            <style>
+                                                .cls-1 {
+                                                    fill: #231f20;
+                                                }
+
+                                                .cls-2 {
+                                                    fill: #d30000;
+                                                }
+
+                                                .cls-3 {
+                                                    fill: #ff8e5a;
+                                                }
+
+                                                .cls-4 {
+                                                    fill: #ffba50;
+                                                }
+                                            </style>
+                                        </defs>
+                                        <title />
+                                        <path class="cls-1"
+                                            d="M43.125,4.5H6.875A2.377,2.377,0,0,0,4.5,6.875v36.25A2.377,2.377,0,0,0,6.875,45.5h36.25A2.377,2.377,0,0,0,45.5,43.125V6.875A2.377,2.377,0,0,0,43.125,4.5ZM44.5,43.125A1.377,1.377,0,0,1,43.125,44.5H6.875A1.377,1.377,0,0,1,5.5,43.125V6.875A1.377,1.377,0,0,1,6.875,5.5h36.25A1.377,1.377,0,0,1,44.5,6.875Z" />
+                                        <path class="cls-1"
+                                            d="M40,39.5h-.375V12a2.5,2.5,0,0,0-2.5-2.5H35.5A2.5,2.5,0,0,0,33,12V39.5H28.377V22a2.5,2.5,0,0,0-2.5-2.5H24.252a2.5,2.5,0,0,0-2.5,2.5V39.5H17.129V32a2.5,2.5,0,0,0-2.5-2.5H13A2.5,2.5,0,0,0,10.5,32v7.5H10a.5.5,0,0,0,0,1H40a.5.5,0,0,0,0-1Z" />
+                                        <path class="cls-2"
+                                            d="M34,12a1.5,1.5,0,0,1,1.5-1.5h1.625a1.5,1.5,0,0,1,1.5,1.5V39.5H34Z" />
+                                        <path class="cls-3"
+                                            d="M22.752,22a1.5,1.5,0,0,1,1.5-1.5h1.625a1.5,1.5,0,0,1,1.5,1.5V39.5H22.752Z" />
+                                        <path class="cls-4"
+                                            d="M11.5,32A1.5,1.5,0,0,1,13,30.5h1.625a1.5,1.5,0,0,1,1.5,1.5v7.5H11.5Z" />
+                                        <path class="cls-1" d="M10,10.5h6.587a.5.5,0,0,0,0-1H10a.5.5,0,0,0,0,1Z" />
+                                        <path class="cls-1" d="M10,13.415h6.587a.5.5,0,0,0,0-1H10a.5.5,0,0,0,0,1Z" />
+                                        <path class="cls-1" d="M10,16.331h6.587a.5.5,0,0,0,0-1H10a.5.5,0,0,0,0,1Z" />
+                                    </svg>
+                                </th>
+                                <th>Request Name</th>
+                                <th class="text-center">Date Submitted</th>
+                                <th>Request Purpose</th>
+                                <th class="text-center">Remarks</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+
         </div>
+    </div>
     </div>
     <!-- Roadmap End -->
 
@@ -238,14 +287,14 @@
                 <form action="/logout" method="get" autocomplete="off">
                     @csrf
                     <div class="modal-body">
-                       <center>
-                        <h5>Are You Sure You Want To Logout?</h5>
-                       </center>
+                        <center>
+                            <h5>Are You Sure You Want To Logout?</h5>
+                        </center>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" name="btnLogout"
-                            value="yes">Yes, Proceed</button>
+                        <button type="submit" class="btn btn-primary" name="btnLogout" value="yes">Yes,
+                            Proceed</button>
                     </div>
                 </form>
             </div>
