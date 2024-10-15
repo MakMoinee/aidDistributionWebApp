@@ -111,19 +111,34 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title mb-4">
-                        <h5 class="position-relative d-inline-block text-primary text-uppercase">FUND YOUR NEEDS</h5>
-                        <h1 class="display-5 mb-0">Aid Request/s</h1>
+                        <h5 class="position-relative d-inline-block text-primary text-uppercase">FUND OTHER PEOPLE NEEDS
+                        </h5>
+                        <h1 class="display-5 mb-0">Donation/s</h1>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-3 col-lg-6">
-                    <button class="btn btn-primary" data-bs-target="#addRequestModal" data-bs-toggle="modal">Add
-                        Request</button>
-                    <button class="btn btn-success" onclick="window.location='/user_donations'">Give Donations</button>
+                    <button class="btn btn-dark" onclick="window.location='/user_aids'">Go Back</button>
                 </div>
             </div>
             <br>
+            <div class="row">
+                <div class="col-sm-3 col-lg-6">
+
+                    <form action="/user_donations" method="get">
+                        @csrf
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Recipient's Name"
+                                aria-label="Recipient's Name" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-6"></div>
+            </div>
             <div class="row">
                 <div class="table-responsive mb-5">
                     <table class="table border mb-0" id="sortTable">
@@ -167,11 +182,11 @@
                                         <path class="cls-1" d="M10,16.331h6.587a.5.5,0,0,0,0-1H10a.5.5,0,0,0,0,1Z" />
                                     </svg>
                                 </th>
-                                <th>Request Name</th>
-                                <th class="text-center">Date Submitted</th>
-                                <th>Request Purpose</th>
-                                <th class="text-center">Amount</th>
-                                <th>Remarks</th>
+                                <th>Recepient Name</th>
+                                <th class="text-center">Request Name</th>
+                                <th>Date Submitted</th>
+                                <th class="text-center">Purpose</th>
+                                <th>Amount</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -302,12 +317,12 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="addRequestModal" tabindex="-1" role="dialog"
-        aria-labelledby="addRequestModalTitle" aria-hidden="true">
+    <div class="modal fade" id="createAccountModal" tabindex="-1" role="dialog"
+        aria-labelledby="createAccountModalTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addRequestModalTitle">Create Aid Request</h5>
+                    <h5 class="modal-title" id="createAccountModalTitle">Create Your Account</h5>
                     <button type="button" class="btn btn-outline-dark close" data-bs-dismiss="modal"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -316,26 +331,82 @@
                 <form action="/" method="post" autocomplete="off">
                     @csrf
                     <div class="modal-body">
-                        <div class="form-group mb-2">
-                            <label for="requestName" class="text-dark">Request Name:</label>
-                            <input required type="text" name="requestName" id="" class="form-control">
+
+                        <div class="form-group mt-2">
+                            <label for="firstName" class="text-dark">First Name:</label>
+                            <br>
+                            <input required type="text" name="firstName" id="" class="form-control">
                         </div>
-                        <div class="form-group mb-2">
-                            <label for="purpose" class="text-dark">Request Purpose:</label>
-                            <input required type="text" name="purpose" id="" class="form-control">
+                        <div class="form-group mt-2">
+                            <label for="middleName" class="text-dark">Middle Name:</label>
+                            <br>
+                            <input type="text" name="middleName" id="" class="form-control">
                         </div>
-                        <div class="form-group mb-2">
-                            <label for="amount" class="text-dark">Amount:</label>
-                            <input required type="number" name="amount" id="" class="form-control">
+                        <div class="form-group mt-2">
+                            <label for="lastName" class="text-dark">Last Name:</label>
+                            <br>
+                            <input required type="text" name="lastName" id="" class="form-control">
                         </div>
-                        <div class="form-group mb-2">
-                            <label for="paymentAddress" class="text-dark">Payment Address:</label>
-                            <textarea required name="paymentAddress" id="" cols="30" rows="2" class="form-control"></textarea>
+                        <div class="form-group mt-2">
+                            <label for="address" class="text-dark">Address:</label>
+                            <br>
+                            <textarea required name="address" id="" cols="30" rows="5" class="form-control">
+
+                            </textarea>
                         </div>
-                        <div class="form-group mb-2">
-                            <label for="letter" class="text-dark">Letter:</label>
-                            <textarea required name="letter" id="" cols="30" rows="10" class="form-control"></textarea>
+                        <div class="form-group mt-2">
+                            <label for="birthDate" class="text-dark">Birth Date:</label>
+                            <br>
+                            <input required type="date" name="birthDate" id="" class="form-control">
                         </div>
+                        <div class="form-group mt-2">
+                            <label for="gender" class="text-dark">Gender:</label>
+                            <br>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="radio" name="gender" value="male"
+                                            aria-label="Radio button for selecting male">
+                                    </div>
+                                </div>
+                                <span class="text-dark" style="margin-left: 5px;">Male</span>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="radio" name="gender" value="female"
+                                            aria-label="Radio button for selecting female">
+                                    </div>
+                                </div>
+                                <span class="text-dark" style="margin-left: 5px;">Female</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-2">
+                            <label for="phoneNumber" class="text-dark">Phone Number:</label>
+                            <br>
+                            <input required type="number" name="phoneNumber" id="" class="form-control">
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="username" class="text-dark">Username:</label>
+                            <br>
+                            <input required type="text" name="username" id="" class="form-control">
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="password" class="text-dark">Password:</label>
+                            <br>
+                            <input required type="password" name="password" id="password" class="form-control">
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="confimpass" class="text-dark">Confirm Password:</label>
+                            <br>
+                            <input required type="password" name="confimpass" id="confimpass" class="form-control">
+                        </div>
+                        <div class="form-group mt-2">
+                            <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()">
+                            <label for="showPassword" class="text-dark">Show Password</label>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
