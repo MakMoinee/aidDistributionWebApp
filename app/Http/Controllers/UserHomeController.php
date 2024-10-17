@@ -15,6 +15,10 @@ class UserHomeController extends Controller
             $user = session()->pull("users");
             session()->put('users', $user);
 
+            if ($user['userType'] != 'user') {
+                return redirect("/logout");
+            }
+
             return view('user.home');
         }
         return redirect("/");

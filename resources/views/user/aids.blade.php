@@ -175,7 +175,17 @@
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            @foreach ($aids as $item)
+                                <td class="text-center"></td>
+                                <td></td>
+                                <td class="text-center"></td>
+                                <td></td>
+                                <td class="text-center"></td>
+                                <td></td>
+                                <td class="text-center"></td>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -313,33 +323,33 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/" method="post" autocomplete="off">
+                <form action="/user_aids" method="post" autocomplete="off">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group mb-2">
                             <label for="requestName" class="text-dark">Request Name:</label>
-                            <input required type="text" name="requestName" id="" class="form-control">
+                            <input required type="text" name="requestName" id="" class="form-control text-dark">
                         </div>
                         <div class="form-group mb-2">
                             <label for="purpose" class="text-dark">Request Purpose:</label>
-                            <input required type="text" name="purpose" id="" class="form-control">
+                            <input required type="text" name="purpose" id="" class="form-control text-dark">
                         </div>
                         <div class="form-group mb-2">
                             <label for="amount" class="text-dark">Amount:</label>
-                            <input required type="number" name="amount" id="" class="form-control">
+                            <input required type="number" name="amount" id="" class="form-control text-dark">
                         </div>
                         <div class="form-group mb-2">
                             <label for="paymentAddress" class="text-dark">Payment Address:</label>
-                            <textarea required name="paymentAddress" id="" cols="30" rows="2" class="form-control"></textarea>
+                            <textarea required name="paymentAddress" id="" cols="30" rows="2" class="form-control text-dark"></textarea>
                         </div>
                         <div class="form-group mb-2">
                             <label for="letter" class="text-dark">Letter:</label>
-                            <textarea required name="letter" id="" cols="30" rows="10" class="form-control"></textarea>
+                            <textarea required name="letter" id="" cols="30" rows="10" class="form-control text-dark"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" name="btnCreateAccount"
+                        <button type="submit" class="btn btn-primary" name="btnAddRequest"
                             value="yes">Proceed</button>
                     </div>
                 </form>
@@ -368,45 +378,45 @@
             }
         }
     </script>
-    @if (session()->pull('successLogin'))
+    @if (session()->pull('addRequestSuccess'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Login Successfully',
+                    title: 'Successfully Added Aid Request',
                     showConfirmButton: false,
                     timer: 800,
                 });
             }, 500);
         </script>
-        {{ session()->forget('successLogin') }}
+        {{ session()->forget('addRequestSuccess') }}
     @endif
-    @if (session()->pull('errorCreateAccount'))
+    @if (session()->pull('errorAddRequest'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Failed To Create Account, Please Try Again Later',
+                    title: 'Failed To Add Aid Request, Please Try Again Later',
                     showConfirmButton: true,
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorCreateAccount') }}
+        {{ session()->forget('errorAddRequest') }}
     @endif
-    @if (session()->pull('errorPasswordNotMatch'))
+    @if (session()->pull('errorAddRequestAmount'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Password Doesn\'t Match, Please Try Again',
+                    title: 'Amount Shouldn\'t be zero, Please Try Again Later',
                     showConfirmButton: true,
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorPasswordNotMatch') }}
+        {{ session()->forget('errorAddRequestAmount') }}
     @endif
 </body>
 
