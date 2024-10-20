@@ -69,6 +69,11 @@
         .btn-link {
             color: #000000 !important;
         }
+
+        td,
+        .text-center {
+            color: #000000 !important;
+        }
     </style>
 </head>
 
@@ -171,19 +176,23 @@
                                 <th class="text-center">Date Submitted</th>
                                 <th>Request Purpose</th>
                                 <th class="text-center">Amount</th>
-                                <th>Remarks</th>
+                                <th>Note</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($aids as $item)
-                                <td class="text-center"></td>
-                                <td></td>
-                                <td class="text-center"></td>
-                                <td></td>
-                                <td class="text-center"></td>
-                                <td></td>
-                                <td class="text-center"></td>
+                                <tr>
+                                    <td class="text-center"></td>
+                                    <td> {{ $item->name }} </td>
+                                    <td class="text-center">
+                                        {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                    </td>
+                                    <td> {{ $item->purpose }} </td>
+                                    <td class="text-center"> P{{ $item->amount }} </td>
+                                    <td>{{ $item->letter }}</td>
+                                    <td class="text-center"></td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -328,19 +337,23 @@
                     <div class="modal-body">
                         <div class="form-group mb-2">
                             <label for="requestName" class="text-dark">Request Name:</label>
-                            <input required type="text" name="requestName" id="" class="form-control text-dark">
+                            <input required type="text" name="requestName" id=""
+                                class="form-control text-dark">
                         </div>
                         <div class="form-group mb-2">
                             <label for="purpose" class="text-dark">Request Purpose:</label>
-                            <input required type="text" name="purpose" id="" class="form-control text-dark">
+                            <input required type="text" name="purpose" id=""
+                                class="form-control text-dark">
                         </div>
                         <div class="form-group mb-2">
                             <label for="amount" class="text-dark">Amount:</label>
-                            <input required type="number" name="amount" id="" class="form-control text-dark">
+                            <input required type="number" name="amount" id=""
+                                class="form-control text-dark">
                         </div>
                         <div class="form-group mb-2">
                             <label for="paymentAddress" class="text-dark">Payment Address:</label>
-                            <textarea required name="paymentAddress" id="" cols="30" rows="2" class="form-control text-dark"></textarea>
+                            <textarea required name="paymentAddress" id="" cols="30" rows="2"
+                                class="form-control text-dark"></textarea>
                         </div>
                         <div class="form-group mb-2">
                             <label for="letter" class="text-dark">Letter:</label>
