@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserDonationsController extends Controller
 {
@@ -15,7 +16,12 @@ class UserDonationsController extends Controller
             $user = session()->pull("users");
             session()->put('users', $user);
 
-            return view('user.donations');
+            $aids = DB::table('aids')
+                ->where('userID', '<>', $user['userID'])
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+
+            return view('user.donations', ['aids' => $aids]);
         }
         return redirect("/");
     }

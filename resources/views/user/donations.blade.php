@@ -190,7 +190,19 @@
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            @foreach ($aids as $item)
+                                <tr>
+                                    <td class="text-center"></td>
+                                    <td></td>
+                                    <td class="text-center"></td>
+                                    <td></td>
+                                    <td class="text-center"></td>
+                                    <td></td>
+                                    <td class="text-center"></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>

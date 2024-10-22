@@ -191,7 +191,12 @@
                                     <td> {{ $item->purpose }} </td>
                                     <td class="text-center"> P{{ $item->amount }} </td>
                                     <td>{{ $item->letter }}</td>
-                                    <td class="text-center"></td>
+                                    <td class="text-center">
+                                        <button onclick="deleteRequest({{ $item->aidId }})" class="btn"
+                                            data-bs-target="#deleteRequestModal" data-bs-toggle="modal">
+                                            <img src="/delete.svg" alt="" srcset="">
+                                        </button>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -321,6 +326,34 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="deleteRequestModal" tabindex="-1" role="dialog"
+        aria-labelledby="deleteRequestModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteRequestModalTitle">Attention</h5>
+                    <button type="button" class="btn btn-outline-dark close" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="deleteRequestForm" action="/user_aids" method="post" autocomplete="off">
+                    @method('delete')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <h4>Are You Sure You Want Delete This Request?</h4>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" name="btnDeleteRequest"
+                            value="yes">Proceed</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="addRequestModal" tabindex="-1" role="dialog"
         aria-labelledby="addRequestModalTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -390,7 +423,26 @@
                 confirmPasswordField.type = "password";
             }
         }
+
+        function deleteRequest(id) {
+            let dr = document.getElementById('deleteRequestForm');
+            dr.action = `/user_aids/${id}`;
+        }
     </script>
+    @if (session()->pull('successDeleteRequest'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Deleted Aid Request',
+                    showConfirmButton: false,
+                    timer: 800,
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successDeleteRequest') }}
+    @endif
     @if (session()->pull('addRequestSuccess'))
         <script>
             setTimeout(() => {
@@ -404,6 +456,19 @@
             }, 500);
         </script>
         {{ session()->forget('addRequestSuccess') }}
+    @endif
+    @if (session()->pull('errorDeleteRequest'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Failed To Delete Aid Request, Please Try Again Later',
+                    showConfirmButton: true,
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorDeleteRequest') }}
     @endif
     @if (session()->pull('errorAddRequest'))
         <script>

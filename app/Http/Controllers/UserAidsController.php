@@ -102,8 +102,25 @@ class UserAidsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Request $request)
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull("users");
+            session()->put('users', $user);
+
+            if ($user['userType'] != 'user') {
+                return redirect("/logout");
+            }
+            if ($request->btnDeleteRequest) {
+                $deleteCount = DB::table('aids')->where('aidId', '=', $id)->delete();
+                if ($deleteCount > 0) {
+                    session()->put('successDeleteRequest', true);
+                } else {
+                    session()->put('errorDeleteRequest', true);
+                }
+            }
+            return redirect("/user_aids");
+        }
+        return redirect("/");
     }
 }

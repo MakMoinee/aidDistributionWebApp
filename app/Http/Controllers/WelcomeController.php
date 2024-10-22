@@ -14,7 +14,17 @@ class WelcomeController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        if (session()->exists('users')) {
+            $user = session()->pull("users");
+            session()->put('users', $user);
+
+            if ($user['userType'] != 'user') {
+                return redirect("/logout");
+            }
+
+            return redirect("/user_aids");
+        }
+        return redirect("/");
     }
 
     /**
