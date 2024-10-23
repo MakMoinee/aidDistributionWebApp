@@ -24,7 +24,7 @@ class WelcomeController extends Controller
 
             return redirect("/user_aids");
         }
-        return redirect("/");
+        return view("welcome");
     }
 
     /**

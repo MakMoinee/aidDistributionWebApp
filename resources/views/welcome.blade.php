@@ -117,7 +117,8 @@
                         community aid distribution. By fostering transparency and trust, we empower individuals and
                         organizations to make a meaningful impact, ensuring that every contribution reaches those in
                         need</p>
-                    <a data-bs-toggle="modal" data-bs-target="#loginAccountModal" class="btn btn-primary py-3 px-4 animated slideInDown">Explore More</a>
+                    <a data-bs-toggle="modal" data-bs-target="#loginAccountModal"
+                        class="btn btn-primary py-3 px-4 animated slideInDown">Explore More</a>
                 </div>
                 <div class="col-lg-6 animated fadeIn">
                     <img class="img-fluid animated pulse infinite" style="animation-duration: 3s;"
@@ -519,6 +520,19 @@
             }, 500);
         </script>
         {{ session()->forget('successCreateAccount') }}
+    @endif
+    @if (session()->pull('existingUsername'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Existing Username, Please Try Again Later',
+                    showConfirmButton: true,
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('existingUsername') }}
     @endif
     @if (session()->pull('errorCreateAccount'))
         <script>

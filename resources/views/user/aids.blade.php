@@ -130,8 +130,24 @@
             </div>
             <br>
             <div class="row">
+                <div class="col-sm-3 col-lg-6">
+
+                    <form action="/user_aids" method="get">
+                        @csrf
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Request Name"
+                                aria-label="Request Name" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-6"></div>
+            </div>
+            <div class="row">
                 <div class="table-responsive mb-5">
-                    <table class="table border mb-0" id="sortTable">
+                    <table class="table border mb-2" id="sortTable">
                         <thead class="table-light fw-semibold">
                             <tr class="align-middle">
                                 <th class="text-center">
@@ -201,7 +217,23 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pagination">
+                                <ul class="pagination">
+                                    @for ($i = 1; $i <= $aids->lastPage(); $i++)
+                                        <li class="page-item ">
+                                            <a class="page-link {{ $aids->currentPage() == $i ? 'active text-danger' : 'text-dark' }}"
+                                                href="{{ $aids->url($i) }}">{{ $i }}</a>
+                                        </li>
+                                    @endfor
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
 
 

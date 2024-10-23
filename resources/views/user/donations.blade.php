@@ -69,6 +69,11 @@
         .btn-link {
             color: #000000 !important;
         }
+
+        td,
+        .text-center {
+            color: #000000 !important;
+        }
     </style>
 </head>
 
@@ -141,7 +146,7 @@
             </div>
             <div class="row">
                 <div class="table-responsive mb-5">
-                    <table class="table border mb-0" id="sortTable">
+                    <table class="table border mb-2" id="sortTable">
                         <thead class="table-light fw-semibold">
                             <tr class="align-middle">
                                 <th class="text-center">
@@ -187,23 +192,51 @@
                                 <th>Date Submitted</th>
                                 <th class="text-center">Purpose</th>
                                 <th>Amount</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center">Note</th>
+                                <td>Action</td>
+                                <td class="text-center"></td>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($aids as $item)
                                 <tr>
                                     <td class="text-center"></td>
-                                    <td></td>
-                                    <td class="text-center"></td>
-                                    <td></td>
-                                    <td class="text-center"></td>
-                                    <td></td>
-                                    <td class="text-center"></td>
+                                    <td> {{ $item->firstName }} {{ $item->middleName }} {{ $item->lastName }} </td>
+                                    <td class="text-center">
+                                        {{ $item->name }}
+                                    </td>
+                                    <td> {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                    </td>
+                                    <td class="text-center"> {{ $item->purpose }} </td>
+                                    <td>P{{ $item->amount }} </td>
+                                    <td class="text-center">
+                                        {{ $item->letter }}
+
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-warning text-white" title="Donate">
+                                            Donate
+                                        </button>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pagination">
+                                <ul class="pagination">
+                                    @for ($i = 1; $i <= $aids->lastPage(); $i++)
+                                        <li class="page-item ">
+                                            <a class="page-link {{ $aids->currentPage() == $i ? 'active text-danger' : 'text-dark' }}"
+                                                href="{{ $aids->url($i) }}">{{ $i }}</a>
+                                        </li>
+                                    @endfor
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

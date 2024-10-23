@@ -16,7 +16,7 @@ class UserDonationsController extends Controller
             $user = session()->pull("users");
             session()->put('users', $user);
 
-            $aids = DB::table('aids')
+            $aids = DB::table('vwdonations')
                 ->where('userID', '<>', $user['userID'])
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
