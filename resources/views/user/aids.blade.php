@@ -205,7 +205,7 @@
                                         {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
                                     </td>
                                     <td> {{ $item->purpose }} </td>
-                                    <td class="text-center"> P{{ $item->amount }} </td>
+                                    <td class="text-center"> P{{ number_format($item->amount, 2) }} </td>
                                     <td>{{ $item->letter }}</td>
                                     <td class="text-center">
                                         <button onclick="deleteRequest({{ $item->aidId }})" class="btn"

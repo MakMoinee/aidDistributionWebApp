@@ -75,6 +75,8 @@
             color: #000000 !important;
         }
     </style>
+
+
 </head>
 
 <body>
@@ -208,13 +210,13 @@
                                     <td> {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
                                     </td>
                                     <td class="text-center"> {{ $item->purpose }} </td>
-                                    <td>P{{ $item->amount }} </td>
+                                    <td>P{{ number_format($item->amount, 2) }} </td>
                                     <td class="text-center">
                                         {{ $item->letter }}
 
                                     </td>
                                     <td>
-                                        <button class="btn btn-warning text-white" title="Donate">
+                                        <button class="btn btn-warning text-white" title="Donate" onclick="donate()">
                                             Donate
                                         </button>
                                     </td>
@@ -462,6 +464,9 @@
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"
+        integrity="sha512-V3xRGsQMQ8CG4l2gVN44TCDmNY5cdlxbSvejrgmWxcLKHft0Q3XQDbeuJ9aot14mpNuRWGtI//WKraedDGNZ+g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         function togglePasswordVisibility2() {
             var passwordField = document.getElementById("password");
@@ -524,6 +529,159 @@
         </script>
         {{ session()->forget('errorPasswordNotMatch') }}
     @endif
+    <script>
+        async function donate() {
+            // Check if MetaMask is installed
+            if (typeof window.ethereum !== 'undefined') {
+                // Request account access
+                await ethereum.request({
+                    method: 'eth_requestAccounts'
+                });
+
+                console.log(window.ethereum);
+
+                // Create a provider and signer
+                const provider = new ethers.BrowserProvider(window.ethereum);
+                const signer = await provider.getSigner();
+
+                // Define the contract ABI and address (replace with your deployed contract address)
+                const contractABI = [{
+                        "anonymous": false,
+                        "inputs": [{
+                                "indexed": false,
+                                "internalType": "string",
+                                "name": "recipient",
+                                "type": "string"
+                            },
+                            {
+                                "indexed": false,
+                                "internalType": "uint256",
+                                "name": "amount",
+                                "type": "uint256"
+                            },
+                            {
+                                "indexed": false,
+                                "internalType": "string",
+                                "name": "purpose",
+                                "type": "string"
+                            },
+                            {
+                                "indexed": false,
+                                "internalType": "uint256",
+                                "name": "timestamp",
+                                "type": "uint256"
+                            }
+                        ],
+                        "name": "AidRecordAdded",
+                        "type": "event"
+                    },
+                    {
+                        "inputs": [{
+                                "internalType": "string",
+                                "name": "recipient",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "amount",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "purpose",
+                                "type": "string"
+                            }
+                        ],
+                        "name": "addAidRecord",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [{
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }],
+                        "name": "aidRecords",
+                        "outputs": [{
+                                "internalType": "string",
+                                "name": "recipient",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "amount",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "purpose",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "timestamp",
+                                "type": "uint256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [],
+                        "name": "getAllRecords",
+                        "outputs": [{
+                            "components": [{
+                                    "internalType": "string",
+                                    "name": "recipient",
+                                    "type": "string"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "amount",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "string",
+                                    "name": "purpose",
+                                    "type": "string"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "timestamp",
+                                    "type": "uint256"
+                                }
+                            ],
+                            "internalType": "struct AidDistribution.AidRecord[]",
+                            "name": "",
+                            "type": "tuple[]"
+                        }],
+                        "stateMutability": "view",
+                        "type": "function"
+                    }
+                ];
+                const contractAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
+
+                // Create a contract instance
+                const aidContract = new ethers.Contract(contractAddress, contractABI, signer);
+
+                // Set the transaction parameters (e.g., donate 0.1 ETH)
+                const transaction = await aidContract.addAidRecord("John Doe", ethers.parseEther("0.1"),
+                    "Donation", {
+                        value: ethers.parseEther("0.1"), // Send 0.1 ETH as part of the transaction,
+                        gasLimit: 500000
+                    });
+
+                // Wait for the transaction to be confirmed
+                await transaction.wait();
+
+                console.log("Transaction successful! Hash:", transaction.hash);
+            } else {
+                console.error("MetaMask is not installed.");
+            }
+        }
+    </script>
 </body>
 
 </html>
