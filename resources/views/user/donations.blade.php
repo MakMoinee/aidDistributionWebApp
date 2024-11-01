@@ -195,8 +195,9 @@
                                 <th class="text-center">Purpose</th>
                                 <th>Amount</th>
                                 <th class="text-center">Note</th>
-                                <td>Action</td>
-                                <td class="text-center"></td>
+                                <td>Amount Reached</td>
+                                <td class="text-center">Action</td>
+                                <td></td>
                             </tr>
                         </thead>
                         <tbody>
@@ -215,10 +216,24 @@
                                         {{ $item->letter }}
 
                                     </td>
-                                    <td>
-                                        <button class="btn btn-warning text-white" title="Donate" onclick="donate()">
-                                            Donate
-                                        </button>
+                                    <td id="amountReached-{{ $item->aidId }}">
+                                        @if (count($allDetail) > 0 && $allDetail[$item->aidId])
+                                            P{{ number_format($allDetail[$item->aidId]) }}
+                                        @else
+                                            P0.0
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if (count($allDetail) > 0 && $allDetail[$item->aidId] == $item->amount)
+                                        
+                                        @else
+                                            <button class="btn btn-warning text-white" title="Donate"
+                                                data-bs-target="#giveDonationModal" data-bs-toggle="modal"
+                                                onclick="addIdInDonation({{ $item->aidId }})">
+                                                Donate
+                                            </button>
+                                        @endif
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -364,106 +379,50 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="createAccountModal" tabindex="-1" role="dialog"
-        aria-labelledby="createAccountModalTitle" aria-hidden="true">
+    <div class="modal fade" id="giveDonationModal" tabindex="-1" role="dialog"
+        aria-labelledby="giveDonationModalTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createAccountModalTitle">Create Your Account</h5>
+                    <h5 class="modal-title" id="giveDonationModalTitle">Give Donation</h5>
                     <button type="button" class="btn btn-outline-dark close" data-bs-dismiss="modal"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/" method="post" autocomplete="off">
+                <form action="/user_donations" method="post" onsubmit="return false;" id="addDonationForm">
                     @csrf
                     <div class="modal-body">
-
-                        <div class="form-group mt-2">
-                            <label for="firstName" class="text-dark">First Name:</label>
+                        <div class="form-group">
+                            <label for="amount" class="text-dark">Amount</label>
                             <br>
-                            <input required type="text" name="firstName" id="" class="form-control">
+                            <input min="100" required type="number" name="amount" id="donateAmount"
+                                class="form-control">
+                            <input id="fromName" type="hidden" name=""
+                                value="{{ $currentUser['firstName'] }} {{ $currentUser['middleName'] }} {{ $currentUser['lastName'] }}">
+                            <input type="hidden" name="thash" value="" id="thash">
+                            <input type="hidden" name="tfrom" value="" id="tfrom">
+                            <input type="hidden" name="tto" value="" id="tto">
+                            <input type="hidden" name="eth" value="" id="eth">
+                            <input type="hidden" name="aidID" value="" id="aidID">
                         </div>
-                        <div class="form-group mt-2">
-                            <label for="middleName" class="text-dark">Middle Name:</label>
-                            <br>
-                            <input type="text" name="middleName" id="" class="form-control">
+                        <br>
+                        <div class="form-group">
+                            <h6> <b>Note:</b> 0.0007095 ETH = P100 </h6>
                         </div>
-                        <div class="form-group mt-2">
-                            <label for="lastName" class="text-dark">Last Name:</label>
-                            <br>
-                            <input required type="text" name="lastName" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="address" class="text-dark">Address:</label>
-                            <br>
-                            <textarea required name="address" id="" cols="30" rows="5" class="form-control">
-
-                            </textarea>
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="birthDate" class="text-dark">Birth Date:</label>
-                            <br>
-                            <input required type="date" name="birthDate" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="gender" class="text-dark">Gender:</label>
-                            <br>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <input type="radio" name="gender" value="male"
-                                            aria-label="Radio button for selecting male">
-                                    </div>
-                                </div>
-                                <span class="text-dark" style="margin-left: 5px;">Male</span>
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <input type="radio" name="gender" value="female"
-                                            aria-label="Radio button for selecting female">
-                                    </div>
-                                </div>
-                                <span class="text-dark" style="margin-left: 5px;">Female</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group mt-2">
-                            <label for="phoneNumber" class="text-dark">Phone Number:</label>
-                            <br>
-                            <input required type="number" name="phoneNumber" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="username" class="text-dark">Username:</label>
-                            <br>
-                            <input required type="text" name="username" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="password" class="text-dark">Password:</label>
-                            <br>
-                            <input required type="password" name="password" id="password" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="confimpass" class="text-dark">Confirm Password:</label>
-                            <br>
-                            <input required type="password" name="confimpass" id="confimpass" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()">
-                            <label for="showPassword" class="text-dark">Show Password</label>
-                        </div>
-
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" name="btnCreateAccount"
-                            value="yes">Proceed</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            id="donationClose">Close</button>
+                        <button type="submit" class="btn btn-primary" name="btnAddDonation" value="yes"
+                            style="display: none;" id="btnAddDonation">Proceed</button>
+                        <button type="submit" class="btn btn-primary" onclick="validateDonate()">Proceed</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <script src="/assets/js/contract.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"
         integrity="sha512-V3xRGsQMQ8CG4l2gVN44TCDmNY5cdlxbSvejrgmWxcLKHft0Q3XQDbeuJ9aot14mpNuRWGtI//WKraedDGNZ+g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -503,34 +462,55 @@
         </script>
         {{ session()->forget('successLogin') }}
     @endif
-    @if (session()->pull('errorCreateAccount'))
+    @if (session()->pull('successAddDonation'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
-                    icon: 'error',
-                    title: 'Failed To Create Account, Please Try Again Later',
-                    showConfirmButton: true,
+                    icon: 'success',
+                    title: 'Successfully Added Donation',
+                    showConfirmButton: false,
+                    timer: 800,
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorCreateAccount') }}
+        {{ session()->forget('successAddDonation') }}
     @endif
-    @if (session()->pull('errorPasswordNotMatch'))
+    @if (session()->pull('errorAddDonation'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Password Doesn\'t Match, Please Try Again',
+                    title: 'Failed To Add Donation, Please Try Again',
                     showConfirmButton: true,
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorPasswordNotMatch') }}
+        {{ session()->forget('errorAddDonation') }}
     @endif
     <script>
+        function addIdInDonation(id) {
+            let aidID = document.getElementById('aidID');
+            aidID.value = id;
+        }
+
+        function validateDonate(e) {
+
+            let donateAmount = document.getElementById('donateAmount').value;
+
+            if (donateAmount < 100) {
+                return false;
+            } else {
+                donate();
+            }
+        }
+
         async function donate() {
+            let donateAmount = document.getElementById('donateAmount').value;
+            // 0.1 ETH = 100
+            let finalETH = donateAmount / 14095.2 * 0.1;
+            finalETH = Number(finalETH.toFixed(7));
             // Check if MetaMask is installed
             if (typeof window.ethereum !== 'undefined') {
                 // Request account access
@@ -539,144 +519,50 @@
                 });
 
                 console.log(window.ethereum);
+                console.log(finalETH);
 
                 // Create a provider and signer
                 const provider = new ethers.BrowserProvider(window.ethereum);
                 const signer = await provider.getSigner();
 
                 // Define the contract ABI and address (replace with your deployed contract address)
-                const contractABI = [{
-                        "anonymous": false,
-                        "inputs": [{
-                                "indexed": false,
-                                "internalType": "string",
-                                "name": "recipient",
-                                "type": "string"
-                            },
-                            {
-                                "indexed": false,
-                                "internalType": "uint256",
-                                "name": "amount",
-                                "type": "uint256"
-                            },
-                            {
-                                "indexed": false,
-                                "internalType": "string",
-                                "name": "purpose",
-                                "type": "string"
-                            },
-                            {
-                                "indexed": false,
-                                "internalType": "uint256",
-                                "name": "timestamp",
-                                "type": "uint256"
-                            }
-                        ],
-                        "name": "AidRecordAdded",
-                        "type": "event"
-                    },
-                    {
-                        "inputs": [{
-                                "internalType": "string",
-                                "name": "recipient",
-                                "type": "string"
-                            },
-                            {
-                                "internalType": "uint256",
-                                "name": "amount",
-                                "type": "uint256"
-                            },
-                            {
-                                "internalType": "string",
-                                "name": "purpose",
-                                "type": "string"
-                            }
-                        ],
-                        "name": "addAidRecord",
-                        "outputs": [],
-                        "stateMutability": "nonpayable",
-                        "type": "function"
-                    },
-                    {
-                        "inputs": [{
-                            "internalType": "uint256",
-                            "name": "",
-                            "type": "uint256"
-                        }],
-                        "name": "aidRecords",
-                        "outputs": [{
-                                "internalType": "string",
-                                "name": "recipient",
-                                "type": "string"
-                            },
-                            {
-                                "internalType": "uint256",
-                                "name": "amount",
-                                "type": "uint256"
-                            },
-                            {
-                                "internalType": "string",
-                                "name": "purpose",
-                                "type": "string"
-                            },
-                            {
-                                "internalType": "uint256",
-                                "name": "timestamp",
-                                "type": "uint256"
-                            }
-                        ],
-                        "stateMutability": "view",
-                        "type": "function"
-                    },
-                    {
-                        "inputs": [],
-                        "name": "getAllRecords",
-                        "outputs": [{
-                            "components": [{
-                                    "internalType": "string",
-                                    "name": "recipient",
-                                    "type": "string"
-                                },
-                                {
-                                    "internalType": "uint256",
-                                    "name": "amount",
-                                    "type": "uint256"
-                                },
-                                {
-                                    "internalType": "string",
-                                    "name": "purpose",
-                                    "type": "string"
-                                },
-                                {
-                                    "internalType": "uint256",
-                                    "name": "timestamp",
-                                    "type": "uint256"
-                                }
-                            ],
-                            "internalType": "struct AidDistribution.AidRecord[]",
-                            "name": "",
-                            "type": "tuple[]"
-                        }],
-                        "stateMutability": "view",
-                        "type": "function"
-                    }
-                ];
-                const contractAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
+
 
                 // Create a contract instance
                 const aidContract = new ethers.Contract(contractAddress, contractABI, signer);
 
                 // Set the transaction parameters (e.g., donate 0.1 ETH)
-                const transaction = await aidContract.addAidRecord("John Doe", ethers.parseEther("0.1"),
+                const transaction = await aidContract.addAidRecord(
+                    parseInt(document.getElementById('aidID').value),
+                    document.getElementById('fromName').value,
+                    ethers.parseEther(`${finalETH}`),
                     "Donation", {
-                        value: ethers.parseEther("0.1"), // Send 0.1 ETH as part of the transaction,
-                        gasLimit: 500000
+                        value: ethers.parseEther(`${finalETH}`), // Send 0.1 ETH as part of the transaction,
+                        gasLimit: 600000
                     });
 
                 // Wait for the transaction to be confirmed
                 await transaction.wait();
 
-                console.log("Transaction successful! Hash:", transaction.hash);
+                let thash = document.getElementById('thash');
+                thash.value = transaction.hash;
+
+                let tfrom = document.getElementById('tfrom');
+                tfrom.value = transaction.from;
+
+                let tto = document.getElementById('tto');
+                tto.value = transaction.to;
+
+                let eth = document.getElementById('eth');
+                eth.value = finalETH;
+
+
+                let addDonationForm = document.getElementById('addDonationForm');
+                addDonationForm.removeAttribute("onsubmit");
+
+                let btnAddDonation = document.getElementById('btnAddDonation');
+                btnAddDonation.click();
+
             } else {
                 console.error("MetaMask is not installed.");
             }

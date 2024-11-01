@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DonationDetails;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +23,30 @@ class UserDonationsController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
-            return view('user.donations', ['aids' => $aids]);
+            $allDetails = DB::table('donation_details')
+                ->where('userID', '=', $user['userID'])
+                ->get()
+                ->toArray();
+
+            $detail = array();
+
+            try {
+                foreach ($allDetails as $d) {
+                    $aidID = $d->aidID;
+                    $amount = $d->amount;
+
+                    if (!isset($detail[$aidID])) {
+                        $detail[$aidID] = 0;
+                    }
+                    $detail[$aidID] += $amount;
+                }
+            } catch (Exception $e) {
+                // Log the error if necessary
+            }
+
+
+
+            return view('user.donations', ['aids' => $aids, 'currentUser' => $user, 'allDetail' => $detail]);
         }
         return redirect("/");
     }
@@ -39,7 +64,35 @@ class UserDonationsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull("users");
+            session()->put('users', $user);
+
+            if ($user['userType'] != "user") {
+                return redirect("/");
+            }
+
+            if ($request->btnAddDonation) {
+                $newDonation = new DonationDetails();
+                $newDonation->userID = $user['userID'];
+                $newDonation->hash = $request->thash;
+                $newDonation->from = $request->tfrom;
+                $newDonation->to = $request->tto;
+                $newDonation->eth = $request->eth;
+                $newDonation->amount = $request->amount;
+                $newDonation->aidID = $request->aidID;
+
+                $isSave = $newDonation->save();
+                if ($isSave) {
+                    session()->put("successAddDonation", true);
+                } else {
+                    session()->put("errorAddDonation", true);
+                }
+            }
+
+            return redirect("/user_donations");
+        }
+        return redirect("/");
     }
 
     /**
