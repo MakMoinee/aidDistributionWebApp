@@ -1,4 +1,5 @@
-@if (count($finish) > 0 && $finish[$item->aidId] < $item->amount)
+@if (count($finish) > 0 && $finish[$item->aidId])
+@else
     <div class="modal fade" id="receiveFundsModal{{ $item->aidId }}" tabindex="-1" role="dialog"
         aria-labelledby="receiveFundsModalTitle{{ $item->aidId }}" aria-hidden="true">
         <div class="modal-dialog" role="document">
