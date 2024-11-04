@@ -225,7 +225,6 @@
                                     </td>
                                     <td class="text-center">
                                         @if (count($allDetail) > 0 && $allDetail[$item->aidId] == $item->amount)
-                                        
                                         @else
                                             <button class="btn btn-warning text-white" title="Donate"
                                                 data-bs-target="#giveDonationModal" data-bs-toggle="modal"
@@ -511,6 +510,7 @@
             // 0.1 ETH = 100
             let finalETH = donateAmount / 14095.2 * 0.1;
             finalETH = Number(finalETH.toFixed(7));
+            console.log(finalETH);
             // Check if MetaMask is installed
             if (typeof window.ethereum !== 'undefined') {
                 // Request account access
@@ -527,7 +527,6 @@
 
                 // Define the contract ABI and address (replace with your deployed contract address)
 
-
                 // Create a contract instance
                 const aidContract = new ethers.Contract(contractAddress, contractABI, signer);
 
@@ -538,7 +537,6 @@
                     ethers.parseEther(`${finalETH}`),
                     "Donation", {
                         value: ethers.parseEther(`${finalETH}`), // Send 0.1 ETH as part of the transaction,
-                        gasLimit: 600000
                     });
 
                 // Wait for the transaction to be confirmed

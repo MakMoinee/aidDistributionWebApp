@@ -1,35 +1,37 @@
-<div class="modal fade" id="receiveFundsModal{{ $item->aidId }}" tabindex="-1" role="dialog"
-    aria-labelledby="receiveFundsModalTitle{{ $item->aidId }}" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5>
-                    Attention
-                </h5>
-                <button type="button" class="btn btn-outline-dark close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="/user_aids" method="post" autocomplete="off">
-                @method('put')
-                @csrf
+@if (count($finish) > 0 && $finish[$item->aidId] < $item->amount)
+    <div class="modal fade" id="receiveFundsModal{{ $item->aidId }}" tabindex="-1" role="dialog"
+        aria-labelledby="receiveFundsModalTitle{{ $item->aidId }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>
+                        Attention
+                    </h5>
+                    <button type="button" class="btn btn-outline-dark close" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 <div class="modal-body">
                     <center>
                         <h5 style="text-align: justify;">Are You Sure You Want To Proceed To Receive The Funds?<br></h5>
                         <h6 style="text-align: justify;"> If
                             yes, please take note that once
                             you mark this aid request as receive funds, it will make this aid request done</h6>
+
                     </center>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" name="btnReceiveFund" value="yes">Yes,
+                    <button type="submit" class="btn btn-primary"
+                        onclick="receiveFund({{ $totalDonation }},{{ $id }},'{{ $item->paymentAddress }}')"
+                        name="btnReceiveFund" value="yes">Yes,
                         Proceed</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+@endif
 
 <div class="modal fade" id="viewDonationModal{{ $item->aidId }}" tabindex="-1" role="dialog"
     aria-labelledby="viewDonationModalTitle{{ $item->aidId }}" aria-hidden="true" data-bs-backdrop="static">

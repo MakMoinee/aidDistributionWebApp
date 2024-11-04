@@ -24,3 +24,4 @@ Route::resource("/user_home", UserHomeController::class);
 Route::resource("/user_aids", UserAidsController::class);
 Route::resource("/user_donations", UserDonationsController::class);
 Route::get("/logout", [LogoutController::class, 'index']);
+Route::post('/receive-funds', [UserAidsController::class, 'receiveFunds'])->name('receiveFunds');

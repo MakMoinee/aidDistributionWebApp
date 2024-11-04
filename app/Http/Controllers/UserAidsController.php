@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aids;
+use App\Models\DoneDonation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class UserAidsController extends Controller
 {
@@ -42,8 +45,14 @@ class UserAidsController extends Controller
             }
             // dd($newDonations);
 
+            $query = json_decode(DB::table('done_donations')->where('userID', '=', $user['userID'])->get(), true);
+            $allDone = array();
+            foreach ($query as $q) {
+                $allDone[$q["aidID"]] = $q;
+            }
 
-            return view('user.aids', ['aids' => $aids, 'donation' => $finalDonation, 'all' => $newDonations]);
+
+            return view('user.aids', ['aids' => $aids, 'donation' => $finalDonation, 'all' => $newDonations, 'finish' => $allDone]);
         }
         return redirect("/");
     }
@@ -99,9 +108,33 @@ class UserAidsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id, Request $request)
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull("users");
+            session()->put('users', $user);
+
+            if ($user['userType'] != 'user') {
+                return redirect("/logout");
+            }
+
+            $success = $request->query('success');
+            if ($success == true || $success == "true") {
+                $newDone = new DoneDonation();
+                $newDone->userID = $user['userID'];
+                $newDone->aidID = $id;
+                $isSave = $newDone->save();
+                if ($isSave) {
+                    session()->put("successFundTransfers", true);
+                } else {
+                    session()->put("errorFundTransfer", true);
+                }
+            } else {
+                session()->put("errorFundTransfer", true);
+            }
+            return redirect("/user_aids");
+        }
+        return redirect("/");
     }
 
     /**
@@ -140,6 +173,55 @@ class UserAidsController extends Controller
                     session()->put('errorDeleteRequest', true);
                 }
             }
+            return redirect("/user_aids");
+        }
+        return redirect("/");
+    }
+
+    public function receiveFunds(Request $request)
+    {
+        if (session()->exists('users')) {
+            $user = session()->pull("users");
+            session()->put('users', $user);
+
+            if ($user['userType'] != 'user') {
+                return redirect("/");
+            }
+
+            // Validate request data
+            $request->validate([
+                'aidID' => 'required|integer',
+                'amount' => 'required|integer',
+                'paymentAddress' => 'required|string',
+            ]);
+
+            $aidID = $request->input('aidID');
+            $amount = $request->input('amount');
+            $paymentAddress = $request->input('paymentAddress');
+            $uuid = "d8cf7845-403b-40fb-a7cd-0bdbdda43b69"; // Set UUID
+
+            // Create the command to run the Node.js script
+            $process = new Process([
+                'node',
+                base_path('../../../node_scripts/receiveFunds.js'), // Path to your Node.js script
+                $aidID,
+                $amount,
+                $uuid,
+                $paymentAddress
+            ]);
+
+            // Execute the Node.js script
+            $process->run();
+
+            // Check for errors
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+                session()->put("errorReceive", true);
+            } else {
+                session()->put("successReceive", true);
+            }
+
+            // Return success message
             return redirect("/user_aids");
         }
         return redirect("/");

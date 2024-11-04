@@ -231,6 +231,7 @@
                                             @include('modal.useraids', [
                                                 'donationDetail' => $all[$item->aidId],
                                                 'id' => $item->aidId,
+                                                'totalDonation' => $donation[$item->aidId],
                                             ])
                                         @else
                                             <button onclick="deleteRequest({{ $item->aidId }})" class="btn"
@@ -502,6 +503,20 @@
         </script>
         {{ session()->forget('successDeleteRequest') }}
     @endif
+    @if (session()->pull('successFundTransfers'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Received Fund',
+                    showConfirmButton: true,
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successFundTransfers') }}
+    @endif
+
     @if (session()->pull('addRequestSuccess'))
         <script>
             setTimeout(() => {
@@ -529,6 +544,21 @@
         </script>
         {{ session()->forget('errorDeleteRequest') }}
     @endif
+
+    @if (session()->pull('errorFundTransfer'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Failed To Transfer, Please Try Again Later',
+                    showConfirmButton: true,
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorFundTransfer') }}
+    @endif
+
     @if (session()->pull('errorAddRequest'))
         <script>
             setTimeout(() => {
@@ -555,6 +585,13 @@
         </script>
         {{ session()->forget('errorAddRequestAmount') }}
     @endif
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"
+        integrity="sha512-V3xRGsQMQ8CG4l2gVN44TCDmNY5cdlxbSvejrgmWxcLKHft0Q3XQDbeuJ9aot14mpNuRWGtI//WKraedDGNZ+g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="/assets/js/contract.js"></script>
+    <script src="/assets/js/fund.js"></script>
 </body>
 
 </html>

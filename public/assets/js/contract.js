@@ -40,20 +40,50 @@ const contractABI = [
         anonymous: false,
         inputs: [
             {
-                components: [
-                    {
-                        internalType: "string",
-                        name: "name",
-                        type: "string",
-                    },
-                ],
                 indexed: false,
-                internalType: "struct AidDistribution.Record[]",
-                name: "srecords",
-                type: "tuple[]",
+                internalType: "uint256",
+                name: "aidID",
+                type: "uint256",
+            },
+            {
+                indexed: false,
+                internalType: "address",
+                name: "sender",
+                type: "address",
+            },
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "amount",
+                type: "uint256",
             },
         ],
-        name: "ShowNames",
+        name: "DonationReceived",
+        type: "event",
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "aidID",
+                type: "uint256",
+            },
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "amount",
+                type: "uint256",
+            },
+            {
+                indexed: false,
+                internalType: "address",
+                name: "receiver",
+                type: "address",
+            },
+        ],
+        name: "FundsReceived",
         type: "event",
     },
     {
@@ -81,7 +111,7 @@ const contractABI = [
         ],
         name: "addAidRecord",
         outputs: [],
-        stateMutability: "nonpayable",
+        stateMutability: "payable",
         type: "function",
     },
     {
@@ -121,13 +151,6 @@ const contractABI = [
             },
         ],
         stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "getAllNames",
-        outputs: [],
-        stateMutability: "nonpayable",
         type: "function",
     },
     {
@@ -189,6 +212,35 @@ const contractABI = [
         stateMutability: "view",
         type: "function",
     },
+    {
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "aidID",
+                type: "uint256",
+            },
+            {
+                internalType: "uint256",
+                name: "amount",
+                type: "uint256",
+            },
+            {
+                internalType: "string",
+                name: "uuid",
+                type: "string",
+            },
+            {
+                internalType: "address",
+                name: "receiver",
+                type: "address",
+            },
+        ],
+        name: "receiveFunds",
+        outputs: [],
+        stateMutability: "payable",
+        type: "function",
+    },
 ];
 
-const contractAddress = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266";
+const contractAddress2 = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266";
+const contractAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3";
