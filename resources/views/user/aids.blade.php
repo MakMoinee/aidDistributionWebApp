@@ -193,7 +193,8 @@
                                 <th>Request Purpose</th>
                                 <th class="text-center">Amount</th>
                                 <th>Note</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center">Donations</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -208,10 +209,35 @@
                                     <td class="text-center"> P{{ number_format($item->amount, 2) }} </td>
                                     <td>{{ $item->letter }}</td>
                                     <td class="text-center">
-                                        <button onclick="deleteRequest({{ $item->aidId }})" class="btn"
-                                            data-bs-target="#deleteRequestModal" data-bs-toggle="modal">
-                                            <img src="/delete.svg" alt="" srcset="">
-                                        </button>
+                                        @if (count($donation) > 0 && $donation[$item->aidId])
+                                            P{{ number_format($donation[$item->aidId], 2) }}
+                                        @else
+                                            P0.00
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if (count($donation) > 0 && $donation[$item->aidId])
+                                            <button class="btn btn-success" title="View Donation Details"
+                                                data-bs-target="#viewDonationModal{{ $item->aidId }}"
+                                                data-bs-toggle="modal">
+                                                <img src="/view.svg" alt="" srcset="">
+                                            </button>
+
+                                            <button class="btn btn-warning" title="Receive Your Funds"
+                                                data-bs-target="#receiveFundsModal{{ $item->aidId }}"
+                                                data-bs-toggle="modal">
+                                                <img src="/receive.svg" alt="" srcset="">
+                                            </button>
+                                            @include('modal.useraids', [
+                                                'donationDetail' => $all[$item->aidId],
+                                                'id' => $item->aidId,
+                                            ])
+                                        @else
+                                            <button onclick="deleteRequest({{ $item->aidId }})" class="btn"
+                                                data-bs-target="#deleteRequestModal" data-bs-toggle="modal">
+                                                <img src="/delete.svg" alt="" srcset="">
+                                            </button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -358,6 +384,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="deleteRequestModal" tabindex="-1" role="dialog"
         aria-labelledby="deleteRequestModalTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">

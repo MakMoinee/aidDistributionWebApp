@@ -21,8 +21,29 @@ class UserAidsController extends Controller
                 ->where('userID', '=', $user['userID'])
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
+            $finalDonation = array();
+            $donations = json_decode(DB::table('vwtotalreceives')->get(), true);
+            foreach ($donations as $d) {
+                $finalDonation[$d['aidID']] = $d['total'];
+            }
 
-            return view('user.aids', ['aids' => $aids]);
+            $allDonations = json_decode(DB::table('vwgiverdonation')->where('ownerID', '=', $user['userID'])->orderBy('created_at', 'desc')->limit(3)->get(), true);
+            $newDonations = array();
+            foreach ($allDonations as $a) {
+                if (array_key_exists($a['aidID'], $newDonations)) {
+                    $tmpVal =  $newDonations[$a['aidID']];
+                    array_push($tmpVal, $a);
+                    $newDonations[$a['aidID']] = $tmpVal;
+                } else {
+                    $tmpVal = array();
+                    array_push($tmpVal, $a);
+                    $newDonations[$a['aidID']] = $tmpVal;
+                }
+            }
+            // dd($newDonations);
+
+
+            return view('user.aids', ['aids' => $aids, 'donation' => $finalDonation, 'all' => $newDonations]);
         }
         return redirect("/");
     }
