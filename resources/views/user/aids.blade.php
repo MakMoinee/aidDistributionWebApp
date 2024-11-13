@@ -223,11 +223,15 @@
                                                 <img src="/view.svg" alt="" srcset="">
                                             </button>
 
-                                            <button class="btn btn-warning" title="Receive Your Funds"
-                                                data-bs-target="#receiveFundsModal{{ $item->aidId }}"
-                                                data-bs-toggle="modal">
-                                                <img src="/receive.svg" alt="" srcset="">
-                                            </button>
+                                            @if (count($finish) > 0 && $finish[$item->aidId])
+                                            @else
+                                                <button class="btn btn-warning" title="Receive Your Funds"
+                                                    data-bs-target="#receiveFundsModal{{ $item->aidId }}"
+                                                    data-bs-toggle="modal">
+                                                    <img src="/receive.svg" alt="" srcset="">
+                                                </button>
+                                            @endif
+
                                             @include('modal.useraids', [
                                                 'donationDetail' => $all[$item->aidId],
                                                 'id' => $item->aidId,
