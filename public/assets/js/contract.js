@@ -155,6 +155,46 @@ const contractABI = [
     },
     {
         inputs: [],
+        name: "getAidFunds",
+        outputs: [
+            {
+                components: [
+                    {
+                        internalType: "uint256",
+                        name: "aidID",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "string",
+                        name: "recipient",
+                        type: "string",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "amount",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "string",
+                        name: "purpose",
+                        type: "string",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "timestamp",
+                        type: "uint256",
+                    },
+                ],
+                internalType: "struct AidDistribution.AidRecord[]",
+                name: "",
+                type: "tuple[]",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
         name: "getAllRecords",
         outputs: [
             {
