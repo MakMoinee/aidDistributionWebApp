@@ -28,7 +28,7 @@ async function receiveFund(amount, aidID, paymentAddress) {
             const tx = await contract.receiveFunds(
                 aidID,
                 amountInWei,
-                "d8cf7845-403b-40fb-a7cd-0bdbdda43b69",
+                contractAddress,
                 paymentAddress,
                 { value: amountInWei } // Attach the amount as msg.value
             );
