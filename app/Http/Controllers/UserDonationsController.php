@@ -23,6 +23,8 @@ class UserDonationsController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
+            
+
             $allDetails = DB::table('donation_details')
                 ->where('userID', '=', $user['userID'])
                 ->get()

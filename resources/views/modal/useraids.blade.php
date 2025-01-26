@@ -95,9 +95,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" onclick="window.location.href='/user_aids/{{ $id }}'">View
+                {{-- <button class="btn btn-success" onclick="window.location.href='/user_aids/{{ $id }}'">View
                     All
-                    Donation Details</button>
+                    Donation Details</button> --}}
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

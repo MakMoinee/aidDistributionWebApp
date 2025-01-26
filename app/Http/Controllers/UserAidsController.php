@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Aids;
 use App\Models\DoneDonation;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -88,6 +90,22 @@ class UserAidsController extends Controller
                     $newAids->amount = $request->amount;
                     $newAids->paymentAddress = $request->paymentAddress;
                     $newAids->letter = $request->letter;
+
+                    $response = $this->callApi($newAids->letter);
+                    $priorityLevel = "";
+                    $score = $response['urgency_score'] * 100;
+                    if ($score > 97) {
+                        $priorityLevel = "P1";
+                    } else if ($score > 95 && $score < 97) {
+                        $priorityLevel = "P2";
+                    } else if ($score > 90 && $score < 95) {
+                        $priorityLevel = "P3";
+                    } else {
+                        $priorityLevel = "P4";
+                    }
+
+                    $newAids->category = $response['category'];
+                    $newAids->priority = $priorityLevel;
 
                     $isSave = $newAids->save();
                     if ($isSave) {
@@ -225,5 +243,30 @@ class UserAidsController extends Controller
             return redirect("/user_aids");
         }
         return redirect("/");
+    }
+
+    private function callApi(string $msg): array
+    {
+        $client = new Client();
+        $data = array();
+        try {
+            $response = $client->post('http://localhost:5000/process_request', [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                ],
+                'json' => ['message' => $msg] // Send as JSON
+            ]);
+
+            // Debug the response
+            $data = json_decode($response->getBody()->getContents(), true);
+        } catch (RequestException $e) {
+            dd([
+                'error' => $e->getMessage(),
+                'response' => $e->hasResponse() ? $e->getResponse()->getBody()->getContents() : null
+            ]);
+        } finally {
+            return $data;
+        }
     }
 }

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->decimal('amount', 10, 2)->nullable(false);
             $table->string('paymentAddress')->nullable(false);
             $table->string('letter')->nullable(true);
+            $table->string('category')->nullable(true);
+            $table->string('priority')->nullable(true);
             $table->timestamps();
         });
     }
