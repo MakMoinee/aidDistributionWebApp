@@ -196,8 +196,8 @@
                                 <th>Amount</th>
                                 <th class="text-center">Note</th>
                                 <td>Amount Reached</td>
-                                <td class="text-center">Action</td>
-                                <td></td>
+                                <td class="text-center">Category</td>
+                                <td>Action</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -214,7 +214,6 @@
                                     <td>P{{ number_format($item->amount, 2) }} </td>
                                     <td class="text-center">
                                         {{ $item->letter }}
-
                                     </td>
                                     <td id="amountReached-{{ $item->aidId }}">
                                         @if (count($allDetail) > 0 && $allDetail[$item->aidId])
@@ -224,6 +223,9 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
+                                        {{ $item->category }}
+                                    </td>
+                                    <td>
                                         @if (count($allDetail) > 0 && $allDetail[$item->aidId] == $item->amount)
                                         @else
                                             <button class="btn btn-warning text-white" title="Donate"
