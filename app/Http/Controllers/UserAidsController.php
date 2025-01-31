@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -47,6 +48,8 @@ class UserAidsController extends Controller
             }
             // dd($newDonations);
 
+            $phpRate = $this->getEthToPhpRate();
+
             $query = json_decode(DB::table('done_donations')->where('userID', '=', $user['userID'])->get(), true);
             $allDone = array();
             foreach ($query as $q) {
@@ -54,7 +57,7 @@ class UserAidsController extends Controller
             }
 
 
-            return view('user.aids', ['aids' => $aids, 'donation' => $finalDonation, 'all' => $newDonations, 'finish' => $allDone]);
+            return view('user.aids', ['aids' => $aids, 'donation' => $finalDonation, 'all' => $newDonations, 'finish' => $allDone, 'phpRate' => $phpRate]);
         }
         return redirect("/");
     }
@@ -268,5 +271,19 @@ class UserAidsController extends Controller
         } finally {
             return $data;
         }
+    }
+
+    function getEthToPhpRate()
+    {
+        $response = Http::get('https://api.coingecko.com/api/v3/simple/price', [
+            'ids' => 'ethereum',
+            'vs_currencies' => 'php'
+        ]);
+
+        if ($response->successful()) {
+            return $response->json()['ethereum']['php'];
+        }
+
+        return null; // Handle API failure
     }
 }

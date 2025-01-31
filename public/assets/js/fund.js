@@ -17,18 +17,19 @@ async function receiveFund(amount, aidID, paymentAddress) {
             console.log(
                 `Sending funds for aidID: ${aidID}, amount: ${amount}, to receiver: ${paymentAddress}`
             );
-            let finalETH = (amount / 14095.2) * 0.1;
+            let finalETH = (amount / phpRate);
             finalETH = Number(finalETH.toFixed(7));
             // Convert the amount to Wei for the transaction
             const amountInWei = ethers.parseEther(`${finalETH}`);
-
+            // const aidIDBytes32 = ethers.encodeBytes32String(aidID);
+            // console.log("Encoded aidID:", aidIDBytes32);
             console.log(amountInWei);
 
             // Call the `receiveFunds` function in the smart contract
             const tx = await contract.receiveFunds(
                 aidID,
                 amountInWei,
-                contractAddress,
+                "d8cf7845-403b-40fb-a7cd-0bdbdda43b69",
                 paymentAddress,
                 { value: amountInWei } // Attach the amount as msg.value
             );

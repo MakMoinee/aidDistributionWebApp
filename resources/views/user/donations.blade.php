@@ -216,8 +216,12 @@
                                         {{ $item->letter }}
                                     </td>
                                     <td id="amountReached-{{ $item->aidId }}">
-                                        @if (count($allDetail) > 0 && $allDetail[$item->aidId])
-                                            P{{ number_format($allDetail[$item->aidId]) }}
+                                        @if (count($allDetail) > 0)
+                                            @if (array_key_exists($item->aidId, $allDetail) && $allDetail[$item->aidId])
+                                                P{{ number_format($allDetail[$item->aidId]) }}
+                                            @else
+                                                P0.0
+                                            @endif
                                         @else
                                             P0.0
                                         @endif
@@ -226,7 +230,7 @@
                                         {{ $item->category }}
                                     </td>
                                     <td>
-                                        @if (count($allDetail) > 0 && $allDetail[$item->aidId] == $item->amount)
+                                        @if (count($allDetail) > 0 && array_key_exists($item->aidId, $allDetail) && $allDetail[$item->aidId] == $item->amount)
                                         @else
                                             <button class="btn btn-warning text-white" title="Donate"
                                                 data-bs-target="#giveDonationModal" data-bs-toggle="modal"
@@ -395,7 +399,7 @@
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="amount" class="text-dark">Amount</label>
+                            <label for="amount" class="text-dark">Amount (In PHP)</label>
                             <br>
                             <input min="100" required type="number" name="amount" id="donateAmount"
                                 class="form-control">
@@ -409,7 +413,7 @@
                         </div>
                         <br>
                         <div class="form-group">
-                            <h6> <b>Note:</b> 0.0007095 ETH = P100 </h6>
+                            <h6> <b>Note:</b> {{ 100 / $phpRate }} ETH = P100 </h6>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -509,8 +513,9 @@
 
         async function donate() {
             let donateAmount = document.getElementById('donateAmount').value;
+            let phpRate = "{{ $phpRate }}";
             // 0.1 ETH = 100
-            let finalETH = donateAmount / 14095.2 * 0.1;
+            let finalETH = donateAmount / phpRate;
             finalETH = Number(finalETH.toFixed(7));
             console.log(finalETH);
             // Check if MetaMask is installed

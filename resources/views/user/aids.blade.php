@@ -595,6 +595,9 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="/assets/js/contract.js"></script>
+    <script>
+        let phpRate = parseInt("{{ $phpRate }}");
+    </script>
     <script src="/assets/js/fund.js"></script>
 </body>
 

@@ -6,6 +6,7 @@ use App\Models\DonationDetails;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class UserDonationsController extends Controller
 {
@@ -23,7 +24,7 @@ class UserDonationsController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
-            
+
 
             $allDetails = DB::table('donation_details')
                 ->where('userID', '=', $user['userID'])
@@ -31,6 +32,8 @@ class UserDonationsController extends Controller
                 ->toArray();
 
             $detail = array();
+
+            $phpRate = $this->getEthToPhpRate();
 
             try {
                 foreach ($allDetails as $d) {
@@ -46,9 +49,11 @@ class UserDonationsController extends Controller
                 // Log the error if necessary
             }
 
+            // dd($aids);
 
 
-            return view('user.donations', ['aids' => $aids, 'currentUser' => $user, 'allDetail' => $detail]);
+
+            return view('user.donations', ['aids' => $aids, 'currentUser' => $user, 'allDetail' => $detail, 'phpRate' => $phpRate]);
         }
         return redirect("/");
     }
@@ -127,5 +132,19 @@ class UserDonationsController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    function getEthToPhpRate()
+    {
+        $response = Http::get('https://api.coingecko.com/api/v3/simple/price', [
+            'ids' => 'ethereum',
+            'vs_currencies' => 'php'
+        ]);
+
+        if ($response->successful()) {
+            return $response->json()['ethereum']['php'];
+        }
+
+        return null; // Handle API failure
     }
 }
