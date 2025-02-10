@@ -1,4 +1,4 @@
-@if (count($finish) > 0 && $finish[$item->aidId])
+@if (count($finish) > 0 && array_key_exists($item->aidId,$finish))
 @else
     <div class="modal fade" id="receiveFundsModal{{ $item->aidId }}" tabindex="-1" role="dialog"
         aria-labelledby="receiveFundsModalTitle{{ $item->aidId }}" aria-hidden="true">
