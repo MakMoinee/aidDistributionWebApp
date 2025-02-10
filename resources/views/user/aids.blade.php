@@ -209,36 +209,36 @@
                                     <td class="text-center"> P{{ number_format($item->amount, 2) }} </td>
                                     <td>{{ $item->letter }}</td>
                                     <td class="text-center">
-                                        @if (count($donation) > 0 && array_key_exists($donation, $item->aidId))
-                                            P{{ number_format($donation[$item->aidId], 2) }}
+                                        @if (count($donation) > 0 && array_key_exists($item->aidID,$donation))
+                                            P{{ number_format($donation[$item->aidID], 2) }}
                                         @else
                                             P0.00
                                         @endif
                                     </td>
                                     <td>
-                                        @if (count($donation) > 0 && array_key_exists($donation, $item->aidId))
+                                        @if (count($donation) > 0 && array_key_exists($item->aidID,$donation))
                                             <button class="btn btn-success" title="View Donation Details"
-                                                data-bs-target="#viewDonationModal{{ $item->aidId }}"
+                                                data-bs-target="#viewDonationModal{{ $item->aidID }}"
                                                 data-bs-toggle="modal">
                                                 <img src="/view.svg" alt="" srcset="">
                                             </button>
 
-                                            @if (count($finish) > 0 && $finish[$item->aidId])
+                                            @if (count($finish) > 0 && $finish[$item->aidID])
                                             @else
                                                 <button class="btn btn-warning" title="Receive Your Funds"
-                                                    data-bs-target="#receiveFundsModal{{ $item->aidId }}"
+                                                    data-bs-target="#receiveFundsModal{{ $item->aidID }}"
                                                     data-bs-toggle="modal">
                                                     <img src="/receive.svg" alt="" srcset="">
                                                 </button>
                                             @endif
 
                                             @include('modal.useraids', [
-                                                'donationDetail' => $all[$item->aidId],
-                                                'id' => $item->aidId,
-                                                'totalDonation' => $donation[$item->aidId],
+                                                'donationDetail' => $all[$item->aidID],
+                                                'id' => $item->aidID,
+                                                'totalDonation' => $donation[$item->aidID],
                                             ])
                                         @else
-                                            <button onclick="deleteRequest({{ $item->aidId }})" class="btn"
+                                            <button onclick="deleteRequest({{ $item->aidID }})" class="btn"
                                                 data-bs-target="#deleteRequestModal" data-bs-toggle="modal">
                                                 <img src="/delete.svg" alt="" srcset="">
                                             </button>
