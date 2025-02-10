@@ -209,14 +209,14 @@
                                     <td class="text-center"> P{{ number_format($item->amount, 2) }} </td>
                                     <td>{{ $item->letter }}</td>
                                     <td class="text-center">
-                                        @if (count($donation) > 0 && $donation[$item->aidId])
+                                        @if (count($donation) > 0 && array_key_exists($donation, $item->aidId))
                                             P{{ number_format($donation[$item->aidId], 2) }}
                                         @else
                                             P0.00
                                         @endif
                                     </td>
                                     <td>
-                                        @if (count($donation) > 0 && $donation[$item->aidId])
+                                        @if (count($donation) > 0 && array_key_exists($donation, $item->aidId))
                                             <button class="btn btn-success" title="View Donation Details"
                                                 data-bs-target="#viewDonationModal{{ $item->aidId }}"
                                                 data-bs-toggle="modal">
