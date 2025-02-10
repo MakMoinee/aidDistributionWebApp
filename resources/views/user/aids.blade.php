@@ -223,7 +223,7 @@
                                                 <img src="/view.svg" alt="" srcset="">
                                             </button>
 
-                                            @if (count($finish) > 0 && $finish[$item->aidId])
+                                            @if (count($finish) > 0 && array_key_exists($item->aidId,$finish))
                                             @else
                                                 <button class="btn btn-warning" title="Receive Your Funds"
                                                     data-bs-target="#receiveFundsModal{{ $item->aidId }}"
