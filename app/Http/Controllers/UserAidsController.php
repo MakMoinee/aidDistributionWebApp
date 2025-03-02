@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Aids;
 use App\Models\DoneDonation;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -94,6 +96,7 @@ class UserAidsController extends Controller
                     $newAids->paymentAddress = $request->paymentAddress;
                     $newAids->letter = $request->letter;
 
+
                     $response = $this->callApi($newAids->letter);
                     $priorityLevel = "";
                     $score = $response['urgency_score'] * 100;
@@ -110,9 +113,25 @@ class UserAidsController extends Controller
                     $newAids->category = $response['category'];
                     $newAids->priority = $priorityLevel;
 
-                    $isSave = $newAids->save();
-                    if ($isSave) {
-                        session()->put("addRequestSuccess", true);
+                    $files = $request->file('documents');
+                    $fileName = "";
+                    if ($files) {
+                        $mimeType = $files->getMimeType();
+                        if ($mimeType == "application/pdf") {
+                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/data/documents';
+                            $fileName = strtotime(now()) . "." . $files->getClientOriginalExtension();
+                            $isFile = $files->move($destinationPath,  $fileName);
+                            chmod($destinationPath, 0755);
+                            $newAids->documents = '/data/documents/' . $fileName;
+                            $isSave = $newAids->save();
+                            if ($isSave) {
+                                session()->put("addRequestSuccess", true);
+                            } else {
+                                session()->put("errorAddRequest", true);
+                            }
+                        } else {
+                            session()->put("errorAddRequest", true);
+                        }
                     } else {
                         session()->put("errorAddRequest", true);
                     }
@@ -187,6 +206,15 @@ class UserAidsController extends Controller
                 return redirect("/logout");
             }
             if ($request->btnDeleteRequest) {
+                try {
+                    $originalDirectoryPath = $request->documents;
+                    if ($originalDirectoryPath) {
+                        $destinationPath = $_SERVER['DOCUMENT_ROOT'] . $originalDirectoryPath;
+                        File::delete($destinationPath);
+                    }
+                } catch (Exception $e1) {
+                }
+                
                 $deleteCount = DB::table('aids')->where('aidId', '=', $id)->delete();
                 if ($deleteCount > 0) {
                     session()->put('successDeleteRequest', true);

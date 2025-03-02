@@ -192,7 +192,7 @@
                                 <th>Recepient Name</th>
                                 <th class="text-center">Request Name</th>
                                 <th>Date Submitted</th>
-                                <th class="text-center">Purpose</th>
+                                <th class="text-center">Supporting Documents</th>
                                 <th>Amount</th>
                                 <th class="text-center">Note</th>
                                 <td>Amount Reached</td>
@@ -210,7 +210,11 @@
                                     </td>
                                     <td> {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
                                     </td>
-                                    <td class="text-center"> {{ $item->purpose }} </td>
+                                    <td class="text-center">
+                                        <button onclick="showThis('{{ $item->documents }}')"
+                                            class="btn btn-success text-white" data-bs-toggle="modal"
+                                            data-bs-target="#viewDocumentModal">View Docs</button>
+                                    </td>
                                     <td>P{{ number_format($item->amount, 2) }} </td>
                                     <td class="text-center">
                                         {{ $item->letter }}
@@ -427,11 +431,48 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="viewDocumentModal" tabindex="-1" role="dialog"
+        aria-labelledby="viewDocumentModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewDocumentModalTitle">View Supporting Documents</h5>
+                    <button type="button" class="btn btn-outline-dark close" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/user_aids" onsubmit="return false;" method="post" autocomplete="off"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="text-dark" for="docs">Supporting Documents (PDF):</label>
+                            <br>
+                        </div>
+                        <div class="form-group mt-3" id="forPDF">
+                            <embed style="height: 600px; width:100%" class="embed-responsive mt-2" id="showViewer"
+                                src="" type="application/pdf">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <script src="/assets/js/contract.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"
         integrity="sha512-V3xRGsQMQ8CG4l2gVN44TCDmNY5cdlxbSvejrgmWxcLKHft0Q3XQDbeuJ9aot14mpNuRWGtI//WKraedDGNZ+g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+        function showThis(docs) {
+
+            let showViewer = document.getElementById('showViewer');
+            showViewer.src = docs;
+        }
+
         function togglePasswordVisibility2() {
             var passwordField = document.getElementById("password");
             if (passwordField.type === "password") {

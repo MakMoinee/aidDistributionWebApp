@@ -30,6 +30,7 @@
     <!-- Template Stylesheet -->
     <link href="/assets/css/style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.mjs"></script>
     <style>
         body,
         .modal-title {
@@ -190,7 +191,7 @@
                                 </th>
                                 <th>Request Name</th>
                                 <th class="text-center">Date Submitted</th>
-                                <th>Request Purpose</th>
+                                <th>Supporting Documents</th>
                                 <th class="text-center">Amount</th>
                                 <th>Note</th>
                                 <th class="text-center">Donations</th>
@@ -205,25 +206,29 @@
                                     <td class="text-center">
                                         {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
                                     </td>
-                                    <td> {{ $item->purpose }} </td>
+                                    <td>
+                                        <button onclick="showThis('{{ $item->documents }}')"
+                                            class="btn btn-success text-white" data-bs-toggle="modal"
+                                            data-bs-target="#viewDocumentModal">View Docs</button>
+                                    </td>
                                     <td class="text-center"> P{{ number_format($item->amount, 2) }} </td>
                                     <td>{{ $item->letter }}</td>
                                     <td class="text-center">
-                                        @if (count($donation) > 0 && array_key_exists($item->aidId,$donation))
+                                        @if (count($donation) > 0 && array_key_exists($item->aidId, $donation))
                                             P{{ number_format($donation[$item->aidId], 2) }}
                                         @else
                                             P0.00
                                         @endif
                                     </td>
                                     <td>
-                                        @if (count($donation) > 0 && array_key_exists($item->aidId,$donation))
+                                        @if (count($donation) > 0 && array_key_exists($item->aidId, $donation))
                                             <button class="btn btn-success" title="View Donation Details"
                                                 data-bs-target="#viewDonationModal{{ $item->aidId }}"
                                                 data-bs-toggle="modal">
                                                 <img src="/view.svg" alt="" srcset="">
                                             </button>
 
-                                            @if (count($finish) > 0 && array_key_exists($item->aidId,$finish))
+                                            @if (count($finish) > 0 && array_key_exists($item->aidId, $finish))
                                             @else
                                                 <button class="btn btn-warning" title="Receive Your Funds"
                                                     data-bs-target="#receiveFundsModal{{ $item->aidId }}"
@@ -238,8 +243,10 @@
                                                 'totalDonation' => $donation[$item->aidId],
                                             ])
                                         @else
-                                            <button onclick="deleteRequest({{ $item->aidId }})" class="btn"
-                                                data-bs-target="#deleteRequestModal" data-bs-toggle="modal">
+                                            <button
+                                                onclick="deleteRequest({{ $item->aidId }},'{{ $item->documents }}');"
+                                                class="btn" data-bs-target="#deleteRequestModal"
+                                                data-bs-toggle="modal">
                                                 <img src="/delete.svg" alt="" srcset="">
                                             </button>
                                         @endif
@@ -407,6 +414,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <h4>Are You Sure You Want Delete This Request?</h4>
+                            <input type="text" name="documents" style="display: none;" id="deleteFile">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -420,7 +428,7 @@
     </div>
     <div class="modal fade" id="addRequestModal" tabindex="-1" role="dialog"
         aria-labelledby="addRequestModalTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addRequestModalTitle">Create Aid Request</h5>
@@ -429,7 +437,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/user_aids" method="post" autocomplete="off">
+                <form action="/user_aids" method="post" autocomplete="off" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group mb-2">
@@ -437,10 +445,10 @@
                             <input required type="text" name="requestName" id=""
                                 class="form-control text-dark">
                         </div>
-                        <div class="form-group mb-2">
+                        <div class="form-group mb-2" style="display: none">
                             <label for="purpose" class="text-dark">Request Purpose:</label>
                             <input required type="text" name="purpose" id=""
-                                class="form-control text-dark">
+                                class="form-control text-dark" value="none">
                         </div>
                         <div class="form-group mb-2">
                             <label for="amount" class="text-dark">Amount:</label>
@@ -456,6 +464,18 @@
                             <label for="letter" class="text-dark">Letter:</label>
                             <textarea required name="letter" id="" cols="30" rows="10" class="form-control text-dark"></textarea>
                         </div>
+                        <div class="form-group">
+                            <label class="text-dark" for="docs">Supporting Documents (PDF):</label>
+                            <br>
+                            <button type="button" class="btn btn-primary mt-2" onclick="loadDocument();">Upload
+                                Document</button>
+                            <input required type="file" name="documents" id="myDocument" accept=".pdf"
+                                style="display: none;" onchange="onDocChange(this);">
+                        </div>
+                        <div class="form-group mt-3" style="display: none" id="forPDF">
+                            <embed style="height: 600px; width:100%" class="embed-responsive mt-2" id="pdfViewer"
+                                src="" type="application/pdf">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -466,7 +486,64 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="viewDocumentModal" tabindex="-1" role="dialog"
+        aria-labelledby="viewDocumentModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewDocumentModalTitle">View Supporting Documents</h5>
+                    <button type="button" class="btn btn-outline-dark close" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/user_aids" onsubmit="return false;" method="post" autocomplete="off"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="text-dark" for="docs">Supporting Documents (PDF):</label>
+                            <br>
+                        </div>
+                        <div class="form-group mt-3" id="forPDF">
+                            <embed style="height: 600px; width:100%" class="embed-responsive mt-2" id="showViewer"
+                                src="" type="application/pdf">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <script>
+        function showThis(docs) {
+
+            let showViewer = document.getElementById('showViewer');
+            showViewer.src = docs;
+        }
+
+        function loadDocument() {
+            document.getElementById('myDocument').click();
+            let forPDF = document.getElementById('forPDF');
+            forPDF.setAttribute("style", "display:none;");
+
+        }
+
+        function onDocChange(event) {
+            let file = event.files[0]; // Get the selected file
+            if (file) {
+                let pdfViewer = document.getElementById('pdfViewer');
+                let fileURL = URL.createObjectURL(file); // Create a blob URL for the file
+                pdfViewer.src = fileURL;
+
+                let forPDF = document.getElementById('forPDF');
+                forPDF.removeAttribute("style");
+            }
+        }
+
         function togglePasswordVisibility2() {
             var passwordField = document.getElementById("password");
             if (passwordField.type === "password") {
@@ -488,9 +565,12 @@
             }
         }
 
-        function deleteRequest(id) {
+        function deleteRequest(id, pdfPath) {
+            console.log(pdfPath);
             let dr = document.getElementById('deleteRequestForm');
             dr.action = `/user_aids/${id}`;
+            let deleteFile = document.getElementById('deleteFile');
+            deleteFile.value = pdfPath;
         }
     </script>
     @if (session()->pull('successDeleteRequest'))

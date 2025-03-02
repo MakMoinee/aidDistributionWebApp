@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('userID')->nullable(false);
             $table->string('name')->nullable(false);
             $table->string('purpose')->nullable(false);
+            $table->string('documents')->nullable(false);
             $table->decimal('amount', 10, 2)->nullable(false);
             $table->string('paymentAddress')->nullable(false);
             $table->string('letter')->nullable(true);
