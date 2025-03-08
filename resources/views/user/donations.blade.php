@@ -191,7 +191,7 @@
                                     </svg>
                                 </th>
                                 <th>Recepient Name</th>
-                                <th class="text-center">Request Name</th>
+                                <th class="text-center">Recepient Information</th>
                                 <th>Date Submitted</th>
                                 <th class="text-center">Supporting Documents</th>
                                 <th>Amount</th>
@@ -207,7 +207,9 @@
                                     <td class="text-center"></td>
                                     <td> {{ $item->firstName }} {{ $item->middleName }} {{ $item->lastName }} </td>
                                     <td class="text-center">
-                                        {{ $item->name }}
+                                        <button class="btn btn-primary" onclick="viewUserDetails({{ $item->userID }})"
+                                            data-bs-toggle="modal" data-bs-target="#viewPersonalDetailsModal">View
+                                            Details</button>
                                     </td>
                                     <td> {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
                                     </td>
@@ -463,6 +465,81 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="viewPersonalDetailsModal" tabindex="-1" role="dialog"
+        aria-labelledby="viewPersonalDetailsModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewPersonalDetailsModalTitle">View Personal Documents</h5>
+                </div>
+                <div class="modal-body">
+                    @foreach ($details as $item)
+                        <div class="card-body" id="personal{{ $item['userID'] }}" style="display: none">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label for="firstName" class="text-dark">First Name:</label>
+                                    <br>
+                                    <input required type="text" name="firstName" id=""
+                                        class="form-control mt-2" value="{{ $item['firstName'] }}">
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="middleName" class="text-dark">Middle Name:</label>
+                                    <br>
+                                    <input required type="text" name="middleName" id=""
+                                        class="form-control mt-2" value="{{ $item['middleName'] }}">
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="lastName" class="text-dark">Last Name:</label>
+                                    <br>
+                                    <input required type="text" name="lastName" id=""
+                                        class="form-control mt-2" value="{{ $item['lastName'] }}">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-lg-4">
+                                    <label for="Address" class="text-dark">Address:</label>
+                                    <br>
+                                    <textarea required name="address" id="" cols="30" rows="5" class="form-control">{{ $item['address'] }}</textarea>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="birthDate" class="text-dark">Birth Date:</label>
+                                    <br>
+                                    <input required type="date" name="birthDate" id=""
+                                        class="form-control" value="{{ $item['birthDate'] }}">
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="contactNumber" class="text-dark">Contact Number:</label>
+                                    <br>
+                                    <input required type="number" name="contactNumber" id=""
+                                        class="form-control" value="{{ $item['contactNumber'] }}">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-lg-12">
+                                    <label for="file" class="text-dark">Uploaded Supporting Documents In One
+                                        PDF
+                                        (Birth Cert, Id,
+                                        Barangay Clearance and etc.)
+                                    </label>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-lg-8 mx-auto">
+                                    <embed style="height: 600px; width:100%;" class="embed-responsive mt-2"
+                                        id="pdfViewer" src="{{ $item['documents'] }}" type="application/pdf">
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        onclick="resetModal({{ $item['userID'] }})">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="/assets/js/contract.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"
         integrity="sha512-V3xRGsQMQ8CG4l2gVN44TCDmNY5cdlxbSvejrgmWxcLKHft0Q3XQDbeuJ9aot14mpNuRWGtI//WKraedDGNZ+g=="
@@ -472,6 +549,16 @@
 
             let showViewer = document.getElementById('showViewer');
             showViewer.src = docs;
+        }
+
+        function viewUserDetails(id) {
+            let pDetails = document.getElementById(`personal${id}`);
+            pDetails.removeAttribute("style");
+        }
+
+        function resetModal(id) {
+            let pDetails = document.getElementById(`personal${id}`);
+            pDetails.setAttribute("style", "display:none;");
         }
 
         function togglePasswordVisibility2() {
