@@ -92,8 +92,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-4 py-lg-0">
-                <a href="/user_home" class="nav-item nav-link active">Home</a>
-                <a href="/user_details" class="nav-item nav-link">Details</a>
+                <a href="/user_home" class="nav-item nav-link ">Home</a>
+                <a href="/user_details" class="nav-item nav-link active">Details</a>
                 <a href="#about" class="nav-item nav-link">About</a>
                 <a href="/user_aids" class="nav-item nav-link">Aids</a>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
@@ -105,34 +105,90 @@
     <!-- Navbar End -->
 
 
-    <!-- Header Start -->
-    <div class="container-fluid hero-header bg-light py-5 mb-5">
-        <div class="container py-5">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="display-4 mb-3 animated slideInDown">Empowering Communities with Trustworthy Blockchain
-                        Solutions</h1>
-                    <p class="animated slideInDown">Discover how our innovative blockchain solutions are revolutionizing
-                        community aid distribution. By fostering transparency and trust, we empower individuals and
-                        organizations to make a meaningful impact, ensuring that every contribution reaches those in
-                        need</p>
-                </div>
-                <div class="col-lg-6 animated fadeIn">
-                    <img class="img-fluid animated pulse infinite" style="animation-duration: 3s;"
-                        src="/assets/img/hero-1.png" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Header End -->
-
-
-
     <!-- Roadmap Start -->
     <div class="container-xxl py-5">
         <div class="container">
-            
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title mb-4">
+                        <h5 class="position-relative d-inline-block text-primary text-uppercase">PERSONAL INFORMATION
+                        </h5>
+                        <h1 class="display-5 mb-0">My Details</h1>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <form action="" method="post">
+                            @csrf
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <label for="firstName" class="text-dark">First Name:</label>
+                                        <br>
+                                        <input required type="text" name="firstName" id=""
+                                            class="form-control mt-2">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="middleName" class="text-dark">Middle Name:</label>
+                                        <br>
+                                        <input required type="text" name="middleName" id=""
+                                            class="form-control mt-2">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="lastName" class="text-dark">Last Name:</label>
+                                        <br>
+                                        <input required type="text" name="lastName" id=""
+                                            class="form-control mt-2">
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-lg-4">
+                                        <label for="Address" class="text-dark">Address:</label>
+                                        <br>
+                                        <textarea required name="address" id="" cols="30" rows="5" class="form-control"></textarea>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="birthDate" class="text-dark">Birth Date:</label>
+                                        <br>
+                                        <input required type="date" name="birthDate" id=""
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="contactNumber" class="text-dark">Contact Number:</label>
+                                        <br>
+                                        <input required type="number" name="contactNumber" id=""
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-lg-12">
+                                        <label for="file" class="text-dark">Upload Supporting Documents In One PDF
+                                            (Birth Cert, Id,
+                                            Barangay Clearance and etc.)</label>
+                                        <br>
+                                        <button type="button"
+                                            onclick="document.getElementById('myDocument').click();"
+                                            class="btn btn-primary mt-3">Upload File</button>
+                                        <input required type="file" name="documents" id="myDocument"
+                                            class="invisible" accept=".pdf">
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-white mt-3">
+                                    <button type="submit" class="btn btn-success mb-3"
+                                        style="float: right">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
+    </div>
     </div>
     <!-- Roadmap End -->
 
@@ -239,14 +295,14 @@
                 <form action="/logout" method="get" autocomplete="off">
                     @csrf
                     <div class="modal-body">
-                       <center>
-                        <h5>Are You Sure You Want To Logout?</h5>
-                       </center>
+                        <center>
+                            <h5>Are You Sure You Want To Logout?</h5>
+                        </center>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" name="btnLogout"
-                            value="yes">Yes, Proceed</button>
+                        <button type="submit" class="btn btn-primary" name="btnLogout" value="yes">Yes,
+                            Proceed</button>
                     </div>
                 </form>
             </div>

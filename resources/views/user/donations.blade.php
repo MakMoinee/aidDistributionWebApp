@@ -100,6 +100,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-4 py-lg-0">
                 <a href="/user_home" class="nav-item nav-link ">Home</a>
+                <a href="/user_details" class="nav-item nav-link">Details</a>
                 <a href="#about" class="nav-item nav-link">About</a>
                 <a href="/user_aids" class="nav-item nav-link active">Aids</a>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
