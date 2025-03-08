@@ -440,49 +440,59 @@
                 </div>
                 <form action="/user_aids" method="post" autocomplete="off" enctype="multipart/form-data">
                     @csrf
-                    <div class="modal-body">
-                        <div class="form-group mb-2">
-                            <label for="requestName" class="text-dark">Request Name:</label>
-                            <input required type="text" name="requestName" id=""
-                                class="form-control text-dark">
+                    @if ($details)
+                        <div class="modal-body">
+                            <div class="form-group mb-2">
+                                <label for="requestName" class="text-dark">Request Name:</label>
+                                <input required type="text" name="requestName" id=""
+                                    class="form-control text-dark">
+                            </div>
+                            <div class="form-group mb-2" style="display: none">
+                                <label for="purpose" class="text-dark">Request Purpose:</label>
+                                <input required type="text" name="purpose" id=""
+                                    class="form-control text-dark" value="none">
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="amount" class="text-dark">Amount:</label>
+                                <input required type="number" name="amount" id=""
+                                    class="form-control text-dark">
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="paymentAddress" class="text-dark">Payment Address:</label>
+                                <textarea required name="paymentAddress" id="" cols="30" rows="2"
+                                    class="form-control text-dark"></textarea>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="letter" class="text-dark">Letter:</label>
+                                <textarea required name="letter" id="" cols="30" rows="10" class="form-control text-dark"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="text-dark" for="docs">Supporting Documents (PDF):</label>
+                                <br>
+                                <button type="button" class="btn btn-primary mt-2" onclick="loadDocument();">Upload
+                                    Document</button>
+                                <input required type="file" name="documents" id="myDocument" accept=".pdf"
+                                    style="display: none;" onchange="onDocChange(this);">
+                            </div>
+                            <div class="form-group mt-3" style="display: none" id="forPDF">
+                                <embed style="height: 600px; width:100%" class="embed-responsive mt-2" id="pdfViewer"
+                                    src="" type="application/pdf">
+                            </div>
                         </div>
-                        <div class="form-group mb-2" style="display: none">
-                            <label for="purpose" class="text-dark">Request Purpose:</label>
-                            <input required type="text" name="purpose" id=""
-                                class="form-control text-dark" value="none">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" name="btnAddRequest"
+                                value="yes">Proceed</button>
                         </div>
-                        <div class="form-group mb-2">
-                            <label for="amount" class="text-dark">Amount:</label>
-                            <input required type="number" name="amount" id=""
-                                class="form-control text-dark">
+                    @else
+                        <div class="modal-body">
+                            <h5>Please Complete Your Details First</h5>
                         </div>
-                        <div class="form-group mb-2">
-                            <label for="paymentAddress" class="text-dark">Payment Address:</label>
-                            <textarea required name="paymentAddress" id="" cols="30" rows="2"
-                                class="form-control text-dark"></textarea>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
-                        <div class="form-group mb-2">
-                            <label for="letter" class="text-dark">Letter:</label>
-                            <textarea required name="letter" id="" cols="30" rows="10" class="form-control text-dark"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="text-dark" for="docs">Supporting Documents (PDF):</label>
-                            <br>
-                            <button type="button" class="btn btn-primary mt-2" onclick="loadDocument();">Upload
-                                Document</button>
-                            <input required type="file" name="documents" id="myDocument" accept=".pdf"
-                                style="display: none;" onchange="onDocChange(this);">
-                        </div>
-                        <div class="form-group mt-3" style="display: none" id="forPDF">
-                            <embed style="height: 600px; width:100%" class="embed-responsive mt-2" id="pdfViewer"
-                                src="" type="application/pdf">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" name="btnAddRequest"
-                            value="yes">Proceed</button>
-                    </div>
+                    @endif
+
                 </form>
             </div>
         </div>

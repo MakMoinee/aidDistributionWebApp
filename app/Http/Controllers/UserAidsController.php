@@ -58,8 +58,10 @@ class UserAidsController extends Controller
                 $allDone[$q["aidID"]] = $q;
             }
 
+            $details = json_decode(DB::table('personal_details')->where('userID', '=', $user['userID'])->get(), true);
 
-            return view('user.aids', ['aids' => $aids, 'donation' => $finalDonation, 'all' => $newDonations, 'finish' => $allDone, 'phpRate' => $phpRate]);
+
+            return view('user.aids', ['aids' => $aids, 'donation' => $finalDonation, 'all' => $newDonations, 'finish' => $allDone, 'phpRate' => $phpRate, 'details' => $details]);
         }
         return redirect("/");
     }
@@ -214,7 +216,7 @@ class UserAidsController extends Controller
                     }
                 } catch (Exception $e1) {
                 }
-                
+
                 $deleteCount = DB::table('aids')->where('aidId', '=', $id)->delete();
                 if ($deleteCount > 0) {
                     session()->put('successDeleteRequest', true);
