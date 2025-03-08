@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('lastName')->nullable(false);
             $table->string('address')->nullable(false);
             $table->date('birthDate')->nullable(false);
-            $table->integer('contactNumber')->nullable(false);
+            $table->string('contactNumber')->nullable(false);
             $table->string('documents')->nullable(false);
             $table->string('status')->nullable(false);
             $table->timestamps();

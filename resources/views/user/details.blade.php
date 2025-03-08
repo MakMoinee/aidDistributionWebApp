@@ -30,6 +30,7 @@
     <!-- Template Stylesheet -->
     <link href="/assets/css/style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.mjs"></script>
     <style>
         body,
         .modal-title {
@@ -121,65 +122,143 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <form action="" method="post">
+                        <form action="/user_details" method="post" enctype="multipart/form-data">
                             @csrf
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <label for="firstName" class="text-dark">First Name:</label>
-                                        <br>
-                                        <input required type="text" name="firstName" id=""
-                                            class="form-control mt-2">
+                            @if ($details)
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <label for="firstName" class="text-dark">First Name:</label>
+                                            <br>
+                                            <input required type="text" name="firstName" id=""
+                                                class="form-control mt-2" value="{{ $details[0]['firstName'] }}">
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label for="middleName" class="text-dark">Middle Name:</label>
+                                            <br>
+                                            <input required type="text" name="middleName" id=""
+                                                class="form-control mt-2" value="{{ $details[0]['middleName'] }}">
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label for="lastName" class="text-dark">Last Name:</label>
+                                            <br>
+                                            <input required type="text" name="lastName" id=""
+                                                class="form-control mt-2" value="{{ $details[0]['lastName'] }}">
+                                        </div>
                                     </div>
-                                    <div class="col-lg-4">
-                                        <label for="middleName" class="text-dark">Middle Name:</label>
-                                        <br>
-                                        <input required type="text" name="middleName" id=""
-                                            class="form-control mt-2">
+                                    <div class="row mt-3">
+                                        <div class="col-lg-4">
+                                            <label for="Address" class="text-dark">Address:</label>
+                                            <br>
+                                            <textarea required name="address" id="" cols="30" rows="5" class="form-control">{{ $details[0]['address'] }}</textarea>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label for="birthDate" class="text-dark">Birth Date:</label>
+                                            <br>
+                                            <input required type="date" name="birthDate" id=""
+                                                class="form-control" value="{{ $details[0]['birthDate'] }}">
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label for="contactNumber" class="text-dark">Contact Number:</label>
+                                            <br>
+                                            <input required type="number" name="contactNumber" id=""
+                                                class="form-control" value="{{ $details[0]['contactNumber'] }}">
+                                        </div>
                                     </div>
-                                    <div class="col-lg-4">
-                                        <label for="lastName" class="text-dark">Last Name:</label>
-                                        <br>
-                                        <input required type="text" name="lastName" id=""
-                                            class="form-control mt-2">
+                                    <div class="row mt-3">
+                                        <div class="col-lg-12">
+                                            <label for="file" class="text-dark">Upload Supporting Documents In One
+                                                PDF
+                                                (Birth Cert, Id,
+                                                Barangay Clearance and etc.)</label>
+                                            <br>
+                                            <button type="button" id="btnUpload" onclick="loadDocument()"
+                                                class="btn btn-primary mt-3">{{ $details[0]['documents'] }}</button>
+                                            <button type="button"
+                                                class="btn btn-secondary mt-3" id="btnClear"
+                                                onclick="clearData()">Clear</button>
+                                            <input required type="file" name="documents" id="myDocument"
+                                                class="invisible" accept=".pdf" onchange="onDocChange(this)">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-lg-8 mx-auto">
+                                            <embed style="height: 600px; width:100%;" class="embed-responsive mt-2"
+                                                id="pdfViewer" src="{{ $details[0]['documents'] }}"
+                                                type="application/pdf">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-lg-4">
-                                        <label for="Address" class="text-dark">Address:</label>
-                                        <br>
-                                        <textarea required name="address" id="" cols="30" rows="5" class="form-control"></textarea>
+                            @else
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <label for="firstName" class="text-dark">First Name:</label>
+                                            <br>
+                                            <input required type="text" name="firstName" id=""
+                                                class="form-control mt-2">
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label for="middleName" class="text-dark">Middle Name:</label>
+                                            <br>
+                                            <input required type="text" name="middleName" id=""
+                                                class="form-control mt-2">
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label for="lastName" class="text-dark">Last Name:</label>
+                                            <br>
+                                            <input required type="text" name="lastName" id=""
+                                                class="form-control mt-2">
+                                        </div>
                                     </div>
-                                    <div class="col-lg-4">
-                                        <label for="birthDate" class="text-dark">Birth Date:</label>
-                                        <br>
-                                        <input required type="date" name="birthDate" id=""
-                                            class="form-control">
+                                    <div class="row mt-3">
+                                        <div class="col-lg-4">
+                                            <label for="Address" class="text-dark">Address:</label>
+                                            <br>
+                                            <textarea required name="address" id="" cols="30" rows="5" class="form-control"></textarea>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label for="birthDate" class="text-dark">Birth Date:</label>
+                                            <br>
+                                            <input required type="date" name="birthDate" id=""
+                                                class="form-control">
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label for="contactNumber" class="text-dark">Contact Number:</label>
+                                            <br>
+                                            <input required type="number" name="contactNumber" id=""
+                                                class="form-control">
+                                        </div>
                                     </div>
-                                    <div class="col-lg-4">
-                                        <label for="contactNumber" class="text-dark">Contact Number:</label>
-                                        <br>
-                                        <input required type="number" name="contactNumber" id=""
-                                            class="form-control">
+                                    <div class="row mt-3">
+                                        <div class="col-lg-12">
+                                            <label for="file" class="text-dark">Upload Supporting Documents In One
+                                                PDF
+                                                (Birth Cert, Id,
+                                                Barangay Clearance and etc.)</label>
+                                            <br>
+                                            <button type="button" id="btnUpload" onclick="loadDocument()"
+                                                class="btn btn-primary mt-3">Upload File</button>
+                                            <button type="button" style="display: none;"
+                                                class="btn btn-secondary mt-3" id="btnClear"
+                                                onclick="clearData()">Clear</button>
+                                            <input required type="file" name="documents" id="myDocument"
+                                                class="invisible" accept=".pdf" onchange="onDocChange(this)">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-lg-8 mx-auto">
+                                            <embed style="height: 600px; width:100%;  display: none;"
+                                                class="embed-responsive mt-2" id="pdfViewer" src=""
+                                                type="application/pdf">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-lg-12">
-                                        <label for="file" class="text-dark">Upload Supporting Documents In One PDF
-                                            (Birth Cert, Id,
-                                            Barangay Clearance and etc.)</label>
-                                        <br>
-                                        <button type="button"
-                                            onclick="document.getElementById('myDocument').click();"
-                                            class="btn btn-primary mt-3">Upload File</button>
-                                        <input required type="file" name="documents" id="myDocument"
-                                            class="invisible" accept=".pdf">
-                                    </div>
-                                </div>
-                                <div class="card-footer bg-white mt-3">
-                                    <button type="submit" class="btn btn-success mb-3"
-                                        style="float: right">Save</button>
-                                </div>
+                            @endif
+
+                            <div class="card-footer bg-white mt-3">
+                                <button type="submit" class="btn btn-success mb-3" style="float: right"
+                                    name="btnSaveDetails" value="yes">Save</button>
                             </div>
                         </form>
                     </div>
@@ -308,154 +387,63 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="createAccountModal" tabindex="-1" role="dialog"
-        aria-labelledby="createAccountModalTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createAccountModalTitle">Create Your Account</h5>
-                    <button type="button" class="btn btn-outline-dark close" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="/" method="post" autocomplete="off">
-                    @csrf
-                    <div class="modal-body">
-
-                        <div class="form-group mt-2">
-                            <label for="firstName" class="text-dark">First Name:</label>
-                            <br>
-                            <input required type="text" name="firstName" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="middleName" class="text-dark">Middle Name:</label>
-                            <br>
-                            <input type="text" name="middleName" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="lastName" class="text-dark">Last Name:</label>
-                            <br>
-                            <input required type="text" name="lastName" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="address" class="text-dark">Address:</label>
-                            <br>
-                            <textarea required name="address" id="" cols="30" rows="5" class="form-control">
-
-                            </textarea>
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="birthDate" class="text-dark">Birth Date:</label>
-                            <br>
-                            <input required type="date" name="birthDate" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="gender" class="text-dark">Gender:</label>
-                            <br>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <input type="radio" name="gender" value="male"
-                                            aria-label="Radio button for selecting male">
-                                    </div>
-                                </div>
-                                <span class="text-dark" style="margin-left: 5px;">Male</span>
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <input type="radio" name="gender" value="female"
-                                            aria-label="Radio button for selecting female">
-                                    </div>
-                                </div>
-                                <span class="text-dark" style="margin-left: 5px;">Female</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group mt-2">
-                            <label for="phoneNumber" class="text-dark">Phone Number:</label>
-                            <br>
-                            <input required type="number" name="phoneNumber" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="username" class="text-dark">Username:</label>
-                            <br>
-                            <input required type="text" name="username" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="password" class="text-dark">Password:</label>
-                            <br>
-                            <input required type="password" name="password" id="password" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="confimpass" class="text-dark">Confirm Password:</label>
-                            <br>
-                            <input required type="password" name="confimpass" id="confimpass" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()">
-                            <label for="showPassword" class="text-dark">Show Password</label>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" name="btnCreateAccount"
-                            value="yes">Proceed</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
     <script>
-        function togglePasswordVisibility2() {
-            var passwordField = document.getElementById("password");
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-            } else {
-                passwordField.type = "password";
-            }
+        function loadDocument() {
+            document.getElementById('myDocument').click();
         }
 
-        function togglePasswordVisibility() {
-            var passwordField = document.getElementById("password");
-            var confirmPasswordField = document.getElementById("confimpass");
-            if (passwordField.type === "password" && confirmPasswordField.type === "password") {
-                passwordField.type = "text";
-                confirmPasswordField.type = "text";
-            } else {
-                passwordField.type = "password";
-                confirmPasswordField.type = "password";
-            }
+        function onDocChange(event) {
+            let file = event.files[0];
+            let btnUpload = document.getElementById('btnUpload');
+            btnUpload.innerHTML = file.name;
+            let btnClear = document.getElementById('btnClear');
+            btnClear.removeAttribute("style");
+            let fileURL = URL.createObjectURL(file);
+            let pdfViewer = document.getElementById('pdfViewer');
+            pdfViewer.src = fileURL;
+            pdfViewer.setAttribute("style", "height: 600px; width:100%;");
+        }
+
+        function clearData() {
+            let btnClear = document.getElementById('btnClear');
+            btnClear.setAttribute("style", "display:none;");
+
+            let myDocument = document.getElementById('myDocument');
+            myDocument.value = null;
+            let btnUpload = document.getElementById('btnUpload');
+            btnUpload.innerHTML = "Upload File";
+            let pdfViewer = document.getElementById('pdfViewer');
+            pdfViewer.src = null;
+            pdfViewer.setAttribute("style", "height: 600px; width:100%;display:none;");
+
         }
     </script>
-    @if (session()->pull('successLogin'))
+    @if (session()->pull('successDetails'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Login Successfully',
+                    title: 'Successfully Updated Details',
                     showConfirmButton: false,
                     timer: 800,
                 });
             }, 500);
         </script>
-        {{ session()->forget('successLogin') }}
+        {{ session()->forget('successDetails') }}
     @endif
-    @if (session()->pull('errorCreateAccount'))
+    @if (session()->pull('errorDetails'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Failed To Create Account, Please Try Again Later',
+                    title: 'Failed To Update Details, Please Try Again Later',
                     showConfirmButton: true,
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorCreateAccount') }}
+        {{ session()->forget('errorDetails') }}
     @endif
     @if (session()->pull('errorPasswordNotMatch'))
         <script>
