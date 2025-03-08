@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 03/03/2025 02:14:51
+ Date: 08/03/2025 12:13:08
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,6 @@ CREATE TABLE `aids`  (
 -- ----------------------------
 -- Records of aids
 -- ----------------------------
-INSERT INTO `aids` VALUES (5, 1, 'Chemotheraphy for John', 'none', '/data/documents/1740938906.pdf', 150000.00, '0xB86966e1319561009D9c3f8EE63a249EE9Fe289D', 'I\'m John Dela Cruz, please help me with my chemotherapy. please I need help', 'other', 'P4', '2025-03-02 18:08:26', '2025-03-02 18:08:26');
 
 -- ----------------------------
 -- Table structure for donation_details
@@ -90,7 +89,7 @@ CREATE TABLE `migrations`  (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of migrations
@@ -100,6 +99,7 @@ INSERT INTO `migrations` VALUES (2, '2024_10_06_045703_create_system_users_table
 INSERT INTO `migrations` VALUES (4, '2024_11_01_204340_create_donation_details_table', 1);
 INSERT INTO `migrations` VALUES (5, '2024_11_04_214310_create_done_donations_table', 1);
 INSERT INTO `migrations` VALUES (6, '2024_10_16_193257_create_aids_table', 2);
+INSERT INTO `migrations` VALUES (8, '2025_03_08_024327_create_personal_details_table', 3);
 
 -- ----------------------------
 -- Table structure for personal_access_tokens
@@ -119,11 +119,36 @@ CREATE TABLE `personal_access_tokens`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `personal_access_tokens_token_unique`(`token` ASC) USING BTREE,
   INDEX `personal_access_tokens_tokenable_type_tokenable_id_index`(`tokenable_type` ASC, `tokenable_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of personal_access_tokens
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for personal_details
+-- ----------------------------
+DROP TABLE IF EXISTS `personal_details`;
+CREATE TABLE `personal_details`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `userID` int NOT NULL,
+  `firstName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `middleName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lastName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `birthDate` date NOT NULL,
+  `contactNumber` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `documents` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of personal_details
+-- ----------------------------
+INSERT INTO `personal_details` VALUES (1, 1, 'Kennen', 'C', 'Borbon', 'Door 10, San Jose Extension', '2025-03-08', '09060464399', '/data/userDetails/1741406593.pdf', 'not approved', '2025-03-08 04:03:13', '2025-03-08 04:03:13');
 
 -- ----------------------------
 -- Table structure for system_users
