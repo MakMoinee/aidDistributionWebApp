@@ -236,13 +236,21 @@
                                     <td class="text-center">
                                         {{ $item->category }}
                                     </td>
-                                    <td>
+                                    <td class="d-flex">
                                         @if (count($allDetail) > 0 && array_key_exists($item->aidId, $allDetail) && $allDetail[$item->aidId] == $item->amount)
                                         @else
-                                            <button class="btn btn-warning text-white" title="Donate"
+                                            <button class="btn btn-warning text-white me-2" title="Donate"
                                                 data-bs-target="#giveDonationModal" data-bs-toggle="modal"
                                                 onclick="addIdInDonation({{ $item->aidId }})">
                                                 Donate
+                                            </button>
+                                        @endif
+
+                                        @if (array_key_exists($item->aidId, $certificate))
+                                            <button class="btn"
+                                                onclick="viewCertificate({{ $item->aidId }}, {{ $certificate[$item->aidId] }},{{ $uid }});">
+                                                <img src="/certificate.png" alt="" srcset=""
+                                                    height="46px" width="46px">
                                             </button>
                                         @endif
 
@@ -559,6 +567,10 @@
         function resetModal(id) {
             let pDetails = document.getElementById(`personal${id}`);
             pDetails.setAttribute("style", "display:none;");
+        }
+
+        function viewCertificate(id, amount, uid) {
+            window.open(`/user_certificate?id=${id}&amount=${amount}&uid=${uid}`);
         }
 
         function togglePasswordVisibility2() {

@@ -280,7 +280,10 @@ class UserAidsController extends Controller
 
     private function callApi(string $msg): array
     {
-        $client = new Client();
+        $client = new Client([
+            'verify' => false, // Disables SSL verification
+        ]);
+
         $data = array();
         try {
             $response = $client->post('http://localhost:5000/process_request', [
@@ -305,15 +308,27 @@ class UserAidsController extends Controller
 
     function getEthToPhpRate()
     {
-        $response = Http::get('https://api.coingecko.com/api/v3/simple/price', [
-            'ids' => 'ethereum',
-            'vs_currencies' => 'php'
+        $client = new Client([
+            'verify' => false, // Disables SSL verification
         ]);
 
-        if ($response->successful()) {
-            return $response->json()['ethereum']['php'];
+        try {
+            $response = $client->request('GET', 'https://api.coingecko.com/api/v3/simple/price', [
+                'query' => [
+                    'ids' => 'ethereum',
+                    'vs_currencies' => 'php'
+                ]
+            ]);
+
+            if ($response->getStatusCode() === 200) {
+                $data = json_decode($response->getBody(), true);
+                return $data['ethereum']['php'] ?? null;
+            }
+        } catch (RequestException $e) {
+            // Log the error message if needed
+            logger()->error('API request failed: ' . $e->getMessage());
         }
 
-        return null; // Handle API failure
+        return null; // Return null on failure
     }
 }

@@ -3,15 +3,15 @@
 
  Source Server         : Local
  Source Server Type    : MySQL
- Source Server Version : 80030 (8.0.30)
+ Source Server Version : 80027
  Source Host           : localhost:3306
  Source Schema         : aiddb
 
  Target Server Type    : MySQL
- Target Server Version : 80030 (8.0.30)
+ Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 08/03/2025 12:17:06
+ Date: 20/03/2025 13:00:00
 */
 
 SET NAMES utf8mb4;
@@ -35,11 +35,12 @@ CREATE TABLE `aids`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`aidId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of aids
 -- ----------------------------
+INSERT INTO `aids` VALUES (1, 1, 'Chemotherapy', 'medical needs', 150000.00, '0x9010abb7082e3E4CB37e4C779c3B6dF252B641dA', 'I need the funds for my chemotheraphy', '2025-03-20 03:18:09', '2025-03-20 03:18:09');
 
 -- ----------------------------
 -- Table structure for donation_details
@@ -57,11 +58,12 @@ CREATE TABLE `donation_details`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`donationDetailId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of donation_details
 -- ----------------------------
+INSERT INTO `donation_details` VALUES (1, 2, 1, '0xe4c23b660c57b95d8eddccf60bcc2f053d491c45ed9b36efdf2995d8251728e8', '0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199', '0x5FbDB2315678afecb367f032d93F642f64180aa3', 0.0070946, 1000.00, '2025-03-20 04:01:34', '2025-03-20 04:01:34');
 
 -- ----------------------------
 -- Table structure for done_donations
@@ -74,7 +76,7 @@ CREATE TABLE `done_donations`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`doneID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of done_donations
@@ -89,7 +91,7 @@ CREATE TABLE `migrations`  (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of migrations
@@ -119,7 +121,7 @@ CREATE TABLE `personal_access_tokens`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `personal_access_tokens_token_unique`(`token` ASC) USING BTREE,
   INDEX `personal_access_tokens_tokenable_type_tokenable_id_index`(`tokenable_type` ASC, `tokenable_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of personal_access_tokens
@@ -169,19 +171,13 @@ CREATE TABLE `system_users`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`userID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of system_users
 -- ----------------------------
-INSERT INTO `system_users` VALUES (1, 'Sample', 'Sample', 'sample', 'male', 'sample', '2025-01-26', '09090464399', 'sample', '$2y$12$mTw2YidvzRxABH84jchKiud4OAsClNbnY1NnNrf9GGSe.nXu3Q.t.', 'user', '2025-01-26 13:07:51', '2025-01-26 13:07:51');
-INSERT INTO `system_users` VALUES (2, 'user', 'user', 'user', 'male', 'user', '2000-12-22', '09090464399', 'user', '$2y$12$TaUdGDb4RfeGrL3SwBVTTeMaDNzwsEbJ8HU5PWodTcoham8YvelLS', 'user', '2025-01-26 15:00:27', '2025-01-26 15:00:27');
-
--- ----------------------------
--- View structure for vwdonations
--- ----------------------------
-DROP VIEW IF EXISTS `vwdonations`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwdonations` AS select `system_users`.`firstName` AS `firstName`,`system_users`.`middleName` AS `middleName`,`system_users`.`lastName` AS `lastName`,`vwfiltereddonations`.`aidId` AS `aidId`,`vwfiltereddonations`.`name` AS `name`,`vwfiltereddonations`.`amount` AS `amount`,`vwfiltereddonations`.`paymentAddress` AS `paymentAddress`,`vwfiltereddonations`.`letter` AS `letter`,`vwfiltereddonations`.`category` AS `category`,`vwfiltereddonations`.`priority` AS `priority`,`vwfiltereddonations`.`created_at` AS `created_at`,`vwfiltereddonations`.`userID` AS `userID`,`vwfiltereddonations`.`documents` AS `documents` from (`system_users` join `vwfiltereddonations` on((`system_users`.`userID` = `vwfiltereddonations`.`userID`)));
+INSERT INTO `system_users` VALUES (1, 'user', 'user', 'user', 'male', 'user', '1998-10-13', '09090464399', 'user', '$2y$12$qGEh/H/Pb.UwdgJTzerIO.La8klZL1qI0mMmORpRhIr1SsHFxPDyS', 'user', '2025-03-20 03:01:22', '2025-03-20 03:01:22');
+INSERT INTO `system_users` VALUES (2, 'Juan', 'Xavier', 'Dela Cruz', 'male', 'sample address', '1998-10-13', '09090464399', 'sample', '$2y$12$cHlBXJIRE2Nh8QQZu5vNuOBK9EcQRA2y5CHfBnBQbnMVxwBeHYxce', 'user', '2025-03-20 03:09:51', '2025-03-20 03:09:51');
 
 -- ----------------------------
 -- View structure for vwfiltereddonations
@@ -190,15 +186,24 @@ DROP VIEW IF EXISTS `vwfiltereddonations`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwfiltereddonations` AS select `a`.`aidId` AS `aidId`,`a`.`userID` AS `userID`,`a`.`name` AS `name`,`a`.`documents` AS `documents`,`a`.`amount` AS `amount`,`a`.`paymentAddress` AS `paymentAddress`,`a`.`letter` AS `letter`,`a`.`category` AS `category`,`a`.`priority` AS `priority`,`a`.`created_at` AS `created_at`,`a`.`updated_at` AS `updated_at` from (`aids` `a` left join `vwtotalreceives` `v` on((`a`.`aidId` = `v`.`aidID`))) where (coalesce(`v`.`total`,0) < `a`.`amount`) order by (case when (`a`.`priority` = 'P1') then 1 when (`a`.`priority` = 'P2') then 2 when (`a`.`priority` = 'P3') then 3 else 4 end);
 
 -- ----------------------------
+-- View structure for vwtotalreceives
+-- ----------------------------
+DROP VIEW IF EXISTS `vwtotalreceives`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwtotalreceives` AS select `donation_details`.`aidID` AS `aidID`,sum(`donation_details`.`amount`) AS `total` from `donation_details` group by `donation_details`.`aidID`;
+
+
+-- ----------------------------
+-- View structure for vwdonations
+-- ----------------------------
+DROP VIEW IF EXISTS `vwdonations`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwdonations` AS select `system_users`.`firstName` AS `firstName`,`system_users`.`middleName` AS `middleName`,`system_users`.`lastName` AS `lastName`,`vwfiltereddonations`.`aidId` AS `aidId`,`vwfiltereddonations`.`name` AS `name`,`vwfiltereddonations`.`amount` AS `amount`,`vwfiltereddonations`.`paymentAddress` AS `paymentAddress`,`vwfiltereddonations`.`letter` AS `letter`,`vwfiltereddonations`.`category` AS `category`,`vwfiltereddonations`.`priority` AS `priority`,`vwfiltereddonations`.`created_at` AS `created_at`,`vwfiltereddonations`.`userID` AS `userID`,`vwfiltereddonations`.`documents` AS `documents` from (`system_users` join `vwfiltereddonations` on((`system_users`.`userID` = `vwfiltereddonations`.`userID`)));
+
+
+-- ----------------------------
 -- View structure for vwgiverdonation
 -- ----------------------------
 DROP VIEW IF EXISTS `vwgiverdonation`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwgiverdonation` AS select `system_users`.`userID` AS `userID`,`donation_details`.`donationDetailId` AS `donationDetailId`,`donation_details`.`userID` AS `giverID`,`donation_details`.`aidID` AS `aidID`,`donation_details`.`hash` AS `hash`,`donation_details`.`from` AS `from`,`donation_details`.`to` AS `to`,`donation_details`.`eth` AS `eth`,`donation_details`.`amount` AS `amount`,`donation_details`.`created_at` AS `created_at`,`system_users`.`firstName` AS `firstName`,`system_users`.`middleName` AS `middleName`,`system_users`.`lastName` AS `lastName`,`aids`.`userID` AS `ownerID`,`aids`.`paymentAddress` AS `paymentAddress` from ((`donation_details` join `system_users` on((`donation_details`.`userID` = `system_users`.`userID`))) join `aids` on((`donation_details`.`aidID` = `aids`.`aidId`)));
 
--- ----------------------------
--- View structure for vwtotalreceives
--- ----------------------------
-DROP VIEW IF EXISTS `vwtotalreceives`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwtotalreceives` AS select `donation_details`.`aidID` AS `aidID`,sum(`donation_details`.`amount`) AS `total` from `donation_details` group by `donation_details`.`aidID`;
 
 SET FOREIGN_KEY_CHECKS = 1;
