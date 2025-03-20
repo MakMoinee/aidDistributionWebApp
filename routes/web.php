@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UserAidsController;
+use App\Http\Controllers\UserCertificateController;
 use App\Http\Controllers\UserDonationsController;
 use App\Http\Controllers\UserHomeController;
 use App\Http\Controllers\WelcomeController;
@@ -25,3 +26,4 @@ Route::resource("/user_aids", UserAidsController::class);
 Route::resource("/user_donations", UserDonationsController::class);
 Route::get("/logout", [LogoutController::class, 'index']);
 Route::post('/receive-funds', [UserAidsController::class, 'receiveFunds'])->name('receiveFunds');
+Route::resource("/user_certificate", UserCertificateController::class);

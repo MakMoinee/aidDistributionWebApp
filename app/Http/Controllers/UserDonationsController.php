@@ -23,6 +23,8 @@ class UserDonationsController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
+            $certificate = array();
+
             $allDetails = DB::table('donation_details')
                 ->where('userID', '=', $user['userID'])
                 ->get()
@@ -37,8 +39,10 @@ class UserDonationsController extends Controller
 
                     if (!isset($detail[$aidID])) {
                         $detail[$aidID] = 0;
+                        $certificate[$aidID] = 0;
                     }
                     $detail[$aidID] += $amount;
+                    $certificate[$aidID] += $amount;
                 }
             } catch (Exception $e) {
                 // Log the error if necessary
@@ -46,7 +50,9 @@ class UserDonationsController extends Controller
 
 
 
-            return view('user.donations', ['aids' => $aids, 'currentUser' => $user, 'allDetail' => $detail]);
+
+
+            return view('user.donations', ['aids' => $aids, 'currentUser' => $user, 'allDetail' => $detail, 'uid' => $user['userID'], 'certificate' => $certificate]);
         }
         return redirect("/");
     }

@@ -223,13 +223,21 @@
                                             P0.0
                                         @endif
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-center d-flex">
                                         @if (count($allDetail) > 0 && $allDetail[$item->aidId] == $item->amount)
                                         @else
-                                            <button class="btn btn-warning text-white" title="Donate"
+                                            <button class="btn btn-warning text-white me-2" title="Donate"
                                                 data-bs-target="#giveDonationModal" data-bs-toggle="modal"
                                                 onclick="addIdInDonation({{ $item->aidId }})">
                                                 Donate
+                                            </button>
+                                        @endif
+
+                                        @if (array_key_exists($item->aidId, $certificate))
+                                            <button class="btn"
+                                                onclick="viewCertificate({{ $item->aidId }}, {{ $certificate[$item->aidId] }},{{ $uid }});">
+                                                <img src="/certificate.png" alt="" srcset=""
+                                                    height="46px" width="46px">
                                             </button>
                                         @endif
 
@@ -426,6 +434,10 @@
         integrity="sha512-V3xRGsQMQ8CG4l2gVN44TCDmNY5cdlxbSvejrgmWxcLKHft0Q3XQDbeuJ9aot14mpNuRWGtI//WKraedDGNZ+g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+        function viewCertificate(id, amount, uid) {
+            window.open(`/user_certificate?id=${id}&amount=${amount}&uid=${uid}`);
+        }
+
         function togglePasswordVisibility2() {
             var passwordField = document.getElementById("password");
             if (passwordField.type === "password") {
