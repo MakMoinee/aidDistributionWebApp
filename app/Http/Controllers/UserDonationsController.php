@@ -58,7 +58,6 @@ class UserDonationsController extends Controller
             $pDetails = json_decode(DB::table('personal_details')->where('userID', '<>', $user['userID'])->get(), true);
 
 
-
             return view('user.donations', ['details' => $pDetails, 'aids' => $aids, 'currentUser' => $user, 'allDetail' => $detail, 'phpRate' => $phpRate, 'uid' => $user['userID'], 'certificate' => $certificate]);
         }
         return redirect("/");

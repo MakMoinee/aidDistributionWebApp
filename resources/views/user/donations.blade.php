@@ -539,12 +539,12 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         onclick="resetModal({{ $item['userID'] }})">Close</button>
                 </div>
+                @endforeach
             </div>
         </div>
     </div>
