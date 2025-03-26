@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminUsersController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UserAidsController;
 use App\Http\Controllers\UserDetailsController;
+use App\Http\Controllers\UserCertificateController;
 use App\Http\Controllers\UserDonationsController;
 use App\Http\Controllers\UserHomeController;
 use App\Http\Controllers\WelcomeController;

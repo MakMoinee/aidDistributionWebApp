@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\DonationDetails;
 use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -25,6 +27,7 @@ class UserDonationsController extends Controller
                 ->paginate(10);
 
 
+            $certificate = array();
 
             $allDetails = DB::table('donation_details')
                 ->where('userID', '=', $user['userID'])
@@ -42,19 +45,21 @@ class UserDonationsController extends Controller
 
                     if (!isset($detail[$aidID])) {
                         $detail[$aidID] = 0;
+                        $certificate[$aidID] = 0;
                     }
                     $detail[$aidID] += $amount;
+                    $certificate[$aidID] += $amount;
                 }
             } catch (Exception $e) {
                 // Log the error if necessary
             }
 
-            // dd($aids);
 
             $pDetails = json_decode(DB::table('personal_details')->where('userID', '<>', $user['userID'])->get(), true);
 
 
-            return view('user.donations', ['details' => $pDetails, 'aids' => $aids, 'currentUser' => $user, 'allDetail' => $detail, 'phpRate' => $phpRate]);
+
+            return view('user.donations', ['details' => $pDetails, 'aids' => $aids, 'currentUser' => $user, 'allDetail' => $detail, 'phpRate' => $phpRate, 'uid' => $user['userID'], 'certificate' => $certificate]);
         }
         return redirect("/");
     }
@@ -137,15 +142,27 @@ class UserDonationsController extends Controller
 
     function getEthToPhpRate()
     {
-        $response = Http::get('https://api.coingecko.com/api/v3/simple/price', [
-            'ids' => 'ethereum',
-            'vs_currencies' => 'php'
+        $client = new Client([
+            'verify' => false, // Disables SSL verification
         ]);
 
-        if ($response->successful()) {
-            return $response->json()['ethereum']['php'];
+        try {
+            $response = $client->request('GET', 'https://api.coingecko.com/api/v3/simple/price', [
+                'query' => [
+                    'ids' => 'ethereum',
+                    'vs_currencies' => 'php'
+                ]
+            ]);
+
+            if ($response->getStatusCode() === 200) {
+                $data = json_decode($response->getBody(), true);
+                return $data['ethereum']['php'] ?? null;
+            }
+        } catch (RequestException $e) {
+            // Log the error message if needed
+            logger()->error('API request failed: ' . $e->getMessage());
         }
 
-        return null; // Handle API failure
+        return null; // Return null on failure
     }
 }
