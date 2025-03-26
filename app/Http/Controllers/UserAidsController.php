@@ -60,7 +60,6 @@ class UserAidsController extends Controller
 
             $details = json_decode(DB::table('personal_details')->where('userID', '=', $user['userID'])->get(), true);
 
-
             return view('user.aids', ['aids' => $aids, 'donation' => $finalDonation, 'all' => $newDonations, 'finish' => $allDone, 'phpRate' => $phpRate, 'details' => $details]);
         }
         return redirect("/");

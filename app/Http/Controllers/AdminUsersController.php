@@ -49,7 +49,27 @@ class AdminUsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (session()->exists('users')) {
+            $user = session()->pull("users");
+            session()->put('users', $user);
+            if ($user['userType'] != 'admin') {
+                return redirect("/logout");
+            }
+            if ($request->btnUpdateAccount) {
+                $updateCount = DB::table('personal_details')->where('id', '=', $request->id)->update([
+                    "status" => $request->approval,
+                ]);
+                if ($updateCount > 0) {
+
+                    session()->put('successUpdateAccount', true);
+                } else {
+
+                    session()->put('errorUpdateAccount', true);
+                }
+            }
+            return redirect("/admin_home");
+        }
+        return redirect("/");
     }
 
     /**

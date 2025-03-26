@@ -142,15 +142,24 @@
                                                             data-bs-target="#viewDocumentModal"
                                                             onclick="viewDocument('{{ $details[$item->userID]['documents'] }}')">View
                                                             Document</button>
+                                                    @else
+                                                        No Details Yet Added
                                                     @endif
                                                 </td>
                                                 <td>
                                                     @if (array_key_exists($item->userID, $details))
                                                         {{ $details[$item->userID]['status'] }}
+                                                    @else
+                                                        No Details Yet Added
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-primary btn-sm">Update</button>
+                                                    @if (array_key_exists($item->userID, $details))
+                                                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                            data-bs-target="#updateAccountModal"
+                                                            onclick="updateAccount({{ $details[$item->userID]['id'] }},'{{ $details[$item->userID]['status'] }}')">Update</button>
+                                                    @else
+                                                    @endif
                                                 </td>
                                                 <td></td>
                                             </tr>
@@ -256,7 +265,7 @@
 
     <div class="modal fade" id="viewDocumentModal" tabindex="-1" role="dialog"
         aria-labelledby="viewDocumentModalTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="viewDocumentModalTitle">View User Document</h5>
@@ -268,7 +277,8 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            
+                            <embed style="height: 600px; width:100%" class="embed-responsive mt-2" id="pdfViewer"
+                                src="" type="application/pdf">
                         </div>
                     </div>
                 </div>
@@ -317,108 +327,56 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="createAccountModal" tabindex="-1" role="dialog"
-        aria-labelledby="createAccountModalTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="updateAccountModal" tabindex="-1" role="dialog"
+        aria-labelledby="updateAccountModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createAccountModalTitle">Create Your Account</h5>
+                    <h5 class="modal-title" id="updateAccountModalTitle">Update User</h5>
                     <button type="button" class="btn btn-outline-dark close" data-bs-dismiss="modal"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/" method="post" autocomplete="off">
+                <form action="/admin_home" method="post">
                     @csrf
                     <div class="modal-body">
-
-                        <div class="form-group mt-2">
-                            <label for="firstName" class="text-dark">First Name:</label>
-                            <br>
-                            <input required type="text" name="firstName" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="middleName" class="text-dark">Middle Name:</label>
-                            <br>
-                            <input type="text" name="middleName" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="lastName" class="text-dark">Last Name:</label>
-                            <br>
-                            <input required type="text" name="lastName" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="address" class="text-dark">Address:</label>
-                            <br>
-                            <textarea required name="address" id="" cols="30" rows="5" class="form-control">
-
-                            </textarea>
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="birthDate" class="text-dark">Birth Date:</label>
-                            <br>
-                            <input required type="date" name="birthDate" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="gender" class="text-dark">Gender:</label>
-                            <br>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <input type="radio" name="gender" value="male"
-                                            aria-label="Radio button for selecting male">
-                                    </div>
-                                </div>
-                                <span class="text-dark" style="margin-left: 5px;">Male</span>
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <input type="radio" name="gender" value="female"
-                                            aria-label="Radio button for selecting female">
-                                    </div>
-                                </div>
-                                <span class="text-dark" style="margin-left: 5px;">Female</span>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label for="approval" style="color: #000000 !important">Update Status:</label>
+                                <br>
+                                <select style="color: #000000 !important" required name="approval" id="approval"
+                                    class="form-control mt-3">
+                                    <option value="not approved">Not Approved</option>
+                                    <option value="approved">Approved</option>
+                                </select>
+                                <input type="hidden" name="id" id="uid" value="">
                             </div>
                         </div>
-
-                        <div class="form-group mt-2">
-                            <label for="phoneNumber" class="text-dark">Phone Number:</label>
-                            <br>
-                            <input required type="number" name="phoneNumber" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="username" class="text-dark">Username:</label>
-                            <br>
-                            <input required type="text" name="username" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="password" class="text-dark">Password:</label>
-                            <br>
-                            <input required type="password" name="password" id="password" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="confimpass" class="text-dark">Confirm Password:</label>
-                            <br>
-                            <input required type="password" name="confimpass" id="confimpass" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()">
-                            <label for="showPassword" class="text-dark">Show Password</label>
-                        </div>
-
                     </div>
                     <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" name="btnUpdateAccount"
+                            value="yes">Proceed Update</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" name="btnCreateAccount"
-                            value="yes">Proceed</button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
     <script>
+        function updateAccount(id, status) {
+            let uid = document.getElementById('uid');
+            uid.value = id;
+            let approval = document.getElementById('approval');
+            approval.selected = status;
+        }
+
         function viewDocument(filePath) {
+            let pdfViewer = document.getElementById('pdfViewer');
+            pdfViewer.src = filePath;
+
+
 
         }
 
@@ -443,6 +401,20 @@
             }
         }
     </script>
+    @if (session()->pull('successUpdateAccount'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully User Account',
+                    showConfirmButton: false,
+                    timer: 800,
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successUpdateAccount') }}
+    @endif
     @if (session()->pull('successLogin'))
         <script>
             setTimeout(() => {
@@ -457,18 +429,18 @@
         </script>
         {{ session()->forget('successLogin') }}
     @endif
-    @if (session()->pull('errorCreateAccount'))
+    @if (session()->pull('errorUpdateAccount'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Failed To Create Account, Please Try Again Later',
+                    title: 'Failed To Update User Account, Please Try Again Later',
                     showConfirmButton: true,
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorCreateAccount') }}
+        {{ session()->forget('errorUpdateAccount') }}
     @endif
     @if (session()->pull('errorPasswordNotMatch'))
         <script>
