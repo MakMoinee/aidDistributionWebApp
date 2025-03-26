@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminUsersController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UserAidsController;
 use App\Http\Controllers\UserDetailsController;
@@ -27,3 +28,5 @@ Route::resource("/user_donations", UserDonationsController::class);
 Route::get("/logout", [LogoutController::class, 'index']);
 Route::resource("/user_details", UserDetailsController::class);
 Route::post('/receive-funds', [UserAidsController::class, 'receiveFunds'])->name('receiveFunds');
+Route::resource("/user_certificate", UserCertificateController::class);
+Route::resource("/admin_home", AdminUsersController::class);

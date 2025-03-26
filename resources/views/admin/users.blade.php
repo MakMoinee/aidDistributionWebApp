@@ -69,6 +69,10 @@
         .btn-link {
             color: #000000 !important;
         }
+
+        td {
+            color: #000000 !important;
+        }
     </style>
 </head>
 
@@ -92,14 +96,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-4 py-lg-0">
-                <a href="/" class="nav-item nav-link active">Home</a>
-                <a href="#about" class="nav-item nav-link">About</a>
-                <a href="#services" class="nav-item nav-link">Services</a>
+                <a href="/admin_home" class="nav-item nav-link ">Home</a>
                 <a href="#" class="nav-item nav-link" data-bs-toggle="modal"
-                    data-bs-target="#loginAccountModal">Login</a>
-                <a href="#" class="nav-item nav-link" data-bs-toggle="modal"
-                    data-bs-target="#createAccountModal">Create
-                    Account</a>
+                    data-bs-target="#logoutAccountModal"><b class="text-danger">Logout</b></a>
             </div>
         </div>
     </nav>
@@ -110,19 +109,57 @@
     <div class="container-fluid hero-header bg-light py-5 mb-5">
         <div class="container py-5">
             <div class="row g-5 align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="display-4 mb-3 animated slideInDown">Empowering Communities with Trustworthy Blockchain
-                        Solutions</h1>
-                    <p class="animated slideInDown">Discover how our innovative blockchain solutions are revolutionizing
-                        community aid distribution. By fostering transparency and trust, we empower individuals and
-                        organizations to make a meaningful impact, ensuring that every contribution reaches those in
-                        need</p>
-                    <a data-bs-toggle="modal" data-bs-target="#loginAccountModal"
-                        class="btn btn-primary py-3 px-4 animated slideInDown">Explore More</a>
-                </div>
-                <div class="col-lg-6 animated fadeIn">
-                    <img class="img-fluid animated pulse infinite" style="animation-duration: 3s;"
-                        src="/assets/img/hero-1.png" alt="">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-white p-3">
+                            <h5><b>Users</b></h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive mb-5">
+                                <table class="table border mb-2" id="sortTable">
+                                    <thead class="table-light fw-semibold">
+                                        <tr class="align-middle">
+                                            <th class="text-center">Full Name</th>
+                                            <th>Date Registered</th>
+                                            <th class="text-center">Documents</th>
+                                            <th>Status</th>
+                                            <td class="text-center">Action</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($users as $item)
+                                            <tr class="align-middle">
+                                                <td class="text-center">
+                                                    {{ $item->firstName }} {{ $item->middleName }} {{ $item->lastName }}
+                                                </td>
+                                                <td>
+                                                    {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                                </td>
+                                                <td class="text-center">
+                                                    @if (array_key_exists($item->userID, $details))
+                                                        <button class="btn btn-success" data-bs-toggle="modal"
+                                                            data-bs-target="#viewDocumentModal"
+                                                            onclick="viewDocument('{{ $details[$item->userID]['documents'] }}')">View
+                                                            Document</button>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (array_key_exists($item->userID, $details))
+                                                        {{ $details[$item->userID]['status'] }}
+                                                    @endif
+                                                </td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-primary btn-sm">Update</button>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -130,130 +167,14 @@
     <!-- Header End -->
 
 
-    <!-- About Start -->
-    <div class="container-xxl py-5" id="about">
+
+    <!-- Roadmap Start -->
+    <div class="container-xxl py-5">
         <div class="container">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <img class="img-fluid" src="/assets/img/about.png" alt="">
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="h-100">
-                        <h1 class="display-6">About Us</h1>
-                        <p class="text-primary fs-5 mb-4">The Most Trusted Aid Management Platform</p>
-                        <p style="text-align: justify; text-indent: 5%">At AidLink, we are dedicated to revolutionizing
-                            the way community aid is
-                            distributed. Our mission is to create a Blockchain-Based System integrated with AI-Driven
-                            Natural Language Processing that fosters transparency, efficiency, and trust in the aid
-                            distribution process.
 
-                            In an ever-evolving world, we recognize the pressing need for a more effective approach to
-                            supporting those in need. Our platform connects donors, organizations, and recipients,
-                            ensuring that every contribution reaches its intended destination. By leveraging blockchain
-                            technology, we provide a secure and transparent framework for transactions, while our
-                            AI-driven insights help us better understand community needs and enhance service delivery.
-
-                            We believe that every voice matters. Our Natural Language Processing capabilities allow us
-                            to analyze feedback and adapt our services accordingly, making us more responsive to the
-                            community's evolving requirements.
-
-                            Join us in our journey to create a fairer and more efficient aid distribution system—one
-                            that empowers individuals, strengthens communities, and builds a brighter future for all.
-                        </p>
-
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-    <!-- About End -->
-
-
-    <!-- Facts Start -->
-    <div class="container-xxl bg-light py-5 my-5">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-4 col-md-6 text-center wow fadeIn" data-wow-delay="0.1s">
-                    <img class="img-fluid mb-4" src="/assets/img/icon-9.png" alt="">
-                    <h1 class="display-4" data-toggle="counter-up">0</h1>
-                    <p class="fs-5 text-primary mb-0">Today Aid Transactions</p>
-                </div>
-                <div class="col-lg-4 col-md-6 text-center wow fadeIn" data-wow-delay="0.3s">
-                    <img class="img-fluid mb-4" src="/assets/img/icon-10.png" alt="">
-                    <h1 class="display-4" data-toggle="counter-up">0</h1>
-                    <p class="fs-5 text-primary mb-0">Monthly Aid Transactions</p>
-                </div>
-                <div class="col-lg-4 col-md-6 text-center wow fadeIn" data-wow-delay="0.5s">
-                    <img class="img-fluid mb-4" src="/assets/img/icon-2.png" alt="">
-                    <h1 class="display-4" data-toggle="counter-up">0</h1>
-                    <p class="fs-5 text-primary mb-0">Total Aid Transactions</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Facts End -->
-
-
-
-    <!-- Service Start -->
-    <div class="container-xxl bg-light py-5 my-5" id="services">
-        <div class="container py-5">
-            <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-                <h1 class="display-6">Services</h1>
-            </div>
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="service-item bg-white p-5">
-                        <img class="img-fluid mb-4" width="66px" height="66px" src="/donate.png" alt="">
-                        <h5 class="mb-3">Donation Management</h5>
-                        <p>Our Donation Management feature enables generous donors to effortlessly list and schedule
-                            their contributions. By streamlining the donation process, we make it easier for those
-                            willing to help, ensuring that every act of kindness reaches those in need promptly.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="service-item bg-white p-5">
-                        <img class="img-fluid mb-4" width="66px" height="66px" src="/request.png"
-                            alt="">
-                        <h5 class="mb-3">Aid Request Management</h5>
-                        <p>Our Aid Request Management system allows individuals to easily submit and track their
-                            requests for assistance. With a user-friendly interface, recipients can receive timely
-                            updates on their applications, ensuring they get the support they need when they need it
-                            most</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="service-item bg-white p-5">
-                        <img class="img-fluid mb-4" src="/assets/img/icon-9.png" alt="">
-                        <h5 class="mb-3">Smart Contracts</h5>
-                        <p>Harnessing the power of blockchain, our Smart Contracts automate and secure aid distribution,
-                            ensuring every transaction is transparent and trustworthy. Say goodbye to uncertainty and
-                            hello to a reliable system that builds community trust and accountability.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="service-item bg-white p-5">
-                        <img class="img-fluid mb-4" width="66px" height="66px" src="/ai.png" alt="">
-                        <h5 class="mb-3">AI Powered</h5>
-                        <p>Our AI-Powered features leverage Natural Language Processing to analyze user feedback,
-                            helping to identify community needs and improve service delivery. This ensures that every
-                            voice is heard, making aid distribution more effective and responsive.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="service-item bg-white p-5">
-                        <img class="img-fluid mb-4" src="/assets/img/icon-2.png" alt="">
-                        <h5 class="mb-3">Reporting and Analytics</h5>
-                        <p>Our Reporting and Analytics tools provide valuable insights into aid distribution trends and
-                            community needs. </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Service End -->
-
-
+    <!-- Roadmap End -->
 
 
 
@@ -333,6 +254,31 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
             class="bi bi-arrow-up"></i></a>
 
+    <div class="modal fade" id="viewDocumentModal" tabindex="-1" role="dialog"
+        aria-labelledby="viewDocumentModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewDocumentModalTitle">View User Document</h5>
+                    <button type="button" class="btn btn-outline-dark close" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -345,41 +291,27 @@
 
     <!-- Template Javascript -->
     <script src="/assets/js/main.js"></script>
-    <div class="modal fade" id="loginAccountModal" tabindex="-1" role="dialog"
-        aria-labelledby="loginAccountModalTitle" aria-hidden="true">
+    <div class="modal fade" id="logoutAccountModal" tabindex="-1" role="dialog"
+        aria-labelledby="logoutAccountModalTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="loginAccountModalTitle">Login Your Account</h5>
                     <button type="button" class="btn btn-outline-dark close" data-bs-dismiss="modal"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/" method="post" autocomplete="off">
+                <form action="/logout" method="get" autocomplete="off">
                     @csrf
                     <div class="modal-body">
-
-                        <div class="form-group mt-2">
-                            <label for="username" class="text-dark">Username:</label>
-                            <br>
-                            <input required type="text" name="username" id="" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="password" class="text-dark">Password:</label>
-                            <br>
-                            <input required type="password" name="password" id="password2" class="form-control">
-                        </div>
-                        <div class="form-group mt-2">
-                            <input type="checkbox" id="showPassword2" onclick="togglePasswordVisibility2()">
-                            <label for="showPassword" class="text-dark">Show Password</label>
-                        </div>
-
+                        <center>
+                            <h5>Are You Sure You Want To Logout?</h5>
+                        </center>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" name="btnLogin"
-                            value="yes">Proceed</button>
+                        <button type="submit" class="btn btn-primary" name="btnLogout" value="yes">Yes,
+                            Proceed</button>
                     </div>
                 </form>
             </div>
@@ -387,7 +319,7 @@
     </div>
     <div class="modal fade" id="createAccountModal" tabindex="-1" role="dialog"
         aria-labelledby="createAccountModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="createAccountModalTitle">Create Your Account</h5>
@@ -486,8 +418,12 @@
         </div>
     </div>
     <script>
+        function viewDocument(filePath) {
+
+        }
+
         function togglePasswordVisibility2() {
-            var passwordField = document.getElementById("password2");
+            var passwordField = document.getElementById("password");
             if (passwordField.type === "password") {
                 passwordField.type = "text";
             } else {
@@ -507,32 +443,19 @@
             }
         }
     </script>
-    @if (session()->pull('successCreateAccount'))
+    @if (session()->pull('successLogin'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Successfully Created Account',
+                    title: 'Login Successfully',
                     showConfirmButton: false,
-                    timer: 800
+                    timer: 800,
                 });
             }, 500);
         </script>
-        {{ session()->forget('successCreateAccount') }}
-    @endif
-    @if (session()->pull('existingUsername'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Existing Username, Please Try Again Later',
-                    showConfirmButton: true,
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('existingUsername') }}
+        {{ session()->forget('successLogin') }}
     @endif
     @if (session()->pull('errorCreateAccount'))
         <script>
@@ -559,19 +482,6 @@
             }, 500);
         </script>
         {{ session()->forget('errorPasswordNotMatch') }}
-    @endif
-    @if (session()->pull('wrongUsernameOrPass'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Wrong Username or Password',
-                    showConfirmButton: true,
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('wrongUsernameOrPass') }}
     @endif
 </body>
 

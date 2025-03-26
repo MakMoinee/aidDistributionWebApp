@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\SystemUsers;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +16,22 @@ class WelcomeController extends Controller
      */
     public function index()
     {
+        $count = DB::table('system_users')->where('userType', '=', 'admin')->count();
+        if ($count == 0) {
+            $newUser = new SystemUsers();
+            $newUser->username = "admin";
+            $newUser->password = Hash::make("admin123");
+            $newUser->firstName = "admin";
+            $newUser->middleName = "admin";
+            $newUser->lastName = "admin";
+            $newUser->address = "sample";
+            $newUser->birthDate = (new DateTime(now()))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d');
+            $newUser->phoneNumber = "admin";
+            $newUser->gender = "admin";
+            $newUser->userType = "admin";
+            $newUser->save();
+        }
+
         if (session()->exists('users')) {
             $user = session()->pull("users");
             session()->put('users', $user);
@@ -70,25 +88,31 @@ class WelcomeController extends Controller
         } else if ($request->btnLogin) {
             $queryResult = DB::table('system_users')->where('username', '=', $request->username)->get();
             if ($queryResult->count() > 0) {
+                
                 $user = array();
                 foreach ($queryResult as $q) {
                     if (password_verify($request->password, $q->password)) {
                         $user = json_decode(json_encode($q), true);
                     }
                 }
+                
                 if (count($user) > 0) {
 
                     if ($user['userType'] == 'user') {
                         session()->put("successLogin", true);
                         session()->put("users", $user);
                         return redirect('/user_home');
+                    } else if ($user['userType'] == 'admin') {
+                        session()->put("successLogin", true);
+                        session()->put("users", $user);
+                        return redirect('/admin_home');
                     } else {
                         session()->put("unauthorizedLogin", true);
                     }
                 } else {
                     session()->put("errorLogin", true);
                 }
-            }else{
+            } else {
                 session()->put("wrongUsernameOrPass", true);
             }
         }

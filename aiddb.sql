@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 08/03/2025 12:17:06
+ Date: 20/03/2025 14:26:32
 */
 
 SET NAMES utf8mb4;
@@ -35,11 +35,13 @@ CREATE TABLE `aids`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`aidId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of aids
 -- ----------------------------
+INSERT INTO `aids` VALUES (6, 3, 'Fund Raising', 'none', '/data/documents/1742191944.pdf', 10000.00, '0xFAbb298F4e86e1331c5E4bEE805B3ae3d42446cB', 'This is a fund raising for cancer patients', 'financial', 'P1', '2025-03-17 06:12:24', '2025-03-17 06:12:24');
+INSERT INTO `aids` VALUES (7, 4, 'Fund Raising', 'none', '/data/documents/1742358073.pdf', 10000.00, '0xFAbb298F4e86e1331c5E4bEE805B3ae3d42446cB', 'I need funds for my tuition fee', 'financial', 'P1', '2025-03-19 04:21:13', '2025-03-19 04:21:13');
 
 -- ----------------------------
 -- Table structure for donation_details
@@ -57,11 +59,13 @@ CREATE TABLE `donation_details`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`donationDetailId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of donation_details
 -- ----------------------------
+INSERT INTO `donation_details` VALUES (1, 1, 6, '0x473081fa6f827e6111a4d1100f29bc6ba9634d9cfdd50c4d0b1cf7836394436c', '0x976EA74026E726554dB657fA54763abd0C3a0aa9', '0x5FbDB2315678afecb367f032d93F642f64180aa3', 0.0920827, 10000.00, '2025-03-17 06:14:30', '2025-03-17 06:14:30');
+INSERT INTO `donation_details` VALUES (2, 1, 7, '0x793d5adb94b3b1745524df4e68ffd6c00f76c9010d235471555fb70f1fbe67ee', '0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199', '0x5FbDB2315678afecb367f032d93F642f64180aa3', 0.0086594, 1000.00, '2025-03-20 06:24:50', '2025-03-20 06:24:50');
 
 -- ----------------------------
 -- Table structure for done_donations
@@ -74,11 +78,12 @@ CREATE TABLE `done_donations`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`doneID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of done_donations
 -- ----------------------------
+INSERT INTO `done_donations` VALUES (1, 1, 6, '2025-03-17 06:15:48', '2025-03-17 06:15:48');
 
 -- ----------------------------
 -- Table structure for migrations
@@ -89,7 +94,7 @@ CREATE TABLE `migrations`  (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of migrations
@@ -143,12 +148,17 @@ CREATE TABLE `personal_details`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of personal_details
 -- ----------------------------
 INSERT INTO `personal_details` VALUES (1, 1, 'Kennen', 'C', 'Borbon', 'Door 10, San Jose Extension', '2025-03-08', '09060464399', '/data/userDetails/1741406593.pdf', 'not approved', '2025-03-08 04:03:13', '2025-03-08 04:03:13');
+INSERT INTO `personal_details` VALUES (2, 2, 'Justin Paul', 'Ebro', 'Bronosa', 'Purok 3 Area 5 Laura St. Old Balara Quezon City', '2025-03-08', '09948153683', '/data/userDetails/1741407674.pdf', 'not approved', '2025-03-08 04:21:15', '2025-03-08 04:21:15');
+INSERT INTO `personal_details` VALUES (3, 3, 'Justin Paul', 'Ebro', 'Bronosa', 'Purok 3 Area 5 Laura St. Old Balara Quezon City', '2019-12-27', '09948153683', '/data/userDetails/1741408873.pdf', 'not approved', '2025-03-08 04:41:13', '2025-03-08 04:41:13');
+INSERT INTO `personal_details` VALUES (4, 1, 'Carla', 'Barco', 'Pradhan', 'Batasan Hills', '2000-11-23', '09060464399', '/data/userDetails/1742357706.pdf', 'not approved', '2025-03-19 04:15:06', '2025-03-19 04:15:06');
+INSERT INTO `personal_details` VALUES (5, 1, 'Kennen', 'C', 'Borbon', 'Door 10, San Jose Extension', '2025-03-08', '09060464399', '/data/userDetails/1742357761.pdf', 'not approved', '2025-03-19 04:16:01', '2025-03-19 04:16:01');
+INSERT INTO `personal_details` VALUES (6, 4, 'Carla', 'Barco', 'Pradhan', 'Batasan Hills', '2000-11-23', '09936512345', '/data/userDetails/1742357969.pdf', 'not approved', '2025-03-19 04:19:29', '2025-03-19 04:19:29');
 
 -- ----------------------------
 -- Table structure for system_users
@@ -169,13 +179,15 @@ CREATE TABLE `system_users`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`userID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of system_users
 -- ----------------------------
 INSERT INTO `system_users` VALUES (1, 'Sample', 'Sample', 'sample', 'male', 'sample', '2025-01-26', '09090464399', 'sample', '$2y$12$mTw2YidvzRxABH84jchKiud4OAsClNbnY1NnNrf9GGSe.nXu3Q.t.', 'user', '2025-01-26 13:07:51', '2025-01-26 13:07:51');
 INSERT INTO `system_users` VALUES (2, 'user', 'user', 'user', 'male', 'user', '2000-12-22', '09090464399', 'user', '$2y$12$TaUdGDb4RfeGrL3SwBVTTeMaDNzwsEbJ8HU5PWodTcoham8YvelLS', 'user', '2025-01-26 15:00:27', '2025-01-26 15:00:27');
+INSERT INTO `system_users` VALUES (3, 'stan', 'Ebro', 'bronosa', 'male', 'Purok 3 Area 5 Laura St. Old Balara Quezon City', '2019-12-27', '09948153682', 'stan', '$2y$12$5SdN747i3Q4La9uqgVkch.cdJxeo4gV/ZOwfp9VyeZFa8sb5Sb7RG', 'user', '2025-03-08 04:39:42', '2025-03-08 04:39:42');
+INSERT INTO `system_users` VALUES (4, 'Carla', 'Barco', 'Pradhan', 'female', 'Batasan Hills', '2000-11-23', '09936512345', 'carla', '$2y$12$ADCIXkxp2heJlO4akGztNOy3tCXaGB4aX48svebdQDzOeg1cSPmiy', 'user', '2025-03-19 04:18:08', '2025-03-19 04:18:08');
 
 -- ----------------------------
 -- View structure for vwdonations
