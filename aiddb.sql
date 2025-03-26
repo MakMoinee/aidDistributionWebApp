@@ -36,7 +36,7 @@ CREATE TABLE `aids` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`aidId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,6 +45,7 @@ CREATE TABLE `aids` (
 
 LOCK TABLES `aids` WRITE;
 /*!40000 ALTER TABLE `aids` DISABLE KEYS */;
+INSERT INTO `aids` VALUES (1,1,'For Hospital Bills','none','/data/documents/1743005554.pdf',120000.00,'0x466a574A80BD40521d25BC132948Ed72d14E6a1B','Please Help Me With My Hospital Bills','medical','P4','2025-03-26 08:12:34','2025-03-26 08:12:34');
 /*!40000 ALTER TABLE `aids` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,7 +68,7 @@ CREATE TABLE `donation_details` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`donationDetailId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -76,6 +77,7 @@ CREATE TABLE `donation_details` (
 
 LOCK TABLES `donation_details` WRITE;
 /*!40000 ALTER TABLE `donation_details` DISABLE KEYS */;
+INSERT INTO `donation_details` VALUES (1,3,1,'0x36001f17222ca59c9748725b83cbd7d54ecaf846bd03fe3640851888d130aaad','0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199','0x5FbDB2315678afecb367f032d93F642f64180aa3',1.0308304,120000.00,'2025-03-26 08:14:53','2025-03-26 08:14:53');
 /*!40000 ALTER TABLE `donation_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,7 +186,7 @@ CREATE TABLE `personal_details` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -193,7 +195,7 @@ CREATE TABLE `personal_details` (
 
 LOCK TABLES `personal_details` WRITE;
 /*!40000 ALTER TABLE `personal_details` DISABLE KEYS */;
-INSERT INTO `personal_details` VALUES (1,1,'John','Dela Cruz','Santos','sample address','1998-10-12','09090464399','/data/userDetails/1743002925.pdf','not approved','2025-03-26 07:28:45','2025-03-26 07:28:45');
+INSERT INTO `personal_details` VALUES (1,1,'John','Dela Cruz','Santos','sample address','1998-10-12','09090464399','/data/userDetails/1743002925.pdf','approved','2025-03-26 07:28:45','2025-03-26 07:28:45'),(2,3,'Ken','Xavier','Datu','sample','2025-03-27','1','/data/userDetails/1743005106.pdf','approved','2025-03-26 08:05:06','2025-03-26 08:05:06');
 /*!40000 ALTER TABLE `personal_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,7 +221,7 @@ CREATE TABLE `system_users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -228,7 +230,7 @@ CREATE TABLE `system_users` (
 
 LOCK TABLES `system_users` WRITE;
 /*!40000 ALTER TABLE `system_users` DISABLE KEYS */;
-INSERT INTO `system_users` VALUES (1,'user','user','user','male','sample','2025-03-26','09090464399','sample','$2y$12$MVucARQ6MYbJPQ6QDno22OlzEnNjzOfbe3zn9bz8VTsm2Z9gFoVz.','user','2025-03-26 07:05:06','2025-03-26 07:05:06'),(2,'admin','admin','admin','admin','sample','2025-03-26','admin','admin','$2y$12$xqMn0AYY4WcCe9Ngw9AJIudwtNYyrOBj4SseWMeaXDjzl6AlQoGXC','admin','2025-03-26 07:05:06','2025-03-26 07:05:06');
+INSERT INTO `system_users` VALUES (1,'user','user','user','male','sample','2025-03-26','09090464399','sample','$2y$12$MVucARQ6MYbJPQ6QDno22OlzEnNjzOfbe3zn9bz8VTsm2Z9gFoVz.','user','2025-03-26 07:05:06','2025-03-26 07:05:06'),(2,'admin','admin','admin','admin','sample','2025-03-26','admin','admin','$2y$12$xqMn0AYY4WcCe9Ngw9AJIudwtNYyrOBj4SseWMeaXDjzl6AlQoGXC','admin','2025-03-26 07:05:06','2025-03-26 07:05:06'),(3,'sample','sample','sample','male','sample','2025-03-27','09090464399','user','$2y$12$vzrDNo82QVDsMIFZlv3.xO5y82oETmflsN3O9badOcoMNAFsg7ztu','user','2025-03-26 08:04:01','2025-03-26 08:04:01');
 /*!40000 ALTER TABLE `system_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -347,7 +349,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `vwfiltereddonations` AS select `a`.`aidId` AS `aidId`,`a`.`userID` AS `userID`,`a`.`name` AS `name`,`a`.`documents` AS `documents`,`a`.`amount` AS `amount`,`a`.`paymentAddress` AS `paymentAddress`,`a`.`letter` AS `letter`,`a`.`category` AS `category`,`a`.`priority` AS `priority`,`a`.`created_at` AS `created_at`,`a`.`updated_at` AS `updated_at` from (`aids` `a` left join `vwtotalreceives` `v` on((`a`.`aidId` = `v`.`aidID`))) where (coalesce(`v`.`total`,0) < `a`.`amount`) order by (case when (`a`.`priority` = 'P1') then 1 when (`a`.`priority` = 'P2') then 2 when (`a`.`priority` = 'P3') then 3 else 4 end) */;
+/*!50001 VIEW `vwfiltereddonations` AS select `a`.`aidId` AS `aidId`,`a`.`userID` AS `userID`,`a`.`name` AS `name`,`a`.`documents` AS `documents`,`a`.`amount` AS `amount`,`a`.`paymentAddress` AS `paymentAddress`,`a`.`letter` AS `letter`,`a`.`category` AS `category`,`a`.`priority` AS `priority`,`a`.`created_at` AS `created_at`,`a`.`updated_at` AS `updated_at` from (`aids` `a` left join `vwtotalreceives` `v` on((`a`.`aidId` = `v`.`aidID`))) order by (case when (`a`.`priority` = 'P1') then 1 when (`a`.`priority` = 'P2') then 2 when (`a`.`priority` = 'P3') then 3 else 4 end) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -397,4 +399,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-27  0:00:46
+-- Dump completed on 2025-03-27  0:20:55

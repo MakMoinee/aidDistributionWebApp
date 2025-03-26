@@ -27,6 +27,7 @@ class UserDonationsController extends Controller
                 ->paginate(10);
 
 
+
             $certificate = array();
 
             $allDetails = DB::table('donation_details')
