@@ -1,216 +1,400 @@
-/*
- Navicat Premium Data Transfer
+-- MySQL dump 10.13  Distrib 8.0.27, for Win64 (x86_64)
+--
+-- Host: localhost    Database: aiddb
+-- ------------------------------------------------------
+-- Server version	8.0.27
 
- Source Server         : Local
- Source Server Type    : MySQL
- Source Server Version : 80027
- Source Host           : localhost:3306
- Source Schema         : aiddb
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
- Target Server Type    : MySQL
- Target Server Version : 80027
- File Encoding         : 65001
+--
+-- Table structure for table `aids`
+--
 
- Date: 20/03/2025 14:26:41
-*/
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for aids
--- ----------------------------
 DROP TABLE IF EXISTS `aids`;
-CREATE TABLE `aids`  (
-  `aidId` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `aids` (
+  `aidId` bigint unsigned NOT NULL AUTO_INCREMENT,
   `userID` int NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `purpose` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `documents` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `amount` decimal(10, 2) NOT NULL,
-  `paymentAddress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `letter` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `priority` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `purpose` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `documents` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `paymentAddress` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `letter` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `category` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `priority` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`aidId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY (`aidId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of aids
--- ----------------------------
-INSERT INTO `aids` VALUES (6, 3, 'Fund Raising', 'none', '/data/documents/1742191944.pdf', 10000.00, '0xFAbb298F4e86e1331c5E4bEE805B3ae3d42446cB', 'This is a fund raising for cancer patients', 'financial', 'P1', '2025-03-17 06:12:24', '2025-03-17 06:12:24');
-INSERT INTO `aids` VALUES (7, 4, 'Fund Raising', 'none', '/data/documents/1742358073.pdf', 10000.00, '0xFAbb298F4e86e1331c5E4bEE805B3ae3d42446cB', 'I need funds for my tuition fee', 'financial', 'P1', '2025-03-19 04:21:13', '2025-03-19 04:21:13');
+--
+-- Dumping data for table `aids`
+--
 
--- ----------------------------
--- Table structure for donation_details
--- ----------------------------
+LOCK TABLES `aids` WRITE;
+/*!40000 ALTER TABLE `aids` DISABLE KEYS */;
+/*!40000 ALTER TABLE `aids` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `donation_details`
+--
+
 DROP TABLE IF EXISTS `donation_details`;
-CREATE TABLE `donation_details`  (
-  `donationDetailId` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `donation_details` (
+  `donationDetailId` bigint unsigned NOT NULL AUTO_INCREMENT,
   `userID` int NOT NULL,
   `aidID` int NOT NULL,
-  `hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `from` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `to` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `eth` decimal(10, 7) NOT NULL,
-  `amount` decimal(10, 2) NOT NULL,
+  `hash` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `from` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `to` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `eth` decimal(10,7) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`donationDetailId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY (`donationDetailId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of donation_details
--- ----------------------------
-INSERT INTO `donation_details` VALUES (1, 1, 6, '0x473081fa6f827e6111a4d1100f29bc6ba9634d9cfdd50c4d0b1cf7836394436c', '0x976EA74026E726554dB657fA54763abd0C3a0aa9', '0x5FbDB2315678afecb367f032d93F642f64180aa3', 0.0920827, 10000.00, '2025-03-17 06:14:30', '2025-03-17 06:14:30');
-INSERT INTO `donation_details` VALUES (2, 1, 7, '0x793d5adb94b3b1745524df4e68ffd6c00f76c9010d235471555fb70f1fbe67ee', '0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199', '0x5FbDB2315678afecb367f032d93F642f64180aa3', 0.0086594, 1000.00, '2025-03-20 06:24:50', '2025-03-20 06:24:50');
+--
+-- Dumping data for table `donation_details`
+--
 
--- ----------------------------
--- Table structure for done_donations
--- ----------------------------
+LOCK TABLES `donation_details` WRITE;
+/*!40000 ALTER TABLE `donation_details` DISABLE KEYS */;
+/*!40000 ALTER TABLE `donation_details` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `done_donations`
+--
+
 DROP TABLE IF EXISTS `done_donations`;
-CREATE TABLE `done_donations`  (
-  `doneID` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `done_donations` (
+  `doneID` bigint unsigned NOT NULL AUTO_INCREMENT,
   `userID` int NOT NULL,
   `aidID` int NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`doneID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY (`doneID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of done_donations
--- ----------------------------
-INSERT INTO `done_donations` VALUES (1, 1, 6, '2025-03-17 06:15:48', '2025-03-17 06:15:48');
+--
+-- Dumping data for table `done_donations`
+--
 
--- ----------------------------
--- Table structure for migrations
--- ----------------------------
+LOCK TABLES `done_donations` WRITE;
+/*!40000 ALTER TABLE `done_donations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `done_donations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `migrations`
+--
+
 DROP TABLE IF EXISTS `migrations`;
-CREATE TABLE `migrations`  (
-  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `migrations` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of migrations
--- ----------------------------
-INSERT INTO `migrations` VALUES (1, '2019_12_14_000001_create_personal_access_tokens_table', 1);
-INSERT INTO `migrations` VALUES (2, '2024_10_06_045703_create_system_users_table', 1);
-INSERT INTO `migrations` VALUES (4, '2024_11_01_204340_create_donation_details_table', 1);
-INSERT INTO `migrations` VALUES (5, '2024_11_04_214310_create_done_donations_table', 1);
-INSERT INTO `migrations` VALUES (6, '2024_10_16_193257_create_aids_table', 2);
-INSERT INTO `migrations` VALUES (8, '2025_03_08_024327_create_personal_details_table', 3);
+--
+-- Dumping data for table `migrations`
+--
 
--- ----------------------------
--- Table structure for personal_access_tokens
--- ----------------------------
+LOCK TABLES `migrations` WRITE;
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` VALUES (1,'2019_12_14_000001_create_personal_access_tokens_table',1),(2,'2024_10_06_045703_create_system_users_table',1),(3,'2024_10_16_193257_create_aids_table',1),(4,'2024_11_01_204340_create_donation_details_table',1),(5,'2024_11_04_214310_create_done_donations_table',1),(6,'2025_03_08_024327_create_personal_details_table',1);
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `personal_access_tokens`
+--
+
 DROP TABLE IF EXISTS `personal_access_tokens`;
-CREATE TABLE `personal_access_tokens`  (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `personal_access_tokens_token_unique`(`token` ASC) USING BTREE,
-  INDEX `personal_access_tokens_tokenable_type_tokenable_id_index`(`tokenable_type` ASC, `tokenable_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of personal_access_tokens
--- ----------------------------
+--
+-- Dumping data for table `personal_access_tokens`
+--
 
--- ----------------------------
--- Table structure for personal_details
--- ----------------------------
+LOCK TABLES `personal_access_tokens` WRITE;
+/*!40000 ALTER TABLE `personal_access_tokens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `personal_access_tokens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `personal_details`
+--
+
 DROP TABLE IF EXISTS `personal_details`;
-CREATE TABLE `personal_details`  (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `personal_details` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `userID` int NOT NULL,
-  `firstName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `middleName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lastName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `firstName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `middleName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lastName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `birthDate` date NOT NULL,
-  `contactNumber` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `documents` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contactNumber` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `documents` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of personal_details
--- ----------------------------
-INSERT INTO `personal_details` VALUES (1, 1, 'Kennen', 'C', 'Borbon', 'Door 10, San Jose Extension', '2025-03-08', '09060464399', '/data/userDetails/1741406593.pdf', 'not approved', '2025-03-08 04:03:13', '2025-03-08 04:03:13');
-INSERT INTO `personal_details` VALUES (2, 2, 'Justin Paul', 'Ebro', 'Bronosa', 'Purok 3 Area 5 Laura St. Old Balara Quezon City', '2025-03-08', '09948153683', '/data/userDetails/1741407674.pdf', 'not approved', '2025-03-08 04:21:15', '2025-03-08 04:21:15');
-INSERT INTO `personal_details` VALUES (3, 3, 'Justin Paul', 'Ebro', 'Bronosa', 'Purok 3 Area 5 Laura St. Old Balara Quezon City', '2019-12-27', '09948153683', '/data/userDetails/1741408873.pdf', 'not approved', '2025-03-08 04:41:13', '2025-03-08 04:41:13');
-INSERT INTO `personal_details` VALUES (4, 1, 'Carla', 'Barco', 'Pradhan', 'Batasan Hills', '2000-11-23', '09060464399', '/data/userDetails/1742357706.pdf', 'not approved', '2025-03-19 04:15:06', '2025-03-19 04:15:06');
-INSERT INTO `personal_details` VALUES (5, 1, 'Kennen', 'C', 'Borbon', 'Door 10, San Jose Extension', '2025-03-08', '09060464399', '/data/userDetails/1742357761.pdf', 'not approved', '2025-03-19 04:16:01', '2025-03-19 04:16:01');
-INSERT INTO `personal_details` VALUES (6, 4, 'Carla', 'Barco', 'Pradhan', 'Batasan Hills', '2000-11-23', '09936512345', '/data/userDetails/1742357969.pdf', 'not approved', '2025-03-19 04:19:29', '2025-03-19 04:19:29');
+--
+-- Dumping data for table `personal_details`
+--
 
--- ----------------------------
--- Table structure for system_users
--- ----------------------------
+LOCK TABLES `personal_details` WRITE;
+/*!40000 ALTER TABLE `personal_details` DISABLE KEYS */;
+INSERT INTO `personal_details` VALUES (1,1,'John','Dela Cruz','Santos','sample address','1998-10-12','09090464399','/data/userDetails/1743002925.pdf','not approved','2025-03-26 07:28:45','2025-03-26 07:28:45');
+/*!40000 ALTER TABLE `personal_details` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `system_users`
+--
+
 DROP TABLE IF EXISTS `system_users`;
-CREATE TABLE `system_users`  (
-  `userID` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `firstName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `middleName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `lastName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `gender` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `system_users` (
+  `userID` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `firstName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `middleName` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lastName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gender` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `birthDate` date NOT NULL,
-  `phoneNumber` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `userType` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phoneNumber` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `userType` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`userID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY (`userID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of system_users
--- ----------------------------
-INSERT INTO `system_users` VALUES (1, 'Sample', 'Sample', 'sample', 'male', 'sample', '2025-01-26', '09090464399', 'sample', '$2y$12$mTw2YidvzRxABH84jchKiud4OAsClNbnY1NnNrf9GGSe.nXu3Q.t.', 'user', '2025-01-26 13:07:51', '2025-01-26 13:07:51');
-INSERT INTO `system_users` VALUES (2, 'user', 'user', 'user', 'male', 'user', '2000-12-22', '09090464399', 'user', '$2y$12$TaUdGDb4RfeGrL3SwBVTTeMaDNzwsEbJ8HU5PWodTcoham8YvelLS', 'user', '2025-01-26 15:00:27', '2025-01-26 15:00:27');
-INSERT INTO `system_users` VALUES (3, 'stan', 'Ebro', 'bronosa', 'male', 'Purok 3 Area 5 Laura St. Old Balara Quezon City', '2019-12-27', '09948153682', 'stan', '$2y$12$5SdN747i3Q4La9uqgVkch.cdJxeo4gV/ZOwfp9VyeZFa8sb5Sb7RG', 'user', '2025-03-08 04:39:42', '2025-03-08 04:39:42');
-INSERT INTO `system_users` VALUES (4, 'Carla', 'Barco', 'Pradhan', 'female', 'Batasan Hills', '2000-11-23', '09936512345', 'carla', '$2y$12$ADCIXkxp2heJlO4akGztNOy3tCXaGB4aX48svebdQDzOeg1cSPmiy', 'user', '2025-03-19 04:18:08', '2025-03-19 04:18:08');
+--
+-- Dumping data for table `system_users`
+--
 
--- ----------------------------
--- View structure for vwdonations
--- ----------------------------
-DROP VIEW IF EXISTS `vwdonations`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwdonations` AS select `system_users`.`firstName` AS `firstName`,`system_users`.`middleName` AS `middleName`,`system_users`.`lastName` AS `lastName`,`vwfiltereddonations`.`aidId` AS `aidId`,`vwfiltereddonations`.`name` AS `name`,`vwfiltereddonations`.`amount` AS `amount`,`vwfiltereddonations`.`paymentAddress` AS `paymentAddress`,`vwfiltereddonations`.`letter` AS `letter`,`vwfiltereddonations`.`category` AS `category`,`vwfiltereddonations`.`priority` AS `priority`,`vwfiltereddonations`.`created_at` AS `created_at`,`vwfiltereddonations`.`userID` AS `userID`,`vwfiltereddonations`.`documents` AS `documents` from (`system_users` join `vwfiltereddonations` on((`system_users`.`userID` = `vwfiltereddonations`.`userID`)));
+LOCK TABLES `system_users` WRITE;
+/*!40000 ALTER TABLE `system_users` DISABLE KEYS */;
+INSERT INTO `system_users` VALUES (1,'user','user','user','male','sample','2025-03-26','09090464399','sample','$2y$12$MVucARQ6MYbJPQ6QDno22OlzEnNjzOfbe3zn9bz8VTsm2Z9gFoVz.','user','2025-03-26 07:05:06','2025-03-26 07:05:06'),(2,'admin','admin','admin','admin','sample','2025-03-26','admin','admin','$2y$12$xqMn0AYY4WcCe9Ngw9AJIudwtNYyrOBj4SseWMeaXDjzl6AlQoGXC','admin','2025-03-26 07:05:06','2025-03-26 07:05:06');
+/*!40000 ALTER TABLE `system_users` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- ----------------------------
--- View structure for vwfiltereddonations
--- ----------------------------
-DROP VIEW IF EXISTS `vwfiltereddonations`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwfiltereddonations` AS select `a`.`aidId` AS `aidId`,`a`.`userID` AS `userID`,`a`.`name` AS `name`,`a`.`documents` AS `documents`,`a`.`amount` AS `amount`,`a`.`paymentAddress` AS `paymentAddress`,`a`.`letter` AS `letter`,`a`.`category` AS `category`,`a`.`priority` AS `priority`,`a`.`created_at` AS `created_at`,`a`.`updated_at` AS `updated_at` from (`aids` `a` left join `vwtotalreceives` `v` on((`a`.`aidId` = `v`.`aidID`))) where (coalesce(`v`.`total`,0) < `a`.`amount`) order by (case when (`a`.`priority` = 'P1') then 1 when (`a`.`priority` = 'P2') then 2 when (`a`.`priority` = 'P3') then 3 else 4 end);
+--
+-- Temporary view structure for view `vwdonations`
+--
 
--- ----------------------------
--- View structure for vwgiverdonation
--- ----------------------------
-DROP VIEW IF EXISTS `vwgiverdonation`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwgiverdonation` AS select `system_users`.`userID` AS `userID`,`donation_details`.`donationDetailId` AS `donationDetailId`,`donation_details`.`userID` AS `giverID`,`donation_details`.`aidID` AS `aidID`,`donation_details`.`hash` AS `hash`,`donation_details`.`from` AS `from`,`donation_details`.`to` AS `to`,`donation_details`.`eth` AS `eth`,`donation_details`.`amount` AS `amount`,`donation_details`.`created_at` AS `created_at`,`system_users`.`firstName` AS `firstName`,`system_users`.`middleName` AS `middleName`,`system_users`.`lastName` AS `lastName`,`aids`.`userID` AS `ownerID`,`aids`.`paymentAddress` AS `paymentAddress` from ((`donation_details` join `system_users` on((`donation_details`.`userID` = `system_users`.`userID`))) join `aids` on((`donation_details`.`aidID` = `aids`.`aidId`)));
+DROP TABLE IF EXISTS `vwdonations`;
+/*!50001 DROP VIEW IF EXISTS `vwdonations`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vwdonations` AS SELECT 
+ 1 AS `firstName`,
+ 1 AS `middleName`,
+ 1 AS `lastName`,
+ 1 AS `aidId`,
+ 1 AS `name`,
+ 1 AS `amount`,
+ 1 AS `paymentAddress`,
+ 1 AS `letter`,
+ 1 AS `category`,
+ 1 AS `priority`,
+ 1 AS `created_at`,
+ 1 AS `userID`,
+ 1 AS `documents`*/;
+SET character_set_client = @saved_cs_client;
 
--- ----------------------------
--- View structure for vwtotalreceives
--- ----------------------------
-DROP VIEW IF EXISTS `vwtotalreceives`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwtotalreceives` AS select `donation_details`.`aidID` AS `aidID`,sum(`donation_details`.`amount`) AS `total` from `donation_details` group by `donation_details`.`aidID`;
+--
+-- Temporary view structure for view `vwfiltereddonations`
+--
 
-SET FOREIGN_KEY_CHECKS = 1;
+DROP TABLE IF EXISTS `vwfiltereddonations`;
+/*!50001 DROP VIEW IF EXISTS `vwfiltereddonations`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vwfiltereddonations` AS SELECT 
+ 1 AS `aidId`,
+ 1 AS `userID`,
+ 1 AS `name`,
+ 1 AS `documents`,
+ 1 AS `amount`,
+ 1 AS `paymentAddress`,
+ 1 AS `letter`,
+ 1 AS `category`,
+ 1 AS `priority`,
+ 1 AS `created_at`,
+ 1 AS `updated_at`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `vwgiverdonation`
+--
+
+DROP TABLE IF EXISTS `vwgiverdonation`;
+/*!50001 DROP VIEW IF EXISTS `vwgiverdonation`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vwgiverdonation` AS SELECT 
+ 1 AS `donationDetailId`,
+ 1 AS `giverID`,
+ 1 AS `aidID`,
+ 1 AS `hash`,
+ 1 AS `from`,
+ 1 AS `to`,
+ 1 AS `eth`,
+ 1 AS `amount`,
+ 1 AS `created_at`,
+ 1 AS `ownerID`,
+ 1 AS `paymentAddress`,
+ 1 AS `firstName`,
+ 1 AS `middleName`,
+ 1 AS `lastName`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `vwtotalreceives`
+--
+
+DROP TABLE IF EXISTS `vwtotalreceives`;
+/*!50001 DROP VIEW IF EXISTS `vwtotalreceives`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vwtotalreceives` AS SELECT 
+ 1 AS `aidID`,
+ 1 AS `total`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Final view structure for view `vwdonations`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vwdonations`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vwdonations` AS select `system_users`.`firstName` AS `firstName`,`system_users`.`middleName` AS `middleName`,`system_users`.`lastName` AS `lastName`,`vwfiltereddonations`.`aidId` AS `aidId`,`vwfiltereddonations`.`name` AS `name`,`vwfiltereddonations`.`amount` AS `amount`,`vwfiltereddonations`.`paymentAddress` AS `paymentAddress`,`vwfiltereddonations`.`letter` AS `letter`,`vwfiltereddonations`.`category` AS `category`,`vwfiltereddonations`.`priority` AS `priority`,`vwfiltereddonations`.`created_at` AS `created_at`,`vwfiltereddonations`.`userID` AS `userID`,`vwfiltereddonations`.`documents` AS `documents` from (`system_users` join `vwfiltereddonations` on((`system_users`.`userID` = `vwfiltereddonations`.`userID`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `vwfiltereddonations`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vwfiltereddonations`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vwfiltereddonations` AS select `a`.`aidId` AS `aidId`,`a`.`userID` AS `userID`,`a`.`name` AS `name`,`a`.`documents` AS `documents`,`a`.`amount` AS `amount`,`a`.`paymentAddress` AS `paymentAddress`,`a`.`letter` AS `letter`,`a`.`category` AS `category`,`a`.`priority` AS `priority`,`a`.`created_at` AS `created_at`,`a`.`updated_at` AS `updated_at` from (`aids` `a` left join `vwtotalreceives` `v` on((`a`.`aidId` = `v`.`aidID`))) where (coalesce(`v`.`total`,0) < `a`.`amount`) order by (case when (`a`.`priority` = 'P1') then 1 when (`a`.`priority` = 'P2') then 2 when (`a`.`priority` = 'P3') then 3 else 4 end) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `vwgiverdonation`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vwgiverdonation`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vwgiverdonation` AS select `donation_details`.`donationDetailId` AS `donationDetailId`,`donation_details`.`userID` AS `giverID`,`donation_details`.`aidID` AS `aidID`,`donation_details`.`hash` AS `hash`,`donation_details`.`from` AS `from`,`donation_details`.`to` AS `to`,`donation_details`.`eth` AS `eth`,`donation_details`.`amount` AS `amount`,`donation_details`.`created_at` AS `created_at`,`aids`.`userID` AS `ownerID`,`aids`.`paymentAddress` AS `paymentAddress`,`personal_details`.`firstName` AS `firstName`,`personal_details`.`middleName` AS `middleName`,`personal_details`.`lastName` AS `lastName` from ((`donation_details` join `aids` on((`donation_details`.`aidID` = `aids`.`aidId`))) join `personal_details` on((`donation_details`.`userID` = `personal_details`.`userID`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `vwtotalreceives`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vwtotalreceives`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vwtotalreceives` AS select `donation_details`.`aidID` AS `aidID`,sum(`donation_details`.`amount`) AS `total` from `donation_details` group by `donation_details`.`aidID` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-03-27  0:00:46

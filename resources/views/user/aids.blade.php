@@ -127,7 +127,14 @@
                 <div class="col-sm-3 col-lg-6">
                     <button class="btn btn-primary" data-bs-target="#addRequestModal" data-bs-toggle="modal">Add
                         Request</button>
-                    <button class="btn btn-success" onclick="window.location='/user_donations'">Give Donations</button>
+                    @if ($details)
+                        @if ($details[0]['status'] != 'not approved')
+                            <button class="btn btn-success" onclick="window.location='/user_donations'">Give
+                                Donations</button>
+                        @else
+                        @endif
+                    @else
+                    @endif
                 </div>
             </div>
             <br>

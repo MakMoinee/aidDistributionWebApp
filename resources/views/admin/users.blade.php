@@ -370,6 +370,7 @@
             uid.value = id;
             let approval = document.getElementById('approval');
             approval.selected = status;
+            approval.value = status;
         }
 
         function viewDocument(filePath) {
