@@ -98,6 +98,13 @@
                 <a href="#about" class="nav-item nav-link">About</a>
                 <a href="/user_aids" class="nav-item nav-link">Aids</a>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a href="/notifications" class="nav-item nav-link">Notification
+                    @if ($notifs > 0)
+                        <button class="btn btn-success text-white btn-sm">{{ $notifs }}</button>
+                    @else
+                        <button class="btn btn-danger text-white btn-sm">0</button>
+                    @endif
+                </a>
                 <a href="#" class="nav-item nav-link" data-bs-toggle="modal"
                     data-bs-target="#logoutAccountModal"><b class="text-danger">Logout</b></a>
             </div>
@@ -174,8 +181,7 @@
                                             <br>
                                             <button type="button" id="btnUpload" onclick="loadDocument()"
                                                 class="btn btn-primary mt-3">{{ $details[0]['documents'] }}</button>
-                                            <button type="button"
-                                                class="btn btn-secondary mt-3" id="btnClear"
+                                            <button type="button" class="btn btn-secondary mt-3" id="btnClear"
                                                 onclick="clearData()">Clear</button>
                                             <input required type="file" name="documents" id="myDocument"
                                                 class="invisible" accept=".pdf" onchange="onDocChange(this)">

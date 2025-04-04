@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -31,6 +32,7 @@ class AdminUsersController extends Controller
                 }
             }
 
+
             return view('admin.users', ['users' => $allUsers, 'details' => $userData]);
         }
         return redirect("/");
@@ -58,9 +60,18 @@ class AdminUsersController extends Controller
             if ($request->btnUpdateAccount) {
                 $updateCount = DB::table('personal_details')->where('id', '=', $request->id)->update([
                     "status" => $request->approval,
+                    "remarks" => $request->remarks,
                 ]);
                 if ($updateCount > 0) {
-
+                    $newNotif = new Notification();
+                    $newNotif->userID = $request->usid;
+                    $msg = "Your Account Is " . $request->approval;
+                    if ($request->approval == "not approved") {
+                        $msg = $msg . ": " . $request->remarks;
+                    }
+                    $newNotif->message = $msg;
+                    $newNotif->status = "unread";
+                    $newNotif->save();
                     session()->put('successUpdateAccount', true);
                 } else {
 

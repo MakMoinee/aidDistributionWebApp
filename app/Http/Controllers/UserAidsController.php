@@ -59,8 +59,11 @@ class UserAidsController extends Controller
             }
 
             $details = json_decode(DB::table('personal_details')->where('userID', '=', $user['userID'])->get(), true);
+            $count = DB::table('notifications')->where('userID', '=', $user['userID'])
+                ->where('status', '=', 'unread')
+                ->count();
 
-            return view('user.aids', ['aids' => $aids, 'donation' => $finalDonation, 'all' => $newDonations, 'finish' => $allDone, 'phpRate' => $phpRate, 'details' => $details]);
+            return view('user.aids', ['notifs' => $count, 'aids' => $aids, 'donation' => $finalDonation, 'all' => $newDonations, 'finish' => $allDone, 'phpRate' => $phpRate, 'details' => $details]);
         }
         return redirect("/");
     }

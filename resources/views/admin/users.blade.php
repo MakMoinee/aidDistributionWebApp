@@ -157,7 +157,7 @@
                                                     @if (array_key_exists($item->userID, $details))
                                                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                                             data-bs-target="#updateAccountModal"
-                                                            onclick="updateAccount({{ $details[$item->userID]['id'] }},'{{ $details[$item->userID]['status'] }}')">Update</button>
+                                                            onclick="updateAccount({{ $item->userID }},{{ $details[$item->userID]['id'] }},'{{ $details[$item->userID]['status'] }}')">Update</button>
                                                     @else
                                                     @endif
                                                 </td>
@@ -351,6 +351,15 @@
                                     <option value="approved">Approved</option>
                                 </select>
                                 <input type="hidden" name="id" id="uid" value="">
+                                <input type="hidden" name="usid" id="usid" value="">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-lg-12">
+                                <label for="remarks" class="text-dark">Remarks:<span
+                                        class="text-danger">*</span></label>
+                                <br>
+                                <input required type="text" class="form-control" name="remarks">
                             </div>
                         </div>
                     </div>
@@ -365,9 +374,12 @@
         </div>
     </div>
     <script>
-        function updateAccount(id, status) {
+        function updateAccount(uuid, id, status) {
             let uid = document.getElementById('uid');
             uid.value = id;
+            let yuid = document.getElementById('usid');
+            yuid.value = uuid;
+
             let approval = document.getElementById('approval');
             approval.selected = status;
             approval.value = status;

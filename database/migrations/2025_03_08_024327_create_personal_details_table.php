@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('birthDate')->nullable(false);
             $table->string('contactNumber')->nullable(false);
             $table->string('documents')->nullable(false);
+            $table->string('remarks')->nullable(true);
             $table->string('status')->nullable(false);
             $table->timestamps();
         });

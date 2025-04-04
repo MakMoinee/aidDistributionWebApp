@@ -101,9 +101,9 @@
                 <a href="/user_home" class="nav-item nav-link ">Home</a>
                 <a href="/user_details" class="nav-item nav-link">Details</a>
                 <a href="#about" class="nav-item nav-link">About</a>
-                <a href="/user_aids" class="nav-item nav-link active">Aids</a>
+                <a href="/user_aids" class="nav-item nav-link ">Aids</a>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
-                <a href="/notifications" class="nav-item nav-link">Notification
+                <a href="/notifications" class="nav-item nav-link active">Notification
                     @if ($notifs > 0)
                         <button class="btn btn-success text-white btn-sm">{{ $notifs }}</button>
                     @else
@@ -125,23 +125,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title mb-4">
-                        <h5 class="position-relative d-inline-block text-primary text-uppercase">FUND YOUR NEEDS</h5>
-                        <h1 class="display-5 mb-0">Aid Request/s</h1>
+                        <h5 class="position-relative d-inline-block text-primary text-uppercase">NOTIFICATIONS</h5>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-3 col-lg-6">
-                    <button class="btn btn-primary" data-bs-target="#addRequestModal" data-bs-toggle="modal">Add
-                        Request</button>
-                    @if ($details)
-                        @if ($details[0]['status'] != 'not approved')
-                            <button class="btn btn-success" onclick="window.location='/user_donations'">Give
-                                Donations</button>
-                        @else
-                        @endif
-                    @else
-                    @endif
                 </div>
             </div>
             <br>
@@ -204,67 +189,71 @@
                                         <path class="cls-1" d="M10,16.331h6.587a.5.5,0,0,0,0-1H10a.5.5,0,0,0,0,1Z" />
                                     </svg>
                                 </th>
-                                <th>Request Name</th>
-                                <th class="text-center">Date Submitted</th>
-                                <th>Supporting Documents</th>
-                                <th class="text-center">Amount</th>
-                                <th>Note</th>
-                                <th class="text-center">Donations</th>
-                                <th>Action</th>
+                                <th>Message</th>
+                                <th class="text-center">Status</th>
+                                <th>Date</th>
+                                <th class="text-center">Action</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($aids as $item)
-                                <tr>
-                                    <td class="text-center"></td>
-                                    <td> {{ $item->name }} </td>
-                                    <td class="text-center">
-                                        {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                            @foreach ($all as $item)
+                                <tr class="align-middle">
+
+                                    <td class="text-center text-dark">
+
                                     </td>
-                                    <td>
-                                        <button onclick="showThis('{{ $item->documents }}')"
-                                            class="btn btn-success text-white" data-bs-toggle="modal"
-                                            data-bs-target="#viewDocumentModal">View Docs</button>
-                                    </td>
-                                    <td class="text-center"> P{{ number_format($item->amount, 2) }} </td>
-                                    <td>{{ $item->letter }}</td>
-                                    <td class="text-center">
-                                        @if (count($donation) > 0 && array_key_exists($item->aidId, $donation))
-                                            P{{ number_format($donation[$item->aidId], 2) }}
+                                    <td class="text-dark">
+                                        @if ($item->status == 'unread')
+                                            <b>
+                                                {{ $item->message }}
+                                            </b>
                                         @else
-                                            P0.00
+                                            {{ $item->message }}
                                         @endif
                                     </td>
-                                    <td>
-                                        @if (count($donation) > 0 && array_key_exists($item->aidId, $donation))
-                                            <button class="btn btn-success" title="View Donation Details"
-                                                data-bs-target="#viewDonationModal{{ $item->aidId }}"
-                                                data-bs-toggle="modal">
-                                                <img src="/view.svg" alt="" srcset="">
-                                            </button>
-
-                                            @if (count($finish) > 0 && array_key_exists($item->aidId, $finish))
-                                            @else
-                                                <button class="btn btn-warning" title="Receive Your Funds"
-                                                    data-bs-target="#receiveFundsModal{{ $item->aidId }}"
-                                                    data-bs-toggle="modal">
-                                                    <img src="/receive.svg" alt="" srcset="">
+                                    <td class="text-center text-dark">
+                                        @if ($item->status == 'unread')
+                                            <b>
+                                                {{ $item->status }}
+                                            </b>
+                                        @else
+                                            {{ $item->status }}
+                                        @endif
+                                    </td>
+                                    <td class="text-dark">
+                                        @if ($item->status == 'unread')
+                                            <b>
+                                                {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d') }}
+                                            </b>
+                                        @else
+                                            {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d') }}
+                                        @endif
+                                    </td>
+                                    <td class="text-center text-dark">
+                                        <div class="row d-flex">
+                                            <form action="/notifications" method="post">
+                                                @csrf
+                                                @if ($item->status == 'unread')
+                                                    <button type="submit" class="btn btn-sm" title="Mark As Read"
+                                                        name="btnMarkAsRead" value="{{ $item->id }}">
+                                                        <img src="/read.png" style="width:32px; height: 32px;"
+                                                            alt="" srcset="">
+                                                    </button>
+                                                @endif
+                                                <button type="button" class="btn btn-sm" title="Delete"
+                                                    data-bs-target="#deleteRequestModal" data-bs-toggle="modal"
+                                                    onclick="deleteRequest({{ $item->id }})">
+                                                    <img src="/delete.png" style="width:32px; height: 32px;"
+                                                        alt="" srcset="">
                                                 </button>
-                                            @endif
+                                            </form>
 
-                                            @include('modal.useraids', [
-                                                'donationDetail' => $all[$item->aidId],
-                                                'id' => $item->aidId,
-                                                'totalDonation' => $donation[$item->aidId],
-                                            ])
-                                        @else
-                                            <button
-                                                onclick="deleteRequest({{ $item->aidId }},'{{ $item->documents }}');"
-                                                class="btn" data-bs-target="#deleteRequestModal"
-                                                data-bs-toggle="modal">
-                                                <img src="/delete.svg" alt="" srcset="">
-                                            </button>
-                                        @endif
+
+                                        </div>
+                                    </td>
+                                    <td class="text-dark">
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -274,10 +263,10 @@
                         <div class="col-md-12">
                             <div class="pagination">
                                 <ul class="pagination">
-                                    @for ($i = 1; $i <= $aids->lastPage(); $i++)
+                                    @for ($i = 1; $i <= $all->lastPage(); $i++)
                                         <li class="page-item ">
-                                            <a class="page-link {{ $aids->currentPage() == $i ? 'active text-danger' : 'text-dark' }}"
-                                                href="{{ $aids->url($i) }}">{{ $i }}</a>
+                                            <a class="page-link {{ $all->currentPage() == $i ? 'active text-danger' : 'text-dark' }}"
+                                                href="{{ $all->url($i) }}">{{ $i }}</a>
                                         </li>
                                     @endfor
                                 </ul>
@@ -423,13 +412,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="deleteRequestForm" action="/user_aids" method="post" autocomplete="off">
+                <form id="deleteRequestForm" action="/notifications" method="post" autocomplete="off">
                     @method('delete')
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <h4>Are You Sure You Want Delete This Request?</h4>
-                            <input type="text" name="documents" style="display: none;" id="deleteFile">
+                            <h4>Are You Sure You Want Delete This Record?</h4>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -437,88 +425,6 @@
                         <button type="submit" class="btn btn-primary" name="btnDeleteRequest"
                             value="yes">Proceed</button>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="addRequestModal" tabindex="-1" role="dialog"
-        aria-labelledby="addRequestModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addRequestModalTitle">Create Aid Request</h5>
-                    <button type="button" class="btn btn-outline-dark close" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="/user_aids" method="post" autocomplete="off" enctype="multipart/form-data">
-                    @csrf
-                    @if ($details)
-                        @if ($details[0]['status'] != 'not approved')
-                            <div class="modal-body">
-                                <div class="form-group mb-2">
-                                    <label for="requestName" class="text-dark">Request Name:</label>
-                                    <input required type="text" name="requestName" id=""
-                                        class="form-control text-dark">
-                                </div>
-                                <div class="form-group mb-2" style="display: none">
-                                    <label for="purpose" class="text-dark">Request Purpose:</label>
-                                    <input required type="text" name="purpose" id=""
-                                        class="form-control text-dark" value="none">
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="amount" class="text-dark">Amount:</label>
-                                    <input required type="number" name="amount" id=""
-                                        class="form-control text-dark">
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="paymentAddress" class="text-dark">Payment Address:</label>
-                                    <textarea required name="paymentAddress" id="" cols="30" rows="2"
-                                        class="form-control text-dark"></textarea>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="letter" class="text-dark">Letter:</label>
-                                    <textarea required name="letter" id="" cols="30" rows="10" class="form-control text-dark"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label class="text-dark" for="docs">Supporting Documents (PDF):</label>
-                                    <br>
-                                    <button type="button" class="btn btn-primary mt-2"
-                                        onclick="loadDocument();">Upload
-                                        Document</button>
-                                    <input required type="file" name="documents" id="myDocument" accept=".pdf"
-                                        style="display: none;" onchange="onDocChange(this);">
-                                </div>
-                                <div class="form-group mt-3" style="display: none" id="forPDF">
-                                    <embed style="height: 600px; width:100%" class="embed-responsive mt-2"
-                                        id="pdfViewer" src="" type="application/pdf">
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" name="btnAddRequest"
-                                    value="yes">Proceed</button>
-                            </div>
-                        @else
-                            <div class="modal-body">
-                                <h5>Waiting For Administrator To Approved Your Account</h5>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Close</button>
-                            </div>
-                        @endif
-                    @else
-                        <div class="modal-body">
-                            <h5>Please Complete Your Details First</h5>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    @endif
-
                 </form>
             </div>
         </div>
@@ -602,12 +508,9 @@
             }
         }
 
-        function deleteRequest(id, pdfPath) {
-            console.log(pdfPath);
+        function deleteRequest(id) {
             let dr = document.getElementById('deleteRequestForm');
-            dr.action = `/user_aids/${id}`;
-            let deleteFile = document.getElementById('deleteFile');
-            deleteFile.value = pdfPath;
+            dr.action = `/notifications/${id}`;
         }
     </script>
     @if (session()->pull('successDeleteRequest'))
@@ -624,46 +527,46 @@
         </script>
         {{ session()->forget('successDeleteRequest') }}
     @endif
-    @if (session()->pull('successFundTransfers'))
+    @if (session()->pull('successDeleteNotif'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Successfully Received Fund',
+                    title: 'Successfully Deleted Notification',
                     showConfirmButton: true,
                 });
             }, 500);
         </script>
-        {{ session()->forget('successFundTransfers') }}
+        {{ session()->forget('successDeleteNotif') }}
     @endif
 
-    @if (session()->pull('addRequestSuccess'))
+    @if (session()->pull('successUpdateNotif'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Successfully Added Aid Request',
+                    title: 'Successfully Mark As Read',
                     showConfirmButton: false,
                     timer: 800,
                 });
             }, 500);
         </script>
-        {{ session()->forget('addRequestSuccess') }}
+        {{ session()->forget('successUpdateNotif') }}
     @endif
-    @if (session()->pull('errorDeleteRequest'))
+    @if (session()->pull('errorUpdateNotif'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Failed To Delete Aid Request, Please Try Again Later',
+                    title: 'Failed To Mark As Read, Please Try Again Later',
                     showConfirmButton: true,
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorDeleteRequest') }}
+        {{ session()->forget('errorUpdateNotif') }}
     @endif
 
     @if (session()->pull('errorFundTransfer'))
@@ -693,29 +596,19 @@
         </script>
         {{ session()->forget('errorAddRequest') }}
     @endif
-    @if (session()->pull('errorAddRequestAmount'))
+    @if (session()->pull('errorDeleteNotif'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Amount Shouldn\'t be zero, Please Try Again Later',
+                    title: 'Failed To Delete Notification, Please Try Again Later',
                     showConfirmButton: true,
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorAddRequestAmount') }}
+        {{ session()->forget('errorDeleteNotif') }}
     @endif
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"
-        integrity="sha512-V3xRGsQMQ8CG4l2gVN44TCDmNY5cdlxbSvejrgmWxcLKHft0Q3XQDbeuJ9aot14mpNuRWGtI//WKraedDGNZ+g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <script src="/assets/js/contract.js"></script>
-    <script>
-        let phpRate = parseInt("{{ $phpRate }}");
-    </script>
-    <script src="/assets/js/fund.js"></script>
 </body>
 
 </html>

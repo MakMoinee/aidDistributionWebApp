@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserHomeController extends Controller
 {
@@ -19,7 +20,11 @@ class UserHomeController extends Controller
                 return redirect("/logout");
             }
 
-            return view('user.home');
+            $count = DB::table('notifications')->where('userID', '=', $user['userID'])
+                ->where('status', '=', 'unread')
+                ->count();
+
+            return view('user.home', ['notifs' => $count]);
         }
         return redirect("/");
     }

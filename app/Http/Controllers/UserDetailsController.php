@@ -23,8 +23,11 @@ class UserDetailsController extends Controller
                 return redirect("/logout");
             }
             $myData = json_decode(DB::table('personal_details')->where('userID', '=', $user['userID'])->get(), true);
+            $count = DB::table('notifications')->where('userID', '=', $user['userID'])
+                ->where('status', '=', 'unread')
+                ->count();
 
-            return view('user.details', ['details' => count($myData) > 0 ? $myData : []]);
+            return view('user.details', ['notifs' => $count, 'details' => count($myData) > 0 ? $myData : []]);
         }
         return redirect("/");
     }
