@@ -36,7 +36,7 @@ CREATE TABLE `aids` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`aidId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,6 @@ CREATE TABLE `aids` (
 
 LOCK TABLES `aids` WRITE;
 /*!40000 ALTER TABLE `aids` DISABLE KEYS */;
-INSERT INTO `aids` VALUES (1,1,'For Hospital Bills','none','/data/documents/1743005554.pdf',120000.00,'0x466a574A80BD40521d25BC132948Ed72d14E6a1B','Please Help Me With My Hospital Bills','medical','P4','2025-03-26 08:12:34','2025-03-26 08:12:34');
 /*!40000 ALTER TABLE `aids` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,7 +67,7 @@ CREATE TABLE `donation_details` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`donationDetailId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +76,6 @@ CREATE TABLE `donation_details` (
 
 LOCK TABLES `donation_details` WRITE;
 /*!40000 ALTER TABLE `donation_details` DISABLE KEYS */;
-INSERT INTO `donation_details` VALUES (1,3,1,'0x36001f17222ca59c9748725b83cbd7d54ecaf846bd03fe3640851888d130aaad','0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199','0x5FbDB2315678afecb367f032d93F642f64180aa3',1.0308304,120000.00,'2025-03-26 08:14:53','2025-03-26 08:14:53');
 /*!40000 ALTER TABLE `donation_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,7 +117,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,8 +126,36 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'2019_12_14_000001_create_personal_access_tokens_table',1),(2,'2024_10_06_045703_create_system_users_table',1),(3,'2024_10_16_193257_create_aids_table',1),(4,'2024_11_01_204340_create_donation_details_table',1),(5,'2024_11_04_214310_create_done_donations_table',1),(6,'2025_03_08_024327_create_personal_details_table',1);
+INSERT INTO `migrations` VALUES (1,'2019_12_14_000001_create_personal_access_tokens_table',1),(2,'2024_10_06_045703_create_system_users_table',1),(3,'2024_10_16_193257_create_aids_table',1),(4,'2024_11_01_204340_create_donation_details_table',1),(5,'2024_11_04_214310_create_done_donations_table',1),(6,'2025_03_08_024327_create_personal_details_table',1),(7,'2025_04_04_000452_create_notifications_table',2);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `notifications`
+--
+
+DROP TABLE IF EXISTS `notifications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `notifications` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `userID` int NOT NULL,
+  `message` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notifications`
+--
+
+LOCK TABLES `notifications` WRITE;
+/*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
+INSERT INTO `notifications` VALUES (1,1,'Your Account Is approved','unread','2025-04-03 16:26:27','2025-04-03 16:26:27');
+/*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -182,11 +208,12 @@ CREATE TABLE `personal_details` (
   `birthDate` date NOT NULL,
   `contactNumber` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `documents` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +222,7 @@ CREATE TABLE `personal_details` (
 
 LOCK TABLES `personal_details` WRITE;
 /*!40000 ALTER TABLE `personal_details` DISABLE KEYS */;
-INSERT INTO `personal_details` VALUES (1,1,'John','Dela Cruz','Santos','sample address','1998-10-12','09090464399','/data/userDetails/1743002925.pdf','approved','2025-03-26 07:28:45','2025-03-26 07:28:45'),(2,3,'Ken','Xavier','Datu','sample','2025-03-27','1','/data/userDetails/1743005106.pdf','approved','2025-03-26 08:05:06','2025-03-26 08:05:06');
+INSERT INTO `personal_details` VALUES (1,2,'Kennen','C','Borbon','Door 10, San Jose Extension','2025-04-04','09090464399','/data/userDetails/1743726289.pdf','Approved','approved','2025-04-03 16:24:49','2025-04-03 16:24:49');
 /*!40000 ALTER TABLE `personal_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -221,7 +248,7 @@ CREATE TABLE `system_users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -230,7 +257,7 @@ CREATE TABLE `system_users` (
 
 LOCK TABLES `system_users` WRITE;
 /*!40000 ALTER TABLE `system_users` DISABLE KEYS */;
-INSERT INTO `system_users` VALUES (1,'user','user','user','male','sample','2025-03-26','09090464399','sample','$2y$12$MVucARQ6MYbJPQ6QDno22OlzEnNjzOfbe3zn9bz8VTsm2Z9gFoVz.','user','2025-03-26 07:05:06','2025-03-26 07:05:06'),(2,'admin','admin','admin','admin','sample','2025-03-26','admin','admin','$2y$12$xqMn0AYY4WcCe9Ngw9AJIudwtNYyrOBj4SseWMeaXDjzl6AlQoGXC','admin','2025-03-26 07:05:06','2025-03-26 07:05:06'),(3,'sample','sample','sample','male','sample','2025-03-27','09090464399','user','$2y$12$vzrDNo82QVDsMIFZlv3.xO5y82oETmflsN3O9badOcoMNAFsg7ztu','user','2025-03-26 08:04:01','2025-03-26 08:04:01');
+INSERT INTO `system_users` VALUES (1,'admin','admin','admin','admin','sample','2025-04-04','admin','admin','$2y$12$VONmiuI1HdoWrX9NyWX/4u4/wao2LTpVBdhfATixFzABxAK//j4li','admin','2025-04-03 16:03:04','2025-04-03 16:03:04'),(2,'Juan','Dela Cruz','Xavier','male','sample','2003-12-22','09090464399','user','$2y$12$43il4doYo0ehzzjN544Nh.e/1iEPknhT1g4tQQy/Qm55Fbr9lTLzC','user','2025-04-03 16:03:44','2025-04-03 16:03:44');
 /*!40000 ALTER TABLE `system_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -399,4 +426,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-27  0:20:55
+-- Dump completed on 2025-04-04  9:01:45
